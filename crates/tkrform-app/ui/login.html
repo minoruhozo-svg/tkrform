@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TKRForm</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  body { display: flex; align-items: center; justify-content: center; }
+  form { width: 100%; padding: 22px 28px; display: flex; flex-direction: column; gap: 10px; }
+</style>
+</head>
+<body>
+<form id="f">
+  <div class="brand"><img src="icon.png" alt=""><span data-i18n="Login_Heading"></span></div>
+  <label class="field"><span data-i18n="Login_Password"></span>
+    <input type="password" id="pw" autocomplete="off">
+  </label>
+  <div id="err" class="msg error hidden" role="alert"></div>
+  <div id="hint" class="sub hidden"></div>
+  <div class="row">
+    <button type="button" id="hello" class="hidden" data-i18n="Hello_Unlock"></button>
+    <button type="button" id="show-hint" class="flat hidden" data-i18n="Login_ShowHint"></button>
+    <div class="grow"></div>
+    <button type="submit" id="go" class="primary" data-i18n="Login_Button"></button>
+  </div>
+</form>
+<script src="common.js"></script>
+<script src="login.js"></script>
+</body>
+</html>

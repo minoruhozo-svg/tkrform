@@ -1,0 +1,13 @@
+[package]
+name = "tkrform-nmhost"
+version.workspace = true
+edition.workspace = true
+license = "MIT"
+
+[[bin]]
+name = "tkrform-nmhost"
+path = "src/main.rs"
+
+[dependencies]
+tkrform-ipc = { path = "../tkrform-ipc" }
+serde_json.workspace = true

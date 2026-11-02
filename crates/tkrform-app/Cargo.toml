@@ -1,0 +1,61 @@
+[package]
+name = "tkrform-app"
+version.workspace = true
+edition.workspace = true
+license = "MIT"
+description = "tkrform パスワードマネージャ"
+
+[[bin]]
+name = "TKRForm"
+path = "src/main.rs"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tkrform-core = { path = "../tkrform-core" }
+tkrform-ipc = { path = "../tkrform-ipc" }
+serde.workspace = true
+serde_json.workspace = true
+chrono.workspace = true
+uuid.workspace = true
+zeroize.workspace = true
+sha2 = "0.10"
+ureq = "2"
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-global-shortcut = "2"
+tauri-plugin-single-instance = "2"
+tauri-plugin-dialog = "2"
+arboard = { version = "3", default-features = false }
+winreg = "0.55"
+rqrr = "0.9"
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "bmp", "gif"] }
+
+[target.'cfg(windows)'.dependencies]
+webview2-com = "0.39"
+
+[dependencies.windows]
+version = "0.62"
+features = [
+  "Win32_Foundation",
+  "Win32_Security_Cryptography",
+  "Win32_System_Com",
+  "Win32_System_LibraryLoader",
+  "Win32_System_Memory",
+  "Win32_System_RemoteDesktop",
+  "Win32_System_SystemInformation",
+  "Win32_System_Threading",
+  "Win32_System_Variant",
+  "Win32_System_WinRT",
+  "Foundation",
+  "Security_Credentials",
+  "Storage_Streams",
+  "Win32_UI_Accessibility",
+  "Win32_UI_Input_KeyboardAndMouse",
+  "Win32_UI_Shell",
+  "Win32_UI_WindowsAndMessaging",
+]

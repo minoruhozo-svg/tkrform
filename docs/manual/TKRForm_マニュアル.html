@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>TKRForm 導入・使用マニュアル Ver 0.2</title>
+<style>
+  :root {
+    --brand: #2b8de8;
+    --brand-dark: #1d5fa8;
+    --ink: #1f2933;
+    --ink-sub: #5b6672;
+    --line: #d9dfe6;
+    --note-bg: #eef6fe;
+    --warn-bg: #fff6e6;
+    --warn-line: #f0b44c;
+    --code-bg: #f2f4f7;
+  }
+  @page {
+    size: A4;
+    margin: 18mm 16mm 18mm 16mm;
+    @bottom-center { content: counter(page); font-size: 9pt; color: #8a95a1; }
+  }
+  @page :first { @bottom-center { content: none; } }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Yu Gothic UI", "Yu Gothic", "Meiryo", sans-serif;
+    color: var(--ink);
+    font-size: 10.5pt;
+    line-height: 1.75;
+    margin: 0;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  h1, h2, h3 { line-height: 1.4; }
+  h2 {
+    font-size: 17pt;
+    color: var(--brand-dark);
+    border-bottom: 2.5px solid var(--brand);
+    padding-bottom: 4px;
+    margin: 0 0 14px;
+    break-before: page;
+  }
+  h3 { font-size: 12.5pt; margin: 22px 0 8px; padding-left: 9px; border-left: 4px solid var(--brand); }
+  h4 { font-size: 11pt; margin: 16px 0 6px; }
+  p { margin: 6px 0 10px; }
+  ol, ul { margin: 6px 0 12px; padding-left: 1.6em; }
+  li { margin: 3px 0; }
+  code, kbd {
+    font-family: "Consolas", "BIZ UDGothic", monospace;
+    font-size: 9.5pt;
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 0 4px;
+  }
+  table { border-collapse: collapse; width: 100%; margin: 8px 0 14px; font-size: 10pt; }
+  th, td { border: 1px solid var(--line); padding: 6px 9px; vertical-align: top; text-align: left; }
+  th { background: #f4f7fa; font-weight: 600; }
+  figure { margin: 10px 0 16px; text-align: center; break-inside: avoid; }
+  figure img { max-width: 100%; max-height: 92mm; border: 1px solid var(--line); border-radius: 6px; }
+  h3, h4 { break-after: avoid; }
+  h3 + p, h4 + p { break-after: avoid; }
+  tr { break-inside: avoid; }
+  table.small { break-inside: avoid; }
+  figcaption { font-size: 9pt; color: var(--ink-sub); margin-top: 4px; }
+  .w60 img { max-width: 60%; }
+  .w70 img { max-width: 72%; }
+  .w80 img { max-width: 82%; }
+  .pair { display: flex; gap: 14px; justify-content: center; align-items: flex-start; break-inside: avoid; margin: 10px 0 16px; }
+  .pair figure { margin: 0; flex: 0 1 auto; }
+  .pair img { width: 62mm; }
+
+  ol.legend { list-style: none; counter-reset: lg; padding: 0; margin: 6px auto 0; text-align: left; font-size: 9pt; line-height: 1.5; max-width: 170mm; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 14px; }
+  ol.legend li { counter-increment: lg; position: relative; padding-left: 22px; margin: 1px 0; }
+  ol.legend li::before { content: counter(lg); position: absolute; left: 0; top: 1px; width: 16px; height: 16px; border-radius: 50%; background: #e53935; color: #fff; font-size: 8.5pt; font-weight: 700; line-height: 16px; text-align: center; }
+  .pair ol.legend { grid-template-columns: 1fr; max-width: 78mm; }
+  .note, .warn {
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 10px 0 14px;
+    font-size: 10pt;
+    break-inside: avoid;
+  }
+  .note { background: var(--note-bg); border-left: 4px solid var(--brand); }
+  .warn { background: var(--warn-bg); border-left: 4px solid var(--warn-line); }
+  .note b:first-child, .warn b:first-child { display: block; margin-bottom: 2px; }
+  .keep { break-inside: avoid; }
+
+  /* 表紙 */
+  .cover { height: 255mm; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+  .cover .logo { width: 30mm; height: 30mm; margin: 0 auto 10mm; border-radius: 7mm; background: var(--brand); display: flex; align-items: center; justify-content: center; }
+  .cover .logo span { display: block; width: 9mm; height: 9mm; border-radius: 50%; background: #fff; position: relative; top: -2mm; }
+  .cover .logo span::after { content: ""; position: absolute; left: 3mm; top: 6mm; width: 3mm; height: 7mm; background: #fff; border-radius: 0 0 1.5mm 1.5mm; }
+  .cover h1 { font-size: 30pt; margin: 0; letter-spacing: .04em; }
+  .cover .sub { font-size: 16pt; color: var(--ink-sub); margin: 4mm 0 16mm; }
+  .cover .ver { font-size: 13pt; }
+  .cover .org { margin-top: 30mm; font-size: 12pt; color: var(--ink-sub); }
+
+  /* 目次 */
+  .toc { break-before: page; }
+  .toc h2 { break-before: avoid; }
+  .toc ol { list-style: none; padding: 0; font-size: 11pt; }
+  .toc > ol > li { margin: 8px 0; font-weight: 600; }
+  .toc ol ol { padding-left: 1.4em; font-weight: 400; font-size: 10pt; color: var(--ink-sub); }
+  .toc ol ol li { margin: 2px 0; }
+</style>
+</head>
+<body>
+
+<!-- ============================== 表紙 -->
+<section class="cover">
+  <div class="logo"><span></span></div>
+  <h1>TKRForm</h1>
+  <div class="sub">導入・使用マニュアル</div>
+  <div class="ver">Ver 0.2　／　2026 年 10 月</div>
+  <div class="org">タカラシスコム<br>https://tkrs.jp/</div>
+</section>
+
+<!-- ============================== 目次 -->
+<section class="toc">
+  <h2>目次</h2>
+  <ol>
+    <li>1. TKRForm とは
+      <ol><li>1.1 できること</li><li>1.2 構成</li><li>1.3 動作環境</li></ol></li>
+    <li>2. インストールと初期設定
+      <ol><li>2.1 インストール</li><li>2.2 初回セットアップ</li><li>2.3 ブラウザ拡張の導入</li><li>2.4 他のソフトからの移行</li></ol></li>
+    <li>3. 毎日の使い方
+      <ol><li>3.1 起動とロック解除</li><li>3.2 ログインの保存</li><li>3.3 ログイン（自動記入）</li><li>3.4 ポップアップ</li><li>3.5 パスワードの生成</li><li>3.6 ホーム</li></ol></li>
+    <li>4. エディタ</li>
+    <li>5. プロフィールとメモ</li>
+    <li>6. パスキー</li>
+    <li>7. セキュリティセンター</li>
+    <li>8. 設定</li>
+    <li>9. バックアップと別の PC への移行</li>
+    <li>10. 困ったときは</li>
+    <li>11. アンインストール</li>
+    <li>付録　ショートカットキーとデータの保存場所</li>
+  </ol>
+</section>
+
+<!-- ============================== 1 -->
+<h2>1. TKRForm とは</h2>
+<p>TKRForm は、Web サイトの ID とパスワードを安全に保管し、ログイン画面や入力フォームへ自動で記入する Windows 用のパスワード管理ソフトです。</p>
+
+<h3>1.1 できること</h3>
+<ul>
+  <li><b>パスワードの保管</b>：ID・パスワードなどを暗号化して、この PC の中に保存します。</li>
+  <li><b>自動保存</b>：Web サイトでログインすると、その ID とパスワードを保存するか尋ねます。</li>
+  <li><b>自動記入</b>：保存したサイトを開くと、ID とパスワードを入力欄に記入します。</li>
+  <li><b>パスワードの生成</b>：推測されにくいパスワードを作って、そのまま入力欄に入れられます。</li>
+  <li><b>プロフィール</b>：住所・氏名・電話番号などを登録して、申し込みフォームに一括で記入できます。</li>
+  <li><b>パスキー</b>：サイトのパスキーを TKRForm に保存して、パスワードなしでログインできます。</li>
+  <li><b>セキュリティセンター</b>：弱いパスワードや使い回しを見つけて知らせます。</li>
+  <li><b>Windows Hello</b>：顔・指紋・PIN でロックを解除できます。</li>
+</ul>
+
+<h3>1.2 構成</h3>
+<p>TKRForm は、次の 2 つが連携して動きます。</p>
+<table class="small">
+  <tr><th style="width:30%">部品</th><th>役割</th></tr>
+  <tr><td>TKRForm アプリ<br>（TKRForm.exe）</td><td>保管庫（暗号化したデータ）を管理します。画面右下の通知領域（トレイ）に常駐し、エディタ・設定・セキュリティセンターなどの画面を持ちます。</td></tr>
+  <tr><td>ブラウザ拡張<br>（Chrome / Edge）</td><td>Web ページでの自動保存・自動記入、ツールバーのポップアップ、パスワード生成を担当します。データはアプリから必要な分だけ受け取ります。</td></tr>
+</table>
+<p>TKRForm アプリは、画面右下のトレイ（隠れているときは <b>^</b> を押すと出ます）に鍵穴のアイコンで常駐します。アイコンを押すと、次のメニューが開きます。ダブルクリックするとエディタが開きます。</p>
+<figure class="w60"><img src="img/annot/win-tray-menu.png" style="max-width:75mm"><figcaption>図 1-1　トレイのメニュー</figcaption><ol class="legend"><li>トレイの TKRForm アイコン</li><li>エディタを開く</li><li>ロック（ロック中は「ログイン」）</li><li>設定</li><li>TKRForm を終了</li></ol></figure>
+<div class="note"><b>データは PC の外に出ません</b>保管庫はマスターパスワードで暗号化され、この PC の中にだけ保存されます（同期の機能を自分で設定した場合を除きます）。マスターパスワードそのものも保存されません。</div>
+
+<h3>1.3 動作環境</h3>
+<table class="small">
+  <tr><th style="width:30%">項目</th><th>条件</th></tr>
+  <tr><td>OS</td><td>Windows 10（22H2）／ Windows 11（64 ビット）</td></tr>
+  <tr><td>ブラウザ</td><td>Google Chrome、Microsoft Edge（最新版）</td></tr>
+  <tr><td>その他</td><td>Microsoft Edge WebView2 ランタイム（Windows 11 には標準で入っています）</td></tr>
+  <tr><td>Windows Hello（任意）</td><td>Windows の「サインイン オプション」で PIN・顔・指紋のいずれかを設定済みであること</td></tr>
+</table>
+
+<!-- ============================== 2 -->
+<h2>2. インストールと初期設定</h2>
+
+<h3>2.1 インストール</h3>
+<ol>
+  <li>インストーラ <code>tkrform-setup-0.2.0.exe</code> をダブルクリックします。</li>
+  <li>「Windows によって PC が保護されました」と表示された場合は、<b>「詳細情報」</b>を押し（図 2-1 ①）、下に出る<b>「実行」</b>を押します。インターネットから入手したばかりのソフトに表示される確認です。</li>
+</ol>
+<figure class="w60"><img src="img/annot/win-smartscreen.png" style="max-width:85mm"><figcaption>図 2-1　SmartScreen の確認</figcaption><ol class="legend"><li>「詳細情報」を押すと、「実行」のボタンが表示されます。</li></ol></figure>
+<ol start="3">
+  <li>インストール先はそのままで「次へ」を押します（図 2-2）。管理者の権限は必要ありません。「フォルダは既に存在します」と表示された場合は「はい」を押します。</li>
+  <li>「Windows の起動時に TKRForm を起動する」は、通常はオンのままにして「次へ」を押します（図 2-3）。</li>
+  <li>内容を確かめて「インストール」を押します（図 2-4）。</li>
+  <li>最後の画面で「TKRForm を起動してセットアップする」にチェックを入れたまま「完了」を押します。</li>
+</ol>
+<div class="pair">
+  <figure><img src="img/annot/win-setup-dir.png"><figcaption>図 2-2　インストール先</figcaption><ol class="legend"><li>インストール先（変更しなくて構いません）</li><li>「次へ」</li></ol></figure>
+  <figure><img src="img/annot/win-setup-tasks.png"><figcaption>図 2-3　追加タスク</figcaption><ol class="legend"><li>Windows の起動時に TKRForm を起動する</li><li>「次へ」</li></ol></figure>
+</div>
+<figure class="w60"><img src="img/annot/win-setup-ready.png" style="max-width:100mm"><figcaption>図 2-4　インストールの準備完了</figcaption><ol class="legend"><li>「インストール」を押すと、インストールが始まります。</li></ol></figure>
+<div class="note"><b>インストール先</b><code>C:\Users\（ユーザー名）\AppData\Local\Programs\tkrform</code> に入ります。インストールしたユーザーだけが使えます。</div>
+
+<h3>2.2 初回セットアップ</h3>
+<p>初めて起動すると、セットアップの画面が開きます。</p>
+<div class="pair">
+  <figure><img src="img/annot/01-setup-welcome.png" style="width:78mm"><figcaption>図 2-5　ようこそ画面</figcaption><ol class="legend"><li>「次へ」を押して進みます。</li></ol></figure>
+  <figure><img src="img/annot/02a-setup-storage.png" style="width:78mm"><figcaption>図 2-6　保存先の選択</figcaption><ol class="legend"><li>「ローカルのみ」を選びます。</li><li>「次へ」を押します。</li></ol></figure>
+</div>
+<ol>
+  <li>ようこそ画面で「次へ」を押します（図 2-5 ①）。</li>
+  <li>保存先で<b>「ローカルのみ」</b>を選び（図 2-6 ①）、「次へ」を押します（図 2-6 ②）。データはこの PC にだけ保存されます。複数の PC で共有する同期サーバを使う場合だけ「同期サーバを使う」を選びます。</li>
+</ol>
+<figure class="w70"><img src="img/annot/02-setup-mp.png"><figcaption>図 2-7　マスターパスワードの設定</figcaption><ol class="legend"><li>マスターパスワードを入力します。</li><li>強さの目安。緑のバーが長いほど安全です。</li><li>同じパスワードをもう一度入力します。</li><li>「次へ」を押します。</li></ol></figure>
+<ol start="3">
+  <li><b>マスターパスワード</b>を入力します（①）。保管庫を開くための、ただ 1 つのパスワードです。</li>
+  <li>緑のバーと「強度」で強さを確かめます（②）。バーが長いほど破られにくいパスワードです。</li>
+  <li>同じパスワードをもう一度入力し（③）、「次へ」を押します（④）。続く画面で必要ならヒントを入力し、保管庫を作成します。</li>
+</ol>
+<div class="warn"><b>マスターパスワードは忘れないでください</b>マスターパスワードは TKRForm にも保存されないため、忘れると保管庫を開く方法はありません（タカラシスコムでも復元できません）。長く、他で使っていない文字列にし、紙に書いて安全な場所に保管するなどしてください。</div>
+
+<h3>2.3 ブラウザ拡張の導入</h3>
+<p>セットアップの最後に、ブラウザ拡張の導入方法が表示されます。</p>
+<figure class="w70"><img src="img/annot/03-setup-ext.png"><figcaption>図 2-8　ブラウザ拡張の導入の案内</figcaption><ol class="legend"><li>Chrome の拡張機能ページを開きます。</li><li>Edge を使う場合はこちらを押します。</li><li>拡張のフォルダ。読み込むときにこのフォルダを選びます。</li></ol></figure>
+<ol>
+  <li>「Chrome の拡張機能ページ」（図 2-8 ①。Edge の場合は ②）を押します。</li>
+  <li>右上の<b>「デベロッパー モード」</b>をオンにします（図 2-9 ①）。</li>
+  <li><b>「パッケージ化されていない拡張機能を読み込む」</b>を押し（図 2-9 ②）、画面に表示されている「拡張のフォルダ」（図 2-8 ③。インストール先の <code>extension</code> フォルダ）を選びます。</li>
+  <li>一覧に<b>「TKRForm パスワードマネージャ」</b>が表示され、右下のスイッチがオンになっていることを確かめます（図 2-9 ③）。</li>
+  <li>ツールバーのパズルの形のアイコンを押し（図 2-10 ①）、一覧の TKRForm の横のピンを押して（②）、ツールバーに固定します。固定すると、ピンが青緑色になり、ツールバーに TKRForm のアイコンが表示されます（③）。</li>
+  <li>ツールバーの TKRForm のアイコンを押し、マスターパスワードでロックを解除できれば完了です。</li>
+</ol>
+<figure class="w80"><img src="img/annot/chrome-extensions.png"><figcaption>図 2-9　Chrome の拡張機能ページ</figcaption><ol class="legend"><li>「デベロッパー モード」をオンにします。</li><li>「パッケージ化されていない拡張機能を読み込む」を押し、拡張のフォルダを選びます。</li><li>読み込まれた TKRForm。スイッチがオンになっていれば使えます。</li></ol></figure>
+<figure class="w60"><img src="img/annot/chrome-pin.png" style="max-width:80mm"><figcaption>図 2-10　ツールバーへの固定</figcaption><ol class="legend"><li>パズルの形のアイコン（拡張機能）</li><li>ピン。押すとツールバーに固定します。</li><li>ツールバーに固定された TKRForm のアイコン</li></ol></figure>
+<div class="note"><b>ブラウザの再起動は不要です</b>TKRForm アプリとブラウザ拡張の接続は、インストール時に自動で設定されます。</div>
+
+<h3>2.4 他のソフトからの移行（インポート）</h3>
+<p>他のパスワード管理ソフトやブラウザに保存しているパスワードは、CSV ファイルを経由して取り込めます。</p>
+<ol>
+  <li>移行元のソフトで、パスワードを CSV 形式で書き出します（エクスポート）。</li>
+  <li>TKRForm のエディタを開き、右上の<b>「その他 ▼」→「インポート...」</b>を選びます。</li>
+  <li>書き出した CSV ファイルを選びます。形式（Chrome / Edge / Firefox / RoboForm / 1Password / LastPass / Bitwarden など）は自動で判定されます（図 2-11 ②）。</li>
+  <li>「列の対応付け」で、CSV の列が正しい項目（名前・URL・ユーザー ID・パスワードなど）に対応しているかを確かめます（図 2-11 ③）。下へスクロールすると取り込む内容の見本が表示されるので、確認して<b>「取り込む」</b>を押します。</li>
+  <li>取り込んだログインは「インポート 年-月-日」のフォルダに入ります。</li>
+</ol>
+<figure class="w80"><img src="img/annot/app-import.png"><figcaption>図 2-11　インポート</figcaption><ol class="legend"><li>取り込み元。通常は「自動判定」のままで構いません。</li><li>判定した形式と件数</li><li>列の対応付け。CSV の列と TKRForm の項目の組み合わせです。</li></ol></figure>
+<div class="warn"><b>書き出した CSV は必ず削除してください</b>CSV ファイルにはパスワードが暗号化されずに入っています。取り込みが済んだら、ごみ箱からも削除してください。</div>
+<p class="note"><b>パスキーは移せません</b>他のソフトに保存したパスキーは、仕組み上書き出せません。各サイトで TKRForm のパスキーを作り直してください（6 章）。</p>
+
+<!-- ============================== 3 -->
+<h2>3. 毎日の使い方</h2>
+
+<h3>3.1 起動とロック解除</h3>
+<p>TKRForm は Windows の起動時に自動で起動し、<b>ロックした状態</b>でトレイに常駐します。起動時には何も表示されません。保管庫が必要な操作（ログイン、エディタを開くなど）をしたときに、ロックの解除を求めます。</p>
+<div class="pair">
+  <figure><img src="img/annot/app-login.png" style="width:72mm"><figcaption>図 3-1　アプリのログイン画面</figcaption><ol class="legend"><li>マスターパスワードを入力します。</li><li>「ログイン」でロックを解除します。</li></ol></figure>
+  <figure><img src="img/annot/ext-popup-locked.png" style="width:55mm"><figcaption>図 3-2　ロック中のポップアップ</figcaption><ol class="legend"><li>マスターパスワードを入力します。</li><li>「ロック解除」を押します。</li></ol></figure>
+</div>
+<ul>
+  <li>マスターパスワードを入力して「ログイン」（ポップアップでは「ロック解除」）を押します。</li>
+  <li>Windows Hello を有効にしている場合は、ログイン画面やポップアップを開くと自動で Windows Hello の確認が始まります（8 章）。</li>
+  <li>しばらく操作しないとき、Windows をロックしたとき、スリープしたときは、自動でロックされます（時間は設定で変えられます）。</li>
+  <li>手動でロックするには、ポップアップの歯車メニューまたはトレイのメニュー（図 1-1 ③）から「ロック」を選びます。</li>
+</ul>
+
+<h3>3.2 ログインの保存（自動保存）</h3>
+<p>Web サイトで ID とパスワードを入力してログインすると、画面の右上に保存ダイアログが表示されます。</p>
+<figure class="w80"><img src="img/annot/ext-autosave.png"><figcaption>図 3-3　保存ダイアログ</figcaption><ol class="legend"><li>保存する ID とサイト</li><li>名前（あとから変更できます）</li><li>保存先のフォルダ</li><li>保存する</li><li>今回だけ保存しない</li><li>このサイトでは今後たずねない</li></ol></figure>
+<ul>
+  <li><b>保存</b>：名前とフォルダを確認して保存します。名前は後からエディタで変えられます。</li>
+  <li><b>今回はしない</b>：今回だけ保存しません。</li>
+  <li><b>このサイトでは今後しない</b>：このサイトでは保存ダイアログを出さなくなります（設定で元に戻せます）。</li>
+</ul>
+<p>すでに保存しているサイトでパスワードを変えた場合は<b>「パスワードを更新しますか？」</b>と表示されます（図 3-4）。「更新」を押すと、保存しているパスワードが新しいものに置き換わります。別のアカウントとして保存したいときは、<b>「更新ではなく、新しいログインとして保存する」</b>にチェックを入れて名前を入力します。</p>
+<figure class="w80"><img src="img/annot/ext-update.png"><figcaption>図 3-4　更新ダイアログ</figcaption><ol class="legend"><li>更新する ID とサイト</li><li>名前と保存先のフォルダ</li><li>別のログインとして保存するときはチェック</li><li>パスワードを更新する</li><li>今回だけ更新しない</li><li>このサイトでは今後たずねない</li></ol></figure>
+<div class="note"><b>送信せずに保存したいとき</b>入力欄に入力したあと、ツールバーの TKRForm のアイコンからポップアップを開き、<b>「フォームの入力内容を保存」</b>を押すと、ログインボタンを押さずに保存できます。ラジオボタンや選択欄を含め、入力したすべての欄が保存されます（図 3-5）。</div>
+<figure class="w60"><img src="img/annot/ext-popup-saveform.png" style="max-width:62mm"><figcaption>図 3-5　「フォームの入力内容を保存」</figcaption><ol class="legend"><li>Web ページを開いているときに、一覧の下に表示されます。</li></ol></figure>
+
+<h3>3.3 ログイン（自動記入）</h3>
+<p>保存したサイトのログイン画面で入力欄をクリックすると、入力欄の下に候補のメニューが表示されます。</p>
+<figure class="w80"><img src="img/annot/ext-inline-menu.png"><figcaption>図 3-6　入力欄の候補メニュー</figcaption><ol class="legend"><li>入力欄の TKRForm アイコン。押すとメニューを開きます。</li><li>候補。押すと記入してログインします。</li><li>見出しの帯。つかんでドラッグすると動かせます。</li><li>× でメニューを閉じます。</li></ol></figure>
+<ul>
+  <li>候補を選ぶと、ID とパスワードが記入され、ログインまで自動で行います（エディタで「記入後に送信しない」にしたログインは、記入だけします）。</li>
+  <li>メニューの上部の帯をつかむと、メニューをドラッグで動かせます。<b>×</b> で閉じると、そのページでは同じ欄に自動では表示されなくなります（入力欄の右端の TKRForm のアイコンで開き直せます）。</li>
+  <li>キーボードでは <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd> で、いちばん候補の高いログインを記入します。</li>
+  <li>ベーシック認証（ブラウザが ID とパスワードを尋ねる小さな画面）にも、保存したログインが自動で入ります。</li>
+</ul>
+
+<h3>3.4 ポップアップ</h3>
+<p>ツールバーの TKRForm のアイコンを押すと、ポップアップが開きます。</p>
+<div class="pair">
+  <figure><img src="img/annot/ext-popup-frequent.png"><figcaption>図 3-7　「よく使う」</figcaption><ol class="legend"><li>歯車メニュー</li><li>検索欄</li><li>タブ</li><li>「よく使う」と「ABC」の切り替え</li><li>ログインの行。マウスを乗せると操作ボタンが出ます。</li></ol></figure>
+  <figure><img src="img/annot/ext-popup-abc.png"><figcaption>図 3-8　「ABC」（フォルダ表示）</figcaption><ol class="legend"><li>「ABC」を選んだ状態</li><li>フォルダ。押すと中に入ります（右の数字は件数）。</li><li>フォルダに入っていないログイン</li></ol></figure>
+</div>
+<table class="small">
+  <tr><th style="width:24%">タブ</th><th>内容</th></tr>
+  <tr><td>ログイン</td><td><b>よく使う</b>：お気に入りと使った回数の多いログイン（最大 50 件）を、よく使う順に表示します。<br><b>ABC</b>：フォルダを上にまとめ、名前の順に表示します。フォルダを押すと中に入ります。<br>選んだ表示は次回も引き継がれます。</td></tr>
+  <tr><td>このサイト</td><td>今開いているページに一致するログインとプロフィールを表示します。</td></tr>
+  <tr><td>プロフィール</td><td>登録したプロフィール（5 章）を表示します。</td></tr>
+  <tr><td>メモ</td><td>暗号化して保存したメモを表示します。</td></tr>
+</table>
+<div class="keep">
+<p>各行にマウスを乗せると、次のボタンが表示されます（図 3-9）。</p>
+<figure class="w60"><img src="img/annot/ext-popup-hover.png" style="max-width:62mm"><figcaption>図 3-9　行の操作ボタン</figcaption><ol class="legend"><li>▶ ログイン</li><li>✎ 記入</li><li>👤 ID をコピー</li><li>🔑 パスワードをコピー</li><li>⚙ エディタで開く</li></ol></figure>
+<table class="small">
+  <tr><th style="width:12%">ボタン</th><th>動作</th></tr>
+  <tr><td>① ▶</td><td>ログインします（保存した URL を開いて記入し、送信します）。</td></tr>
+  <tr><td>② ✎</td><td>今開いているページに記入します（送信はしません）。ページが一致しないときは記入せず、「開いて記入」を選べます。</td></tr>
+  <tr><td>③ 👤 ／ ④ 🔑</td><td>ID ／ パスワードをコピーします。コピーした内容は 30 秒後に消去されます。</td></tr>
+  <tr><td>⑤ ⚙</td><td>エディタでそのログインを開きます。</td></tr>
+</table>
+</div>
+<div class="keep">
+<p>右上の<b>歯車アイコン</b>を押すと、次のメニューが開きます。</p>
+<figure class="w60"><img src="img/annot/ext-popup-menu.png" style="max-width:62mm"><figcaption>図 3-10　歯車メニュー</figcaption><ol class="legend"><li>歯車アイコンを押すと</li><li>メニューが開きます。</li></ol></figure>
+<table class="small">
+  <tr><th style="width:24%">メニュー</th><th>動作</th></tr>
+  <tr><td>ホーム</td><td>ログインをタイルで一覧するページを開きます（3.6）。</td></tr>
+  <tr><td>パスワード生成</td><td>ポップアップの中にパスワード生成の画面を出します。</td></tr>
+  <tr><td>設定</td><td>拡張の設定（自動記入・自動保存など）を開きます。</td></tr>
+  <tr><td>編集</td><td>TKRForm アプリのエディタを開きます（4 章）。</td></tr>
+  <tr><td>ロック</td><td>TKRForm をロックします。</td></tr>
+  <tr><td>バージョン情報</td><td>バージョンと連絡先を表示します。</td></tr>
+</table>
+</div>
+
+<h3>3.5 パスワードの生成</h3>
+<p>会員登録やパスワード変更の画面で、新しいパスワードの欄をクリックし、候補メニューの<b>「パスワードを生成」</b>を選ぶと、生成パネルが表示されます。</p>
+<figure class="w80"><img src="img/annot/ext-generator.png"><figcaption>図 3-11　パスワード生成パネル</figcaption><ol class="legend"><li>見出しの帯。ドラッグで移動、× で閉じます。</li><li>「使う」で両方のパスワード欄に記入</li><li>「コピー」でクリップボードへ</li><li>「↻ 生成」で作り直す</li><li>「詳細設定」で文字数や記号を変更</li><li>入力欄の TKRForm アイコン</li></ol></figure>
+<ul>
+  <li><b>使う</b>：新しいパスワードの欄と確認用の欄の両方に記入します。そのままフォームを送信すると、保存ダイアログが表示されます。</li>
+  <li><b>コピー</b>：生成したパスワードをコピーします。<b>↻ 生成</b> で作り直します。</li>
+  <li><b>詳細設定 ▼</b>：文字数、使う文字の種類、使う記号、パスフレーズ（単語の組み合わせ）を設定できます。サイトで使えない記号がある場合は「使う記号」から外してください。</li>
+  <li>パネルは入力欄に重ならない位置に表示されます。上部の帯をつかんで動かすこともできます。</li>
+</ul>
+<p>キーボードでは <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd> でも開けます。ブラウザの外で使いたいときは、トレイのメニューの<b>「パスワード生成器」</b>を使います（図 3-12）。</p>
+<figure class="w60"><img src="img/annot/app-passgen.png" style="max-width:85mm"><figcaption>図 3-12　パスワード生成器（アプリ）</figcaption><ol class="legend"><li>生成されたパスワード</li><li>強さの目安</li><li>「生成」「コピー」「記入」</li><li>ランダムかパスフレーズか</li><li>文字数・文字の種類・使う記号</li></ol></figure>
+
+<h3>3.6 ホーム</h3>
+<p>歯車メニューの「ホーム」を選ぶと、ログインをタイルで一覧するページが開きます。上部に「よく使う」ログイン、その下にすべてのログインが並びます。タイルを押すと、そのサイトを開いてログインします。右上の欄で検索もできます。</p>
+<div class="note"><b>サイトのアイコン（初期設定はオフ）</b>拡張の設定で「ホームにサイトのアイコンを表示する」をオンにすると、保存しているサイトへアイコンの画像を取りに行き（Cookie は送りません）、タイルに大きく表示します。オンにすると、保存しているサイトへ接続する通信が起きます。オフのときは通信せず、Chrome が持っているアイコンか、名前の頭文字を表示します。ホームの上の案内（「設定を開く」）からも設定できます。</div>
+<figure><img src="img/annot/ext-home.png"><figcaption>図 3-13　ホーム</figcaption><ol class="legend"><li>検索欄</li><li>よく使うログイン</li><li>すべてのログイン</li></ol></figure>
+
+<!-- ============================== 4 -->
+<h2>4. エディタ</h2>
+<p>保存したデータの確認・編集は、エディタで行います。トレイの TKRForm アイコンをダブルクリックするか、ポップアップの歯車メニューの「編集」で開きます。</p>
+<figure><img src="img/annot/app-editor.png"><figcaption>図 4-1　エディタ（ログインの詳細）</figcaption><ol class="legend"><li>操作ボタン（新規・フォルダ・複製・移動・削除など）</li><li>種類とフォルダで絞り込み</li><li>項目の一覧</li><li>名前・フォルダ・URL などの詳細</li><li>記入する入力欄の一覧（フィールド）</li><li>その他（インポート・エクスポート・設定など）</li><li>変更したら「保存」</li></ol></figure>
+<table class="small">
+  <tr><th style="width:24%">場所</th><th>内容</th></tr>
+  <tr><td>左の一覧</td><td>種類（ログイン・プロフィール・メモ・お気に入り・ごみ箱）とフォルダで絞り込みます。</td></tr>
+  <tr><td>中央の一覧</td><td>項目の一覧です。「並べ替え」で名前順・更新日順などに変えられます。</td></tr>
+  <tr><td>右の詳細</td><td>選んだ項目の内容です。変更したら「保存」を押します。</td></tr>
+  <tr><td>上部のボタン</td><td>新規、新規フォルダ、複製、名前変更、移動、削除、印刷、元に戻す／やり直し、検索（<kbd>Ctrl</kbd>+<kbd>F</kbd>）、その他（インポート・エクスポート・セキュリティセンター・設定など）。</td></tr>
+</table>
+<h4>ログインの詳細</h4>
+<ul>
+  <li><b>URL ／ 照合のレベル</b>：どのページで候補に出すかを決めます。通常は「ドメイン一致」のままで構いません。</li>
+  <li><b>フィールド</b>：保存した入力欄の一覧です。名前・ID はページ側の欄の名前、値は記入する内容です。パスワードは 👁 で表示、⧉ でコピーできます。</li>
+  <li><b>記入後に送信しない</b>：記入だけしてログインボタンは押さない場合にチェックします。</li>
+  <li><b>TOTP キー</b>：2 段階認証のキーを登録すると、確認コードの欄にコードを記入できます。QR コードの画像から読み込むこともできます。</li>
+</ul>
+<h4>フォルダの整理</h4>
+<ul>
+  <li>項目を左のフォルダへ<b>ドラッグ＆ドロップ</b>すると移動します。</li>
+  <li>フォルダも、別のフォルダや「フォルダ」の見出しへドラッグして移動できます。</li>
+  <li>間違えたときは <kbd>Ctrl</kbd>+<kbd>Z</kbd> で元に戻せます。</li>
+</ul>
+<h4>削除とごみ箱</h4>
+<p>削除した項目はごみ箱に移り、30 日間残ります。左の一覧の<b>「ゴミ箱」</b>を選ぶと、削除した項目を確認できます（図 4-2）。</p>
+<figure><img src="img/annot/app-trash.png"><figcaption>図 4-2　ごみ箱</figcaption><ol class="legend"><li>「ゴミ箱」を選びます。</li><li>ごみ箱を空にする（元に戻せません）</li><li>元の場所に戻す</li><li>この項目だけ完全に削除する（元に戻せません）</li></ol></figure>
+<ul>
+  <li><b>元に戻す</b>：項目を元のフォルダに戻します。</li>
+  <li><b>完全に削除...</b>／<b>ゴミ箱を空にする...</b>：完全に削除します。確認が表示され、削除すると元に戻せません。</li>
+</ul>
+
+<!-- ============================== 5 -->
+<h2>5. プロフィールとメモ</h2>
+<h3>5.1 プロフィール</h3>
+<p>氏名・住所・電話番号・メールアドレス・会社・カードなどを登録しておくと、申し込みフォームや配送先の入力欄に一括で記入できます。</p>
+<figure><img src="img/annot/app-editor-profile.png"><figcaption>図 5-1　プロフィールの編集</figcaption><ol class="legend"><li>国を選びます。</li><li>グループ（個人・会社・住所・カードなど）のタブ</li><li>項目の組。＋で 2 件目（別の住所やカード）を追加</li><li>各欄に入力します。</li></ol></figure>
+<ol>
+  <li>エディタの「新規 ▼」→「プロフィール」を選び、国（日本／米国）を選びます。</li>
+  <li>「個人」「住所」「会社」「カード」などのタブで、必要な欄だけ入力して保存します。</li>
+  <li>入力フォームのあるページで、ポップアップの「プロフィール」タブから ✎ を押すと記入されます。記入できる欄が 3 つ以上あるフォームでは、入力欄の候補メニューにも表示されます。</li>
+</ol>
+<figure class="w70"><img src="img/annot/ext-profile-fill.png"><figcaption>図 5-2　プロフィールを記入したフォーム</figcaption><ol class="legend"><li>氏名・メールアドレス・住所が、それぞれの欄に一度に記入されます。</li></ol></figure>
+<h3>5.2 メモ</h3>
+<p>Wi-Fi のパスワード、ソフトのライセンスキー、秘密の質問の答えなど、暗号化して保管したい文章を保存できます。エディタの「新規 ▼」→「メモ」で作成します。</p>
+<figure><img src="img/annot/app-memo.png"><figcaption>図 5-3　メモの編集</figcaption><ol class="legend"><li>メモの名前</li><li>等幅フォントで表示（表やキーをそろえて見たいとき）</li><li>本文。暗号化して保存されます。</li><li>変更したら「保存」</li></ol></figure>
+
+<!-- ============================== 6 -->
+<h2>6. パスキー</h2>
+<p>パスキーは、パスワードの代わりに使える新しいログインの方法です。対応しているサイトでは、TKRForm にパスキーを保存して、パスワードなしでログインできます。</p>
+<h3>6.1 パスキーの登録</h3>
+<ol>
+  <li>サイトのアカウント設定などで「パスキーを作成」「パスキーを追加」を選びます。</li>
+  <li>ページ上に<b>「パスキーを TKRForm に保存」</b>のダイアログが表示されます（図 6-1）。アカウント（①）を確かめて<b>「保存」</b>を押します（②）。</li>
+  <li>本人確認として Windows Hello（またはマスターパスワード）の確認が表示されたら、確認します。</li>
+  <li>保存したパスキーは、エディタのログインの詳細に表示されます（一覧では 🔑 が付きます）。</li>
+</ol>
+<figure class="w80"><img src="img/annot/ext-passkey.png"><figcaption>図 6-1　パスキーの保存</figcaption><ol class="legend"><li>パスキーを作るアカウント</li><li>TKRForm に保存する</li><li>パスキーを作らない</li><li>Windows や Chrome など、ほかの場所に保存する</li></ol></figure>
+<p>Windows や Chrome にパスキーを保存したい場合は、ダイアログで「ほかの方法を使う」を選びます（④）。</p>
+<h3>6.2 パスキーでのログイン</h3>
+<p>サイトでパスキーでのログインを選ぶと、TKRForm に保存したパスキーの候補が表示されます。選ぶとログインできます。ID の入力欄にパスキーの候補が表示されるサイトもあります。</p>
+<div class="warn"><b>パスキーを削除するときの注意</b>エディタでパスキーを削除すると、そのサイトにパスキーでログインできなくなります。サイト側にパスワードなど別のログイン方法があることを確かめてから削除してください。</div>
+
+<!-- ============================== 7 -->
+<h2>7. セキュリティセンター</h2>
+<p>保存しているパスワードに問題がないかを調べます。トレイのメニュー、またはエディタの「その他 ▼」から開きます。</p>
+<figure class="w80"><img src="img/annot/app-security.png"><figcaption>図 7-1　セキュリティセンター</figcaption><ol class="legend"><li>総合のスコア（0〜100）</li><li>もう一度調べる</li><li>問題の種類ごとのタブ（件数つき）</li><li>該当するログイン</li><li>「開く」でエディタを開いて修正</li></ol></figure>
+<table class="small">
+  <tr><th style="width:18%">タブ</th><th>内容</th></tr>
+  <tr><td>弱い</td><td>短い・単純で、推測されやすいパスワード（強度 50 ビット未満）。</td></tr>
+  <tr><td>使い回し</td><td>同じパスワードを複数のサイトで使っているもの。同じパスワードごとにまとめて表示します。</td></tr>
+  <tr><td>古い</td><td>365 日以上変更していないパスワード。</td></tr>
+  <tr><td>重複</td><td>同じサイト・同じ ID のログインが複数あるもの。</td></tr>
+  <tr><td>漏洩</td><td>過去に漏洩したパスワードに含まれていないかを確認します（既定はオフ）。オンにすると、パスワードそのものではなく、パスワードから計算した値の一部だけを外部の確認サービスに送ります。</td></tr>
+</table>
+<p>上部の数字（0〜100）は総合のスコアで、問題が少ないほど高くなります。各項目の行からエディタを開いて、パスワードを変更してください。</p>
+
+<!-- ============================== 8 -->
+<h2>8. 設定</h2>
+<p>トレイのメニューの「設定...」（図 1-1 ④）で開きます。変更したら右下の「保存」を押します。</p>
+<figure class="w80"><img src="img/annot/app-settings.png"><figcaption>図 8-1　設定（一般）</figcaption><ol class="legend"><li>設定の種類のタブ</li><li>変更したら「保存」</li></ol></figure>
+<table class="small">
+  <tr><th style="width:18%">タブ</th><th>主な設定</th></tr>
+  <tr><td>一般</td><td>言語、Windows の起動時に起動する、ログインの並べ方、更新の確認（初期設定はオフ。オンにすると、新しい版がないかを配布元に問い合わせます。「今すぐ更新を確認」は、押したときだけ問い合わせます）</td></tr>
+  <tr><td>自動記入</td><td>候補の出し方（しない／提案する／1 件なら自動）、入力欄の候補メニュー、ベーシック認証、パスキーの保存</td></tr>
+  <tr><td>自動保存</td><td>保存の仕方（しない／提案する／自動）、保存しないサイト</td></tr>
+  <tr><td>アプリ</td><td>Windows のアプリのログイン画面への記入</td></tr>
+  <tr><td>セキュリティ</td><td>自動ロックの条件と時間、Windows Hello、マスターパスワードの変更、クリップボードの消去</td></tr>
+  <tr><td>同期</td><td>同期サーバの設定（使わない場合は不要です）</td></tr>
+  <tr><td>ドメイン</td><td>同じサイトとみなすドメイン（例: example.co.jp と example.com）</td></tr>
+  <tr><td>ホットキー</td><td>検索・ロックなどのショートカットキー</td></tr>
+  <tr><td>バックアップ</td><td>自動バックアップ、保存先、復元、全初期化</td></tr>
+</table>
+<h3>8.1 Windows Hello を使う</h3>
+<figure class="w80"><img src="img/annot/app-settings-security.png"><figcaption>図 8-2　設定（セキュリティ）</figcaption><ol class="legend"><li>自動でロックする条件と時間</li><li>マスターパスワードの変更</li><li>Windows Hello の有効化</li></ol></figure>
+<ol>
+  <li>設定の「セキュリティ」タブを開きます。</li>
+  <li>「Windows Hello でロック解除」の<b>「Windows Hello を有効にする」</b>を押します。</li>
+  <li>Windows Hello の確認（顔・指紋・PIN）を行います。「有効にしました」と表示されれば完了です。</li>
+</ol>
+<p>以後、ログイン画面やポップアップを開くと、自動で Windows Hello の確認が始まります。キャンセルした場合は、マスターパスワードでも解除できます。</p>
+<div class="note"><b>マスターパスワードを変更したとき</b>マスターパスワードを変更すると、Windows Hello の登録は解除されます。もう一度有効にしてください。</div>
+
+<!-- ============================== 9 -->
+<h2>9. バックアップと別の PC への移行</h2>
+<h3>9.1 自動バックアップ</h3>
+<p>TKRForm は毎日、保管庫を自動でバックアップします（既定で 10 世代）。バックアップは暗号化されたままのファイル（<code>.tkb</code>）で、開くにはマスターパスワードが必要です。</p>
+<figure class="w80"><img src="img/annot/app-settings-backup.png"><figcaption>図 9-1　設定（バックアップ）</figcaption><ol class="legend"><li>バックアップの保存先フォルダ</li><li>今すぐバックアップ</li><li>全初期化（元に戻せません）</li><li>フォルダを指定して復元</li><li>整合性を確認</li></ol></figure>
+<ul>
+  <li><b>保存先フォルダ</b>：「変更...」で、外付けドライブや NAS などに変えられます。PC の故障に備えて、別のドライブに保存することをおすすめします。</li>
+  <li><b>今すぐバックアップ</b>：その場でバックアップを作ります。</li>
+  <li><b>フォルダを指定して復元...</b>：他の場所にあるバックアップを、復元の一覧に加えます。</li>
+  <li><b>整合性を確認</b>：保管庫のファイルが壊れていないかを調べます。</li>
+  <li><b>全初期化...</b>：保管庫と設定をすべて消して、初めの状態に戻します。マスターパスワードの入力が必要で、元に戻せません。</li>
+</ul>
+<h3>9.2 別の PC へ移す</h3>
+<ol>
+  <li>今の PC で「今すぐバックアップ」を押し、できた <code>.tkb</code> ファイルを USB メモリなどで新しい PC へ移します。</li>
+  <li>新しい PC に TKRForm をインストールし、セットアップを進めます。ここで決めるマスターパスワードは、復元すると使われなくなるので、仮のもので構いません。</li>
+  <li>設定の「バックアップ」で「フォルダを指定して復元...」から <code>.tkb</code> のあるフォルダを選びます。「バックアップ一覧」に出たバックアップの<b>「復元...」</b>を押します（図 9-2 ③）。保管庫がバックアップの内容に置き換わり、ロックされた状態になります。</li>
+  <li><b>今までと同じマスターパスワード</b>でロックを解除します。</li>
+</ol>
+<figure class="w80"><img src="img/annot/app-backup-list.png"><figcaption>図 9-2　バックアップ一覧</figcaption><ol class="legend"><li>今すぐバックアップ</li><li>バックアップのファイル（作成した日時と大きさ）</li><li>「復元...」でこのバックアップに戻します。</li></ol></figure>
+<p>ログイン・プロフィール・メモ・パスキーがすべて移ります。Windows Hello は PC ごとの設定なので、新しい PC でもう一度有効にしてください。</p>
+<div class="note"><b>エクスポートとの違い</b>エディタの「その他 ▼」→「エクスポート...」で CSV にも書き出せますが、CSV は暗号化されず、パスキーも含まれません。PC の移行には <code>.tkb</code> のバックアップを使ってください。</div>
+
+<!-- ============================== 10 -->
+<h2>10. 困ったときは</h2>
+<table class="small">
+  <tr><th style="width:36%">症状</th><th>対処</th></tr>
+  <tr><td>ポップアップに「TKRForm アプリに接続できません」と出る</td><td>TKRForm アプリが起動しているか、トレイのアイコンを確認してください。起動していなければ、スタートメニューから TKRForm を起動します。それでも直らない場合は、<code>chrome://extensions</code> で TKRForm の拡張を再読み込み（↻）してください。</td></tr>
+  <tr><td>保存ダイアログや候補メニューが出ない</td><td>ロックを解除しているか確認してください。そのサイトで「このサイトでは今後しない」を選んでいないか、設定の「自動保存」の「保存しないサイト」を確認してください。ページを再読み込みすると出る場合もあります。</td></tr>
+  <tr><td>記入されない欄がある</td><td>ポップアップの「フォームの入力内容を保存」で、すべての欄を保存し直してください。エディタのフィールドの一覧で、欄の名前や値を直すこともできます。</td></tr>
+  <tr><td>Windows Hello の確認が出ない</td><td>設定の「セキュリティ」で Windows Hello が有効になっているか確認してください。Windows の「サインイン オプション」で PIN などを設定していない PC では使えません。</td></tr>
+  <tr><td>画面が白いまま表示されない</td><td>画面の上にマウスを乗せると表示される場合があります。直らない場合は、TKRForm をトレイから終了して起動し直してください。</td></tr>
+  <tr><td>インストール時に「PC が保護されました」と出る</td><td>「詳細情報」→「実行」で進めてください（2.1）。</td></tr>
+  <tr><td>マスターパスワードを忘れた</td><td>保管庫を開く方法はありません。新しく保管庫を作る場合は、設定の「バックアップ」→「全初期化...」を行うか、TKRForm を再インストールしてください。</td></tr>
+</table>
+<p>解決しない場合は、タカラシスコム（https://tkrs.jp/）までお問い合わせください。</p>
+
+<!-- ============================== 11 -->
+<h2>11. アンインストール</h2>
+<ol>
+  <li>Windows の「設定」→「アプリ」→「インストールされているアプリ」で <b>tkrform</b> を選び、「アンインストール」を押します。</li>
+  <li>「ユーザーデータ（保管庫・設定・バックアップ）も削除しますか？」と表示されます。
+    <ul>
+      <li><b>いいえ</b>（既定）：データを残します。再インストールすると続きから使えます。</li>
+      <li><b>はい</b>：データを完全に削除します。元に戻せません。</li>
+    </ul>
+  </li>
+  <li>ブラウザの拡張は、<code>chrome://extensions</code>（Edge は <code>edge://extensions</code>）で「削除」を押して取り除きます。</li>
+</ol>
+
+<!-- ============================== 付録 -->
+<h2>付録　ショートカットキーとデータの保存場所</h2>
+<h3>ショートカットキー</h3>
+<table class="small">
+  <tr><th style="width:34%">キー</th><th>動作</th><th style="width:18%">使える場所</th></tr>
+  <tr><td><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></td><td>ポップアップを開く</td><td>ブラウザ</td></tr>
+  <tr><td><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></td><td>いちばん候補の高いログインを記入</td><td>ブラウザ</td></tr>
+  <tr><td><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd></td><td>パスワード生成パネルを開く</td><td>ブラウザ</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>S</kbd></td><td>検索</td><td>Windows 全体</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>L</kbd></td><td>ロック</td><td>Windows 全体</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>A</kbd></td><td>前面のアプリのログイン画面を取り込む</td><td>Windows 全体</td></tr>
+  <tr><td><kbd>Ctrl</kbd>+<kbd>F</kbd> ／ <kbd>Ctrl</kbd>+<kbd>Z</kbd></td><td>検索 ／ 元に戻す</td><td>エディタ</td></tr>
+</table>
+<p>ブラウザのキーは <code>chrome://extensions/shortcuts</code> で、Windows 全体のキーは設定の「ホットキー」で変更できます。</p>
+<h3>データの保存場所</h3>
+<table class="small">
+  <tr><th style="width:30%">データ</th><th>場所</th></tr>
+  <tr><td>プログラム</td><td><code>C:\Users\（ユーザー名）\AppData\Local\Programs\tkrform</code></td></tr>
+  <tr><td>保管庫・設定</td><td><code>C:\Users\（ユーザー名）\AppData\Local\tkrform</code></td></tr>
+  <tr><td>自動バックアップ（既定）</td><td>上の保管庫のフォルダの中の <code>backups</code>（設定で変更可）</td></tr>
+</table>
+<p style="margin-top:20mm; font-size:9pt; color:var(--ink-sub)">記載の会社名・製品名（Windows、Windows Hello、Google Chrome、Microsoft Edge、RoboForm、1Password、LastPass、Bitwarden など）は、各社の商標または登録商標です。TKRForm はこれらの会社とは関係ありません。</p>
+
+</body>
+</html>

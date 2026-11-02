@@ -1,0 +1,48 @@
+body { width: 380px; min-height: 200px; }
+header { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; background: var(--panel); border-bottom: 1px solid var(--line); }
+.pad { padding: 12px; }
+.pad.tight { padding: 8px 10px 4px; }
+.tabs { display: flex; padding: 0 6px; border-bottom: 1px solid var(--line); background: var(--panel); overflow-x: auto; }
+.tabs button { border: none; border-bottom: 3px solid transparent; border-radius: 0; background: transparent; padding: 6px 8px; white-space: nowrap; }
+.tabs button[aria-selected=true] { border-bottom-color: var(--sky); color: var(--sky-dark); font-weight: 600; }
+#list-wrap { max-height: 380px; min-height: 120px; overflow-y: auto; }
+#list { list-style: none; margin: 0; padding: 0; }
+#list li { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-bottom: 1px solid var(--line); background: var(--panel); }
+#list li:hover, #list li:focus-within { background: var(--hover); }
+#list .badge { flex: none; width: 26px; height: 26px; border-radius: 6px; background: var(--sky); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
+#list .badge.b2 { background: var(--mint); }
+#list .badge.b5, #list .badge.b6 { background: var(--amber); }
+#list .badge.b7 { background: #8a6fd1; }
+#list .name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#list .meta { font-size: 11px; color: var(--ink-sub); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#list .actions { display: none; gap: 2px; flex: none; }
+#list li:hover .actions, #list li:focus-within .actions { display: flex; }
+#list li.folder { cursor: pointer; }
+#list .badge.bf { background: transparent; font-size: 16px; }
+#list li.up .badge.bf { color: var(--ink-sub); }
+#list li.up .name { font-weight: 400; color: var(--ink-sub); }
+#list .count { flex: none; font-size: 12px; color: var(--ink-sub); }
+#list li.empty { justify-content: center; color: var(--ink-sub); padding: 24px; }
+#site-bar { padding-bottom: 8px; border-top: 1px solid var(--line); }
+#site-bar button { width: 100%; }
+footer { display: flex; justify-content: space-between; padding: 4px 6px; border-top: 1px solid var(--line); background: var(--panel); }
+footer button { padding: 4px 6px; font-size: 12px; }
+#list li.section { background: var(--bg); color: var(--ink-sub); font-size: 11px; font-weight: 600; padding: 4px 12px; border-bottom: 1px solid var(--line); }
+#hello-btn { width: 100%; padding: 9px; font-weight: 600; background: var(--mint); border-color: var(--mint); margin-bottom: 6px; }
+
+header { position: relative; }
+.hdr-right { display: flex; align-items: center; gap: 6px; }
+#menu-btn { font-size: 16px; line-height: 1; padding: 3px 7px; }
+.menu { position: absolute; right: 8px; top: 100%; z-index: 20; min-width: 190px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: 0 6px 20px rgba(0,0,0,.25); padding: 4px; display: flex; flex-direction: column; }
+.menu button { text-align: left; border: none; background: transparent; padding: 6px 10px; border-radius: 4px; }
+.menu button:hover, .menu button:focus { background: var(--hover); outline: none; }
+.flash { padding: 4px 12px; font-size: 12px; background: var(--sky-light); color: var(--sky-dark); border-bottom: 1px solid var(--line); }
+#gen-view { max-height: 460px; overflow-y: auto; }
+.about { position: fixed; inset: 0; z-index: 30; background: rgba(20,24,29,.5); display: flex; align-items: center; justify-content: center; }
+.about-box { width: 300px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+
+.seg { display: flex; gap: 0; margin: 6px 10px 2px; }
+.seg button { flex: 1; padding: 3px 8px; font-size: 12px; border: 1px solid var(--line); background: var(--panel); border-radius: 0; }
+.seg button:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+.seg button:last-child { border-radius: 0 var(--radius) var(--radius) 0; border-left: none; }
+.seg button[aria-selected=true] { background: var(--sky); border-color: var(--sky); color: #fff; font-weight: 600; }

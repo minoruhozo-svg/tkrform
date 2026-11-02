@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TKRForm</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  main { padding: 16px 20px; display: flex; flex-direction: column; gap: 10px; }
+  .fields-table input { width: 100%; }
+</style>
+</head>
+<body>
+<main>
+  <div class="brand"><img src="icon.png" alt=""><span data-i18n="AppSave_Heading"></span></div>
+  <div class="sub selectable" id="exe"></div>
+  <div class="msg warn" data-i18n="AppSave_PasswordNote"></div>
+  <div class="two row">
+    <label class="field grow"><span data-i18n="Item_Name"></span><input type="text" id="name"></label>
+    <label class="field grow"><span data-i18n="AppSave_TitleMatch"></span><input type="text" id="title"></label>
+  </div>
+  <table class="grid fields-table">
+    <thead><tr><th data-i18n="AppSave_Use"></th><th data-i18n="Fields_Id"></th><th data-i18n="Fields_Name"></th><th data-i18n="Fields_Value"></th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <label class="check"><input type="checkbox" id="submit"><span data-i18n="AppSave_Submit"></span></label>
+  <div class="row"><div class="grow"></div><button type="button" id="cancel" data-i18n="Common_Cancel"></button><button type="button" id="save" class="primary" data-i18n="Common_Save"></button></div>
+</main>
+<script src="common.js"></script>
+<script src="appsave.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+target/
+*.tmp
+*.tkb
+/dist/
+/installer/Output/
+crates/tkrform-app/gen/
+node_modules/
+
+# E2E の出力ログ
+*.out

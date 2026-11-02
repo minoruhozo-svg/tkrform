@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>TKRForm</title>
+<link rel="stylesheet" href="ext.css">
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<header>
+  <div class="brand"><img src="icons/icon32.png" alt=""><span>TKRForm</span></div>
+  <div class="hdr-right">
+    <div id="status" class="sub"></div>
+    <button type="button" class="flat icon" id="menu-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="menu">⚙</button>
+  </div>
+  <div id="menu" class="menu hidden" role="menu"></div>
+</header>
+<div id="flash" class="flash hidden" role="status" aria-live="polite"></div>
+
+<section id="v-off" class="pad hidden">
+  <div class="msg warn" id="off-msg"></div>
+  <div class="row"><button type="button" id="reconnect" class="primary" data-i18n="Ext_Reconnect"></button></div>
+</section>
+
+<section id="v-locked" class="pad hidden">
+  <button type="button" id="hello-btn" class="primary hello hidden" data-i18n="Ext_Hello_Unlock"></button>
+  <div id="hello-or" class="sub hidden" style="text-align:center" data-i18n="Ext_Hello_Or"></div>
+  <label class="field"><span data-i18n="Ext_MasterPassword"></span><input type="password" id="mp" autocomplete="off"></label>
+  <div id="unlock-err" class="msg error hidden" role="alert"></div>
+  <div class="row"><div class="grow"></div><button type="button" id="unlock" class="primary" data-i18n="Ext_Unlock"></button></div>
+</section>
+
+<section id="v-main" class="hidden">
+  <div class="pad tight"><input type="search" id="q" data-i18n-ph="Ext_SearchPlaceholder" autocomplete="off"></div>
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="login-seg" class="seg hidden" role="tablist" aria-label="ログインの表示">
+    <button type="button" role="tab" id="seg-frequent" data-i18n="Ext_Popup_Frequent"></button>
+    <button type="button" role="tab" id="seg-abc">ABC</button>
+  </div>
+  <div id="mismatch" class="msg warn hidden" role="alert"></div>
+  <div id="list-wrap">
+    <ul id="list"></ul>
+  </div>
+  <div id="gen-view" class="hidden">
+    <div class="pad tight"><button type="button" class="flat" id="gen-back" data-i18n="Ext_Back"></button></div>
+    <div id="gen" class="pad col"></div>
+  </div>
+  <div id="site-bar" class="pad tight hidden"><button type="button" id="b-saveform" data-i18n="Ext_Popup_SaveForm"></button></div>
+</section>
+
+<div id="about" class="about hidden" role="dialog" aria-modal="true" aria-labelledby="about-title">
+  <div class="about-box">
+    <div class="brand"><img src="icons/icon32.png" alt=""><span id="about-title">TKRForm</span></div>
+    <div id="about-ver"></div>
+    <div data-i18n="Ext_About_Copyright"></div>
+    <div><a href="https://tkrs.jp/" id="about-link">https://tkrs.jp/</a></div>
+    <div class="row"><div class="grow"></div><button type="button" class="primary" id="about-close" data-i18n="Common_Close"></button></div>
+  </div>
+</div>
+<script src="ext.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

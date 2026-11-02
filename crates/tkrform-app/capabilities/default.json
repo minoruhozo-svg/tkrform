@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "tkrform の画面に与える権限（コマンドはアプリ側で個別に検証する）",
+  "windows": ["*"],
+  "permissions": ["core:default"]
+}

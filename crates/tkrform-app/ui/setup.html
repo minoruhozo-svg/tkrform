@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TKRForm</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  body { display: flex; flex-direction: column; }
+  header { padding: 16px 24px 8px; }
+  .steps { display: flex; gap: 6px; margin-top: 8px; }
+  .steps i { flex: 1; height: 4px; border-radius: 2px; background: var(--line); }
+  .steps i.done { background: var(--sky); }
+  main { flex: 1; overflow: auto; padding: 8px 24px; }
+  footer { padding: 12px 24px 18px; display: flex; gap: 8px; border-top: 1px solid var(--line); background: var(--panel); }
+  .step { display: none; flex-direction: column; gap: 12px; }
+  .step.active { display: flex; }
+  .choice { display: flex; gap: 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); align-items: flex-start; }
+  .choice.disabled { opacity: 0.55; }
+  ol.guide { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+  code { font-family: var(--mono); background: var(--sky-light); padding: 1px 5px; border-radius: 4px; user-select: text; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="icon.png" alt=""><span data-i18n="Setup_Heading"></span></div>
+  <div class="steps" id="bar" aria-hidden="true"></div>
+</header>
+<main>
+  <!-- 1. ようこそ -->
+  <section class="step" data-step="1">
+    <h1 data-i18n="Setup_Welcome_Title"></h1>
+    <p data-i18n="Setup_Welcome_Body"></p>
+    <ul class="sub">
+      <li data-i18n="Setup_Welcome_Point1"></li>
+      <li data-i18n="Setup_Welcome_Point2"></li>
+      <li data-i18n="Setup_Welcome_Point3"></li>
+    </ul>
+  </section>
+  <!-- 2. 保存先 -->
+  <section class="step" data-step="2">
+    <h1 data-i18n="Setup_Storage_Title"></h1>
+    <label class="choice"><input type="radio" name="storage" value="local" checked>
+      <div><div data-i18n="Setup_Storage_Local"></div><div class="sub" data-i18n="Setup_Storage_LocalDesc"></div></div></label>
+    <label class="choice"><input type="radio" name="storage" value="sync">
+      <div><div data-i18n="Setup_Storage_Sync"></div><div class="sub" data-i18n="Setup_Storage_SyncDesc"></div></div></label>
+    <div id="sync-fields" class="col hidden">
+      <label class="field"><span data-i18n="Sync_Url"></span><input type="text" id="sync-url" placeholder="https://example.com/tkrform/sync.php"></label>
+      <label class="field"><span data-i18n="Sync_Email"></span><input type="text" id="sync-email" autocomplete="off"></label>
+      <label class="check"><input type="radio" name="syncmode" value="create" checked><span data-i18n="Setup_Sync_Create"></span></label>
+      <label class="check"><input type="radio" name="syncmode" value="join"><span data-i18n="Setup_Sync_Join"></span></label>
+      <div class="sub" data-i18n="Sync_Https_Note"></div>
+    </div>
+  </section>
+  <!-- 3. マスターパスワード -->
+  <section class="step" data-step="3">
+    <h1 data-i18n="Setup_MP_Title"></h1>
+    <p class="sub" data-i18n="Setup_MP_Body"></p>
+    <label class="field"><span data-i18n="Setup_MP_Input"></span><input type="password" id="mp1" autocomplete="new-password"></label>
+    <div id="meter-host"></div>
+    <div class="sub" id="bits"></div>
+    <label class="field"><span data-i18n="Setup_MP_Confirm"></span><input type="password" id="mp2" autocomplete="new-password"></label>
+    <div id="mp-msg" class="msg warn hidden" role="alert"></div>
+    <label class="check hidden" id="weak-row"><input type="checkbox" id="weak-ok"><span data-i18n="Setup_MP_WeakOk"></span></label>
+    <details>
+      <summary data-i18n="Setup_MP_Advanced"></summary>
+      <label class="field" style="margin-top:8px"><span data-i18n="Setup_MP_Iterations"></span>
+        <select id="iter">
+          <option value="100000">100,000</option>
+          <option value="300000">300,000</option>
+          <option value="600000" selected>600,000</option>
+          <option value="1000000">1,000,000</option>
+          <option value="2000000">2,000,000</option>
+          <option value="5000000">5,000,000</option>
+        </select></label>
+      <div class="sub" data-i18n="Setup_MP_IterationsNote"></div>
+    </details>
+  </section>
+  <!-- 4. ヒント -->
+  <section class="step" data-step="4">
+    <h1 data-i18n="Setup_Hint_Title"></h1>
+    <div class="msg warn" data-i18n="Setup_Hint_Warn"></div>
+    <label class="field"><span data-i18n="Setup_Hint_Input"></span><input type="text" id="hint" maxlength="100"></label>
+    <div id="create-err" class="msg error hidden" role="alert"></div>
+  </section>
+  <!-- 5. ブラウザ拡張 -->
+  <section class="step" data-step="5">
+    <h1 data-i18n="Setup_Ext_Title"></h1>
+    <div class="msg ok" data-i18n="Setup_Created"></div>
+    <ol class="guide">
+      <li data-i18n="Setup_Ext_Step1"></li>
+      <li data-i18n="Setup_Ext_Step2"></li>
+      <li data-i18n="Setup_Ext_Step3"></li>
+    </ol>
+    <div class="selectable sub" id="ext-path"></div>
+    <div class="row">
+      <button type="button" id="open-ext-folder" data-i18n="Setup_Ext_OpenFolder"></button>
+      <button type="button" id="open-chrome" data-i18n="Setup_Ext_OpenChrome"></button>
+      <button type="button" id="open-edge" data-i18n="Setup_Ext_OpenEdge"></button>
+    </div>
+    <div class="sub" data-i18n="Setup_Ext_Note"></div>
+  </section>
+  <!-- 6. インポート -->
+  <section class="step" data-step="6">
+    <h1 data-i18n="Setup_Import_Title"></h1>
+    <p class="sub" data-i18n="Setup_Import_Body"></p>
+    <div class="row"><button type="button" id="pick-import" data-i18n="Setup_Import_Pick"></button><span id="import-file" class="sub"></span></div>
+    <div id="import-info" class="sub"></div>
+    <label class="check hidden" id="skipdup-row"><input type="checkbox" id="skipdup" checked><span data-i18n="Import_SkipDup"></span></label>
+    <div class="row"><button type="button" id="run-import" class="primary hidden" data-i18n="Import_Run"></button></div>
+    <div id="import-result" class="msg ok hidden"></div>
+  </section>
+</main>
+<footer>
+  <button type="button" id="back" data-i18n="Common_Back"></button>
+  <div class="grow"></div>
+  <button type="button" id="skip" class="hidden" data-i18n="Common_Skip"></button>
+  <button type="button" id="next" class="primary" data-i18n="Common_Next"></button>
+</footer>
+<script src="common.js"></script>
+<script src="setup.js"></script>
+</body>
+</html>

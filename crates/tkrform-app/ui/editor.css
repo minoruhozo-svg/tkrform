@@ -1,0 +1,120 @@
+html, body { overflow: hidden; }
+#app { display: grid; grid-template-rows: auto 1fr; height: 100vh; }
+#toolbar { display: flex; gap: 6px; align-items: center; padding: 8px 10px; background: var(--panel); border-bottom: 1px solid var(--line); }
+#toolbar .sep { width: 1px; height: 22px; background: var(--line); margin: 0 4px; }
+#toolbar #q { width: 220px; }
+#panes { display: grid; grid-template-columns: 210px 330px 1fr; min-height: 0; }
+#left { background: var(--panel); border-right: 1px solid var(--line); overflow: auto; padding: 8px 0; }
+.pane-title { padding: 10px 14px 4px; font-size: 12px; color: var(--ink-sub); font-weight: 600; }
+#left ul { list-style: none; margin: 0; padding: 0; }
+#left li { display: flex; align-items: center; gap: 6px; padding: 5px 14px; cursor: pointer; border-left: 3px solid transparent; }
+#left li:hover { background: var(--hover); }
+#left li[aria-selected=true] { background: var(--sky-light); border-left-color: var(--sky); font-weight: 600; }
+#left li .count { margin-left: auto; font-size: 12px; color: var(--ink-sub); }
+#left li.drop { outline: 2px dashed var(--sky); outline-offset: -2px; }
+#tree li .twisty { width: 14px; display: inline-block; color: var(--ink-sub); }
+#middle { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--line); background: var(--bg); }
+#list-head { padding: 6px 10px; border-bottom: 1px solid var(--line); }
+#list-head select { width: auto; padding: 2px 6px; }
+#trash-bar { margin: 6px; }
+#list { position: relative; flex: 1; overflow-y: auto; outline: none; }
+#spacer { position: relative; width: 100%; }
+.rowitem {
+  position: absolute; left: 0; right: 0; height: 46px; padding: 4px 10px; display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid var(--line); background: var(--panel); cursor: default;
+}
+.rowitem:hover { background: var(--hover); }
+.rowitem[aria-selected=true] { background: var(--sky-light); }
+.rowitem .badge {
+  flex: none; width: 28px; height: 28px; border-radius: 6px; background: var(--sky); color: #fff; font-size: 12px;
+  display: flex; align-items: center; justify-content: center; font-weight: 700;
+}
+.rowitem .badge.t2 { background: var(--mint); }
+.rowitem .badge.t5, .rowitem .badge.t6 { background: var(--amber); }
+.rowitem .badge.t7 { background: #8a6fd1; }
+.rowitem .badge.bad { background: var(--coral); }
+.rowitem .name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rowitem .meta { font-size: 12px; color: var(--ink-sub); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rowitem .star { color: var(--amber); }
+.tag-bad { color: var(--coral-dark); font-size: 11px; border: 1px solid var(--coral); border-radius: 8px; padding: 0 6px; }
+
+#detail { overflow-y: auto; padding: 14px 18px 28px; min-width: 0; container-type: inline-size; }
+#detail .empty { color: var(--ink-sub); margin-top: 40px; text-align: center; }
+.form { display: flex; flex-direction: column; gap: 10px; max-width: 960px; }
+.form .actions { position: sticky; bottom: -28px; background: var(--bg); padding: 10px 0; display: flex; gap: 8px; border-top: 1px solid var(--line); z-index: 2; }
+.form h2 { margin: 10px 0 0; }
+.form .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.fields-table input, .fields-table select { padding: 3px 6px; }
+.fields-table td:last-child { width: 1%; white-space: nowrap; }
+.pwcell { display: flex; gap: 4px; }
+.pwcell input { flex: 1; }
+.totp-box { display: flex; align-items: center; gap: 12px; padding: 6px 10px; background: var(--sky-light); border-radius: var(--radius); }
+.totp-code { font-family: var(--mono); font-size: 22px; letter-spacing: 3px; cursor: pointer; }
+.ring { width: 28px; height: 28px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; gap: 4px; align-items: center; padding: 1px 4px 1px 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
+.chip button { padding: 0 6px; border: none; background: none; }
+.group-tabs { display: flex; flex-wrap: wrap; gap: 2px; border-bottom: 1px solid var(--line); }
+.group-tabs button { border: none; border-bottom: 3px solid transparent; border-radius: 0; background: none; }
+.group-tabs button[aria-selected=true] { border-bottom-color: var(--sky); color: var(--sky-dark); font-weight: 600; }
+.idgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 12px; }
+.hist-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.hist-list li { display: flex; gap: 8px; align-items: center; }
+
+/* コンテキストメニュー */
+.ctxmenu { position: fixed; z-index: 9500; min-width: 200px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); padding: 4px; }
+.ctxmenu button { display: block; width: 100%; text-align: left; border: none; background: none; padding: 5px 12px; border-radius: 4px; }
+.ctxmenu button:hover:not(:disabled) { background: var(--hover); }
+.ctxmenu hr { border: none; border-top: 1px solid var(--line); margin: 4px 0; }
+
+/* 印刷 */
+#print-area { display: none; }
+@media print {
+  #app, dialog, #toasts, #lock-overlay { display: none !important; }
+  #print-area { display: block; color: #000; background: #fff; }
+  #print-area table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  #print-area th, #print-area td { border: 1px solid #888; padding: 3px 5px; text-align: left; vertical-align: top; word-break: break-all; }
+  body { overflow: visible; background: #fff; }
+  html, body { height: auto; }
+}
+
+.fields-table { table-layout: fixed; }
+.fields-table th:nth-child(1) { width: 19%; }
+.fields-table th:nth-child(2) { width: 13%; }
+.fields-table th:nth-child(4) { width: 104px; }
+.fields-table th:nth-child(5) { width: 116px; }
+.fields-table th:nth-child(6) { width: 44px; }
+.fields-table td:last-child { width: auto; }
+.fields-table input, .fields-table select { width: 100%; }
+/* ログインのフィールドの表: 名前と ID は中身が見える最小限の固定幅、値は残りの幅いっぱい。
+   詳細欄の幅に応じて 3 段階: 広い（760px〜）は 1 行、中（560px〜）は 値を 1 行目に・型と役割を 2 行目に、
+   狭い（ウィンドウが最小幅のときなど）は 値を 2 行目に全幅で出して、横にはみ出さないようにする */
+.fields-login { display: block; }
+.fields-login thead, .fields-login tbody { display: block; }
+.fields-login thead { display: none; }
+.fields-login tr { display: grid; grid-template-columns: 7.5em 6.5em minmax(0, 1fr) 36px; gap: 4px 6px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.fields-table.fields-login th, .fields-table.fields-login td { display: block; min-width: 0; width: auto; padding: 0; border: 0; white-space: normal; }
+.fields-login td:nth-child(1) { grid-area: 1 / 1; }
+.fields-login td:nth-child(2) { grid-area: 1 / 2; }
+.fields-login td:nth-child(6) { grid-area: 1 / 4; text-align: right; }
+.fields-login td:nth-child(3) { grid-area: 2 / 1 / 3 / 5; }
+.fields-login td:nth-child(4) { grid-area: 3 / 1 / 4 / 3; }
+.fields-login td:nth-child(5) { grid-area: 3 / 3 / 4 / 5; }
+.fields-login .pwcell { gap: 2px; }
+.fields-login .pwcell .icon { padding: 3px 5px; }
+.fields-login .pwcell input { min-width: 0; font-size: 12px; padding: 3px 4px; }
+@container (min-width: 560px) {
+  .fields-table.fields-login td:nth-child(3) { grid-area: 1 / 3; }
+  .fields-table.fields-login td:nth-child(4) { grid-area: 2 / 1 / 3 / 3; }
+  .fields-table.fields-login td:nth-child(5) { grid-area: 2 / 3 / 3 / 5; }
+}
+@container (min-width: 760px) {
+  .fields-login thead { display: block; }
+  .fields-login tr { grid-template-columns: 7.5em 6.5em minmax(0, 1fr) 92px 100px 36px; padding: 2px 0; border-bottom: 0; }
+  .fields-login thead tr { padding-bottom: 4px; border-bottom: 1px solid var(--line); }
+  .fields-table.fields-login td:nth-child(n) { grid-area: auto; }
+}
+#folders-title.drop { outline: 2px dashed var(--sky); outline-offset: -2px; }
+#left li.can-drop, #folders-title.can-drop { background: var(--mint-light); }
+#left li.no-drop, #folders-title.no-drop { opacity: 0.4; cursor: not-allowed; }
+#left li.drop.can-drop, #folders-title.drop.can-drop { outline: 2px solid var(--mint); outline-offset: -2px; }

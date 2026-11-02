@@ -1,0 +1,2575 @@
+{
+    "Lang_Code":  {
+                      "message":  "en"
+                  },
+    "App_Name":  {
+                     "message":  "TKRForm"
+                 },
+    "Common_OK":  {
+                      "message":  "OK"
+                  },
+    "Common_Cancel":  {
+                          "message":  "Cancel"
+                      },
+    "Common_Back":  {
+                        "message":  "Back"
+                    },
+    "Common_Next":  {
+                        "message":  "Next"
+                    },
+    "Common_Skip":  {
+                        "message":  "Skip"
+                    },
+    "Common_Save":  {
+                        "message":  "Save"
+                    },
+    "Common_Use":  {
+                       "message":  "Use"
+                   },
+    "Common_Close":  {
+                         "message":  "Close"
+                     },
+    "Common_Notice":  {
+                          "message":  "Notice"
+                      },
+    "Common_Confirm":  {
+                           "message":  "Confirm"
+                       },
+    "Common_Copied":  {
+                          "message":  "Copied $1$",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Err_BadPassword":  {
+                            "message":  "The master password is incorrect"
+                        },
+    "Err_NameEmpty":  {
+                          "message":  "Please enter a name"
+                      },
+    "Strength_Bits":  {
+                          "message":  "Strength: $1$ bits",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Reauth_Title":  {
+                         "message":  "Confirm master password"
+                     },
+    "Reauth_Message":  {
+                           "message":  "Enter your master password to continue."
+                       },
+    "Lock_Message":  {
+                         "message":  "Locked. Enter your master password."
+                     },
+    "Setup_Title":  {
+                        "message":  "TKRForm Setup"
+                    },
+    "Login_Title":  {
+                        "message":  "TKRForm Login"
+                    },
+    "Editor_Title":  {
+                         "message":  "TKRForm Editor"
+                     },
+    "PassGen_Title":  {
+                          "message":  "Password Generator"
+                      },
+    "Search_Title":  {
+                         "message":  "TKRForm Search"
+                     },
+    "Settings_Title":  {
+                           "message":  "TKRForm Settings"
+                       },
+    "About_Title":  {
+                        "message":  "About TKRForm"
+                    },
+    "ExtHelp_Title":  {
+                          "message":  "Install the browser extension"
+                      },
+    "Tray_Tooltip_Locked":  {
+                                "message":  "TKRForm (locked)"
+                            },
+    "Tray_Tooltip_Unlocked":  {
+                                  "message":  "TKRForm"
+                              },
+    "Tray_Logins_Menu":  {
+                             "message":  "Logins"
+                         },
+    "Tray_Identities_Menu":  {
+                                 "message":  "Profiles"
+                             },
+    "Tray_Notes_Menu":  {
+                            "message":  "Notes"
+                        },
+    "Tray_Empty":  {
+                       "message":  "(none)"
+                   },
+    "Tray_More":  {
+                      "message":  "…and $1$ more (see Editor)",
+                      "placeholders":  {
+                                           "1":  {
+                                                     "content":  "$1"
+                                                 }
+                                       }
+                  },
+    "Tray_Search":  {
+                        "message":  "Search..."
+                    },
+    "Tray_OpenEditor":  {
+                            "message":  "Open Editor"
+                        },
+    "Tray_PassGen":  {
+                         "message":  "Password Generator"
+                     },
+    "Tray_Sync":  {
+                      "message":  "Sync now"
+                  },
+    "Tray_Lock":  {
+                      "message":  "Lock"
+                  },
+    "Tray_Login":  {
+                       "message":  "Log in..."
+                   },
+    "Tray_Settings":  {
+                          "message":  "Settings..."
+                      },
+    "Tray_Help":  {
+                      "message":  "Help"
+                  },
+    "Tray_ExtensionHelp":  {
+                               "message":  "How to install the extension"
+                           },
+    "Tray_About":  {
+                       "message":  "About"
+                   },
+    "Tray_Quit":  {
+                      "message":  "Quit"
+                  },
+    "About_Version":  {
+                          "message":  "Version $1$",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "About_Body":  {
+                       "message":  "Password manager and form filler for Windows. Your data is encrypted and stays on this PC."
+                   },
+    "About_DataDir":  {
+                          "message":  "Data folder: $1$",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "About_Licenses":  {
+                           "message":  "Passphrases use the EFF Large Wordlist (CC-BY 3.0); domain matching uses the Public Suffix List (MPL-2.0)."
+                       },
+    "Login_Heading":  {
+                          "message":  "TKRForm Login"
+                      },
+    "Login_Password":  {
+                           "message":  "Master password"
+                       },
+    "Login_Button":  {
+                         "message":  "Log in"
+                     },
+    "Login_ShowHint":  {
+                           "message":  "Show hint"
+                       },
+    "Login_HintLabel":  {
+                            "message":  "Hint: $1$",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Login_NoVault":  {
+                          "message":  "No vault exists yet. Please run setup first."
+                      },
+    "Setup_Heading":  {
+                          "message":  "TKRForm Setup"
+                      },
+    "Setup_Welcome_Title":  {
+                                "message":  "Welcome"
+                            },
+    "Setup_Welcome_Body":  {
+                               "message":  "TKRForm stores your passwords and fills forms for you. First, choose the master password that protects your vault."
+                           },
+    "Setup_Welcome_Point1":  {
+                                 "message":  "Your data is encrypted and never leaves this PC."
+                             },
+    "Setup_Welcome_Point2":  {
+                                 "message":  "The master password is not stored. If you forget it, it cannot be recovered."
+                             },
+    "Setup_Welcome_Point3":  {
+                                 "message":  "You can change settings later."
+                             },
+    "Setup_Storage_Title":  {
+                                "message":  "Storage"
+                            },
+    "Setup_Storage_Local":  {
+                                "message":  "Local only"
+                            },
+    "Setup_Storage_LocalDesc":  {
+                                    "message":  "Store data on this PC only."
+                                },
+    "Setup_Storage_Sync":  {
+                               "message":  "Use a sync server"
+                           },
+    "Setup_Storage_SyncDesc":  {
+                                   "message":  "Share across PCs."
+                               },
+    "Setup_MP_Title":  {
+                           "message":  "Master password"
+                       },
+    "Setup_MP_Body":  {
+                          "message":  "A long passphrase that you do not use anywhere else works best."
+                      },
+    "Setup_MP_Input":  {
+                           "message":  "Master password"
+                       },
+    "Setup_MP_Confirm":  {
+                             "message":  "Re-enter password"
+                         },
+    "Setup_MP_Empty":  {
+                           "message":  "Please enter a master password."
+                       },
+    "Setup_MP_Mismatch":  {
+                              "message":  "The two entries do not match."
+                          },
+    "Setup_MP_Weak":  {
+                          "message":  "Strength is below 50 bits. Make it longer, or tick \"Use it anyway\"."
+                      },
+    "Setup_MP_WeakOk":  {
+                            "message":  "Use this weak password anyway"
+                        },
+    "Setup_MP_Advanced":  {
+                              "message":  "Advanced"
+                          },
+    "Setup_MP_Iterations":  {
+                                "message":  "Encryption iterations"
+                            },
+    "Setup_MP_IterationsNote":  {
+                                    "message":  "More iterations resist brute force better but make unlocking slower."
+                                },
+    "Setup_Hint_Title":  {
+                             "message":  "Master password hint (optional)"
+                         },
+    "Setup_Hint_Warn":  {
+                            "message":  "The hint is stored unencrypted. Do not write the password itself or anything easy to guess."
+                        },
+    "Setup_Hint_Input":  {
+                             "message":  "Hint"
+                         },
+    "Setup_CreateButton":  {
+                               "message":  "Create vault"
+                           },
+    "Setup_Created":  {
+                          "message":  "Your vault has been created."
+                      },
+    "Setup_Ext_Title":  {
+                            "message":  "Install the browser extension"
+                        },
+    "Setup_Ext_Step1":  {
+                            "message":  "Open the extensions page in Chrome or Edge and turn on \"Developer mode\"."
+                        },
+    "Setup_Ext_Step2":  {
+                            "message":  "Click \"Load unpacked\" and choose the folder shown below."
+                        },
+    "Setup_Ext_Step3":  {
+                            "message":  "Click the TKRForm icon in the toolbar and check that you can unlock."
+                        },
+    "Setup_Ext_Path":  {
+                           "message":  "Extension folder: $1$",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Setup_Ext_PathMissing":  {
+                                  "message":  "The extension folder was not found. Choose the \"extension\" folder in the install directory."
+                              },
+    "Setup_Ext_OpenFolder":  {
+                                 "message":  "Open folder"
+                             },
+    "Setup_Ext_OpenChrome":  {
+                                 "message":  "Chrome extensions page"
+                             },
+    "Setup_Ext_OpenEdge":  {
+                               "message":  "Edge extensions page"
+                           },
+    "Setup_Ext_Note":  {
+                           "message":  "The connection to TKRForm is registered automatically. No browser restart is needed after loading the extension."
+                       },
+    "Setup_Import_Title":  {
+                               "message":  "Import from another product"
+                           },
+    "Setup_Import_Body":  {
+                              "message":  "You can import files from Chrome, Edge, Firefox, Bitwarden or generic CSV. You can also do this later."
+                          },
+    "Setup_Import_Pick":  {
+                              "message":  "Choose a file..."
+                          },
+    "Setup_Finish":  {
+                         "message":  "Finish and open Editor"
+                     },
+    "Cmd_Import":  {
+                       "message":  "Import..."
+                   },
+    "Cmd_Export":  {
+                       "message":  "Export..."
+                   },
+    "Import_PickTitle":  {
+                             "message":  "Choose a file to import"
+                         },
+    "Import_FileFilter":  {
+                              "message":  "CSV / JSON"
+                          },
+    "Import_CsvInfo":  {
+                           "message":  "$1$ rows",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Import_JsonInfo":  {
+                            "message":  "JSON file"
+                        },
+    "Import_Format_chrome":  {
+                                 "message":  "Format: Chrome / Edge CSV"
+                             },
+    "Import_Format_firefox":  {
+                                  "message":  "Format: Firefox CSV"
+                              },
+    "Import_Format_roboform":  {
+                                   "message":  "Format: RoboForm export CSV"
+                               },
+    "Import_Format_generic":  {
+                                  "message":  "Format: generic CSV (check the column mapping)"
+                              },
+    "Import_Kind_Bitwarden":  {
+                                  "message":  "Format: Bitwarden JSON"
+                              },
+    "Import_Kind_Tkrform":  {
+                                "message":  "Format: TKRForm JSON"
+                            },
+    "Import_Mapping":  {
+                           "message":  "Column mapping"
+                       },
+    "Import_None":  {
+                        "message":  "(none)"
+                    },
+    "Import_Col_Name":  {
+                            "message":  "Name"
+                        },
+    "Import_Col_Url":  {
+                           "message":  "URL"
+                       },
+    "Import_Col_User":  {
+                            "message":  "User ID"
+                        },
+    "Import_Col_Password":  {
+                                "message":  "Password"
+                            },
+    "Import_Col_Note":  {
+                            "message":  "Note"
+                        },
+    "Import_Col_Folder":  {
+                              "message":  "Folder"
+                          },
+    "Import_Col_Totp":  {
+                            "message":  "TOTP key"
+                        },
+    "Import_Sample":  {
+                          "message":  "First rows (passwords hidden)"
+                      },
+    "Import_SkipDup":  {
+                           "message":  "Skip items whose URL and user ID already exist"
+                       },
+    "Import_FolderNote":  {
+                              "message":  "Imported items go into an \"Import \u003cdate\u003e\" folder."
+                          },
+    "Import_Run":  {
+                       "message":  "Import"
+                   },
+    "Import_Done":  {
+                        "message":  "Imported $1$ items (skipped duplicates: $2$).\nFolder: $3$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   },
+                                             "2":  {
+                                                       "content":  "$2"
+                                                   },
+                                             "3":  {
+                                                       "content":  "$3"
+                                                   }
+                                         }
+                    },
+    "Import_DupList":  {
+                           "message":  "Skipped duplicates:\n$1$",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Export_Csv":  {
+                       "message":  "CSV (UTF-8 with BOM, logins only)"
+                   },
+    "Export_Json":  {
+                        "message":  "TKRForm JSON (plain text, all types)"
+                    },
+    "Export_Tkb":  {
+                       "message":  "TKRForm encrypted backup (.tkb)"
+                   },
+    "Export_TkbFilter":  {
+                             "message":  "TKRForm backup"
+                         },
+    "Export_PlainWarning":  {
+                                "message":  "CSV and JSON are written as unprotected files. Be careful where you keep them and how you dispose of them. Passkey private keys are not included in CSV or JSON (they are included in the encrypted .tkb backup)."
+                            },
+    "Export_Reauth":  {
+                          "message":  "Enter your master password to write unprotected data."
+                      },
+    "Export_Done":  {
+                        "message":  "Exported to: $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Export_SkippedCorrupt":  {
+                                  "message":  "$1$ corrupted items were not included.",
+                                  "placeholders":  {
+                                                       "1":  {
+                                                                 "content":  "$1"
+                                                             }
+                                                   }
+                              },
+    "Print_Count":  {
+                        "message":  "Printing $1$ items.",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Print_IncludePasswords":  {
+                                   "message":  "Include passwords"
+                               },
+    "Print_Warning":  {
+                          "message":  "Keep printouts somewhere safe and shred them when no longer needed."
+                      },
+    "Print_Reauth":  {
+                         "message":  "Enter your master password to print."
+                     },
+    "Print_Nothing":  {
+                          "message":  "There are no logins or bookmarks to print"
+                      },
+    "Print_User":  {
+                       "message":  "User ID"
+                   },
+    "Editor_Toolbar":  {
+                           "message":  "Toolbar"
+                       },
+    "Editor_Nav":  {
+                       "message":  "Types and folders"
+                   },
+    "Editor_List":  {
+                        "message":  "Item list"
+                    },
+    "Editor_Folders":  {
+                           "message":  "Folders"
+                       },
+    "Editor_NoFolders":  {
+                             "message":  "(no folders)"
+                         },
+    "Editor_Sort":  {
+                        "message":  "Sort"
+                    },
+    "Editor_SearchPlaceholder":  {
+                                     "message":  "Search (Ctrl+F)"
+                                 },
+    "Editor_Count":  {
+                         "message":  "$1$ items",
+                         "placeholders":  {
+                                              "1":  {
+                                                        "content":  "$1"
+                                                    }
+                                          }
+                     },
+    "Editor_SelectItem":  {
+                              "message":  "Select an item, or create one with \"New\"."
+                          },
+    "Editor_MultiSelected":  {
+                                 "message":  "$1$ items selected",
+                                 "placeholders":  {
+                                                      "1":  {
+                                                                "content":  "$1"
+                                                            }
+                                                  }
+                             },
+    "Editor_NewItem":  {
+                           "message":  "New: $1$",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Editor_Saved":  {
+                         "message":  "Saved"
+                     },
+    "Editor_Trashed":  {
+                           "message":  "Moved $1$ items to the trash (Ctrl+Z to undo)",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Editor_LoginStarted":  {
+                                "message":  "Started login in the browser"
+                            },
+    "Editor_DiscardConfirm":  {
+                                  "message":  "You have unsaved changes. Discard them?"
+                              },
+    "Editor_Discard":  {
+                           "message":  "Discard"
+                       },
+    "Cmd_New":  {
+                    "message":  "New ▼"
+                },
+    "Cmd_NewFolder":  {
+                          "message":  "New folder"
+                      },
+    "Cmd_Duplicate":  {
+                          "message":  "Duplicate"
+                      },
+    "Cmd_Rename":  {
+                       "message":  "Rename"
+                   },
+    "Cmd_Move":  {
+                     "message":  "Move"
+                 },
+    "Cmd_Delete":  {
+                       "message":  "Delete"
+                   },
+    "Cmd_Print":  {
+                      "message":  "Print"
+                  },
+    "Cmd_Undo":  {
+                     "message":  "Undo (Ctrl+Z)"
+                 },
+    "Cmd_Redo":  {
+                     "message":  "Redo (Ctrl+Y)"
+                 },
+    "Cmd_More":  {
+                     "message":  "More ▼"
+                 },
+    "Cmd_Generator":  {
+                          "message":  "Password generator"
+                      },
+    "Cmd_Settings":  {
+                         "message":  "Settings..."
+                     },
+    "Cmd_ExtHelp":  {
+                        "message":  "Install the browser extension"
+                    },
+    "Cmd_Lock":  {
+                     "message":  "Lock"
+                 },
+    "Cmd_Revert":  {
+                       "message":  "Revert changes"
+                   },
+    "Cmd_Show":  {
+                     "message":  "Show / hide"
+                 },
+    "Cmd_CopyPassword":  {
+                             "message":  "Copy password"
+                         },
+    "Cmd_Generate":  {
+                         "message":  "Generate password"
+                     },
+    "Cmd_GoTo":  {
+                     "message":  "Go"
+                 },
+    "Sort_Name":  {
+                      "message":  "Name"
+                  },
+    "Sort_Modified":  {
+                          "message":  "Modified"
+                      },
+    "Sort_Usage":  {
+                       "message":  "Usage"
+                   },
+    "View_All":  {
+                     "message":  "All"
+                 },
+    "View_Logins":  {
+                        "message":  "Logins"
+                    },
+    "View_Identities":  {
+                            "message":  "Profiles"
+                        },
+    "View_Notes":  {
+                       "message":  "Notes"
+                   },
+    "View_Favorites":  {
+                           "message":  "Favorites"
+                       },
+    "View_Trash":  {
+                       "message":  "Trash"
+                   },
+    "Type_Login":  {
+                       "message":  "Login"
+                   },
+    "Type_Bookmark":  {
+                          "message":  "Bookmark"
+                      },
+    "Type_AppLogin":  {
+                          "message":  "App login"
+                      },
+    "Type_Identity":  {
+                          "message":  "Profile"
+                      },
+    "Type_Contact":  {
+                         "message":  "Contact"
+                     },
+    "Type_Note":  {
+                      "message":  "Note"
+                  },
+    "Type_Folder":  {
+                        "message":  "Folder"
+                    },
+    "Badge_1":  {
+                    "message":  "Lg"
+                },
+    "Badge_2":  {
+                    "message":  "Bk"
+                },
+    "Badge_3":  {
+                    "message":  "Sr"
+                },
+    "Badge_4":  {
+                    "message":  "Ap"
+                },
+    "Badge_5":  {
+                    "message":  "ID"
+                },
+    "Badge_6":  {
+                    "message":  "Ct"
+                },
+    "Badge_7":  {
+                    "message":  "Nt"
+                },
+    "Badge_8":  {
+                    "message":  "📁"
+                },
+    "Item_Name":  {
+                      "message":  "Name"
+                  },
+    "Item_Folder":  {
+                        "message":  "Folder"
+                    },
+    "Item_Favorite":  {
+                          "message":  "Favorite"
+                      },
+    "Item_Corrupt":  {
+                         "message":  "Corrupted"
+                     },
+    "Item_CorruptBody":  {
+                             "message":  "This item cannot be read (the file is damaged or was modified). Other items are not affected. Restore from a backup or delete it permanently."
+                         },
+    "Folder_Root":  {
+                        "message":  "/ (root)"
+                    },
+    "Folder_NewSub":  {
+                          "message":  "New subfolder..."
+                      },
+    "Folder_Delete":  {
+                          "message":  "Move folder to trash"
+                      },
+    "Folder_DeleteConfirm":  {
+                                 "message":  "Move folder \"$1$\" and its $2$ items to the trash?",
+                                 "placeholders":  {
+                                                      "1":  {
+                                                                "content":  "$1"
+                                                            },
+                                                      "2":  {
+                                                                "content":  "$2"
+                                                            }
+                                                  }
+                             },
+    "Folder_NamePrompt":  {
+                              "message":  "Folder name"
+                          },
+    "Folder_NewOption":  {
+                             "message":  "New folder..."
+                         },
+    "Move_Title":  {
+                       "message":  "Move $1$ items to",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "Menu_Login":  {
+                       "message":  "Log in"
+                   },
+    "Menu_LoginCurrent":  {
+                              "message":  "Log in in current window"
+                          },
+    "Menu_LoginWindow":  {
+                             "message":  "Log in in new window"
+                         },
+    "Menu_GoFill":  {
+                        "message":  "Open and fill"
+                    },
+    "Menu_Go":  {
+                    "message":  "Go"
+                },
+    "Menu_BatchLogin":  {
+                            "message":  "Log in to all"
+                        },
+    "Menu_CopyUrl":  {
+                         "message":  "Copy URL"
+                     },
+    "Menu_Favorite":  {
+                          "message":  "Add to favorites"
+                      },
+    "Menu_Unfavorite":  {
+                            "message":  "Remove from favorites"
+                        },
+    "Batch_Confirm":  {
+                          "message":  "Open $1$ logins, each in a new tab. Continue?",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Clip_Copied":  {
+                        "message":  "Copied $1$ items",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Clip_Cut":  {
+                     "message":  "Cut $1$ items",
+                     "placeholders":  {
+                                          "1":  {
+                                                    "content":  "$1"
+                                                }
+                                      }
+                 },
+    "Clip_Pasted":  {
+                        "message":  "Pasted $1$ items",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Trash_Note":  {
+                       "message":  "Trashed items are kept for 30 days. Permanent deletion cannot be undone."
+                   },
+    "Trash_Empty":  {
+                        "message":  "Empty trash..."
+                    },
+    "Trash_ItemNote":  {
+                           "message":  "This item is in the trash (moved $1$).",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Trash_Restore":  {
+                          "message":  "Restore"
+                      },
+    "Trash_Restored":  {
+                           "message":  "Restored $1$ items",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Trash_Purge":  {
+                        "message":  "Delete permanently..."
+                    },
+    "Trash_PurgeConfirm":  {
+                               "message":  "Permanently delete these $1$ items? This cannot be undone.\n\n$2$",
+                               "placeholders":  {
+                                                    "1":  {
+                                                              "content":  "$1"
+                                                          },
+                                                    "2":  {
+                                                              "content":  "$2"
+                                                          }
+                                                }
+                           },
+    "Trash_Purged":  {
+                         "message":  "Permanently deleted $1$ items",
+                         "placeholders":  {
+                                              "1":  {
+                                                        "content":  "$1"
+                                                    }
+                                          }
+                     },
+    "Login_Url":  {
+                      "message":  "URL"
+                  },
+    "Login_MatchLevel":  {
+                             "message":  "Match level"
+                         },
+    "Match_Domain":  {
+                         "message":  "Domain (default)"
+                     },
+    "Match_Host":  {
+                       "message":  "Exact host"
+                   },
+    "Match_Prefix":  {
+                         "message":  "URL prefix"
+                     },
+    "Match_Exact":  {
+                        "message":  "Exact URL"
+                    },
+    "Login_Advanced":  {
+                           "message":  "Advanced"
+                       },
+    "Login_MatchUrl":  {
+                           "message":  "Match URL"
+                       },
+    "Login_MatchUrlHint":  {
+                               "message":  "If empty, the URL above is used."
+                           },
+    "Login_MatchUrlPlaceholder":  {
+                                      "message":  "e.g. https://example.com"
+                                  },
+    "Login_Fields":  {
+                         "message":  "Fields"
+                     },
+    "Fields_Name":  {
+                        "message":  "Name"
+                    },
+    "Fields_Id":  {
+                      "message":  "ID"
+                  },
+    "Fields_Value":  {
+                         "message":  "Value"
+                     },
+    "Fields_Kind":  {
+                        "message":  "Type"
+                    },
+    "Fields_Role":  {
+                        "message":  "Role"
+                    },
+    "Fields_Add":  {
+                       "message":  "+ Add field"
+                   },
+    "Fields_Remove":  {
+                          "message":  "Remove"
+                      },
+    "Field_Password":  {
+                           "message":  "Password"
+                       },
+    "Kind_text":  {
+                      "message":  "Text"
+                  },
+    "Kind_password":  {
+                          "message":  "Password"
+                      },
+    "Kind_checkbox":  {
+                          "message":  "Checkbox"
+                      },
+    "Kind_radio":  {
+                       "message":  "Radio"
+                   },
+    "Kind_textarea":  {
+                          "message":  "Text area"
+                      },
+    "Kind_select":  {
+                        "message":  "Select"
+                    },
+    "Role_None":  {
+                      "message":  "(none)"
+                  },
+    "Role_User":  {
+                      "message":  "User ID"
+                  },
+    "Role_Password":  {
+                          "message":  "Password"
+                      },
+    "Role_NewPassword":  {
+                             "message":  "New password"
+                         },
+    "Role_Otp":  {
+                     "message":  "One-time code"
+                 },
+    "Login_NoSubmit":  {
+                           "message":  "Do not submit after filling"
+                       },
+    "Login_BasicAuth":  {
+                            "message":  "Use for browser Basic authentication dialogs"
+                        },
+    "Login_Totp":  {
+                       "message":  "TOTP key"
+                   },
+    "Login_TotpHint":  {
+                           "message":  "Base32 key or an otpauth:// URI"
+                       },
+    "Totp_FromQr":  {
+                        "message":  "Read from a QR code image..."
+                    },
+    "Totp_QrPick":  {
+                        "message":  "Choose a QR code image"
+                    },
+    "Totp_ImageFilter":  {
+                             "message":  "Images"
+                         },
+    "Totp_ClickCopy":  {
+                           "message":  "Click to copy"
+                       },
+    "Totp_Remain":  {
+                        "message":  "$1$ s left",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Login_Note":  {
+                       "message":  "Note"
+                   },
+    "Login_Hint":  {
+                       "message":  "Hint (shown when logging in)"
+                   },
+    "Login_Chain":  {
+                        "message":  "Multi-page login"
+                    },
+    "Login_ChainHint":  {
+                            "message":  "For logins that span several pages, choose other logins to fill before and after this one."
+                        },
+    "Chain_Previous":  {
+                           "message":  "Fill before this login"
+                       },
+    "Chain_Next":  {
+                       "message":  "Fill after this login"
+                   },
+    "Chain_Add":  {
+                      "message":  "Add..."
+                  },
+    "Login_History":  {
+                          "message":  "Password history ($1$)",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "App_ExePath":  {
+                        "message":  "Executable path"
+                    },
+    "App_WindowTitle":  {
+                            "message":  "Window title"
+                        },
+    "Note_Mono":  {
+                      "message":  "Use monospace font"
+                  },
+    "Identity_Country":  {
+                             "message":  "Country"
+                         },
+    "Country_JP":  {
+                       "message":  "Japan"
+                   },
+    "Country_US":  {
+                       "message":  "United States"
+                   },
+    "Identity_Instance":  {
+                              "message":  "Entry"
+                          },
+    "Identity_DefaultInstance":  {
+                                     "message":  "Default"
+                                 },
+    "Identity_AddInstance":  {
+                                 "message":  "Add entry"
+                             },
+    "Identity_RemoveInstance":  {
+                                    "message":  "Remove this entry"
+                                },
+    "Identity_InstanceName":  {
+                                  "message":  "Name (e.g. Work card)"
+                              },
+    "Identity_RemoveInstanceConfirm":  {
+                                           "message":  "Remove \"$1$\"?",
+                                           "placeholders":  {
+                                                                "1":  {
+                                                                          "content":  "$1"
+                                                                      }
+                                                            }
+                                       },
+    "Custom_Hint":  {
+                        "message":  "Custom fields. If you add a regular expression, only form fields whose name matches it are filled."
+                    },
+    "Custom_Key":  {
+                       "message":  "Key"
+                   },
+    "Custom_Value":  {
+                         "message":  "Value"
+                     },
+    "Custom_Match":  {
+                         "message":  "Matching regex"
+                     },
+    "Group_Person":  {
+                         "message":  "Person"
+                     },
+    "Group_Business":  {
+                           "message":  "Business"
+                       },
+    "Group_Address":  {
+                          "message":  "Address"
+                      },
+    "Group_CreditCard":  {
+                             "message":  "Credit card"
+                         },
+    "Group_BankAccount":  {
+                              "message":  "Bank account"
+                          },
+    "Group_Passport":  {
+                           "message":  "Passport"
+                       },
+    "Group_Car":  {
+                      "message":  "Car"
+                  },
+    "Group_Custom":  {
+                         "message":  "Custom"
+                     },
+    "Field_Title":  {
+                        "message":  "Title"
+                    },
+    "Field_FirstName":  {
+                            "message":  "First name"
+                        },
+    "Field_MiddleName":  {
+                             "message":  "Middle name"
+                         },
+    "Field_LastName":  {
+                           "message":  "Last name"
+                       },
+    "Field_FirstNameKana":  {
+                                "message":  "First name (kana)"
+                            },
+    "Field_LastNameKana":  {
+                               "message":  "Last name (kana)"
+                           },
+    "Field_FullName":  {
+                           "message":  "Full name"
+                       },
+    "Field_Sex":  {
+                      "message":  "Sex"
+                  },
+    "Field_BirthDay":  {
+                           "message":  "Birth day"
+                       },
+    "Field_BirthMonth":  {
+                             "message":  "Birth month"
+                         },
+    "Field_BirthYear":  {
+                            "message":  "Birth year"
+                        },
+    "Field_Age":  {
+                      "message":  "Age"
+                  },
+    "Field_BirthPlace":  {
+                             "message":  "Birth place"
+                         },
+    "Field_Email":  {
+                        "message":  "Email"
+                    },
+    "Field_HomePhone":  {
+                            "message":  "Home phone"
+                        },
+    "Field_WorkPhone":  {
+                            "message":  "Work phone"
+                        },
+    "Field_CellPhone":  {
+                            "message":  "Mobile phone"
+                        },
+    "Field_Fax":  {
+                      "message":  "Fax"
+                  },
+    "Field_SkypeId":  {
+                          "message":  "Skype ID"
+                      },
+    "Field_Website":  {
+                          "message":  "Website"
+                      },
+    "Field_Income":  {
+                         "message":  "Income"
+                     },
+    "Field_SocialSecurityNumber":  {
+                                       "message":  "Social security number"
+                                   },
+    "Field_DriverLicenseNumber":  {
+                                      "message":  "Driver license number"
+                                  },
+    "Field_DriverLicenseState":  {
+                                     "message":  "Driver license state"
+                                 },
+    "Field_DriverLicenseExpiresDay":  {
+                                          "message":  "License expires (day)"
+                                      },
+    "Field_DriverLicenseExpiresMonth":  {
+                                            "message":  "License expires (month)"
+                                        },
+    "Field_DriverLicenseExpiresYear":  {
+                                           "message":  "License expires (year)"
+                                       },
+    "Field_Company":  {
+                          "message":  "Company"
+                      },
+    "Field_CompanyKana":  {
+                              "message":  "Company (kana)"
+                          },
+    "Field_Department":  {
+                             "message":  "Department"
+                         },
+    "Field_Position":  {
+                           "message":  "Position"
+                       },
+    "Field_CompanyPhone":  {
+                               "message":  "Company phone"
+                           },
+    "Field_TollFreePhone":  {
+                                "message":  "Toll-free phone"
+                            },
+    "Field_CompanyFax":  {
+                             "message":  "Company fax"
+                         },
+    "Field_CompanyWebsite":  {
+                                 "message":  "Company website"
+                             },
+    "Field_TaxId":  {
+                        "message":  "Tax ID"
+                    },
+    "Field_CompanyVATNumber":  {
+                                   "message":  "VAT number"
+                               },
+    "Field_EmployerIdNumber":  {
+                                   "message":  "Employer ID number"
+                               },
+    "Field_TypeOfBusiness":  {
+                                 "message":  "Type of business"
+                             },
+    "Field_CompanyRegistrationNumber":  {
+                                            "message":  "Registration number"
+                                        },
+    "Field_PassportNumber":  {
+                                 "message":  "Passport number"
+                             },
+    "Field_IssueDate":  {
+                            "message":  "Issue date"
+                        },
+    "Field_ExpirationDate":  {
+                                 "message":  "Expiration date"
+                             },
+    "Field_IssuePlace":  {
+                             "message":  "Issue place"
+                         },
+    "Field_AddressLine1":  {
+                               "message":  "Address line 1"
+                           },
+    "Field_AddressLine2":  {
+                               "message":  "Address line 2"
+                           },
+    "Field_AddressLine3":  {
+                               "message":  "Address line 3"
+                           },
+    "Field_StreetName":  {
+                             "message":  "Street"
+                         },
+    "Field_HouseNumber":  {
+                              "message":  "House number"
+                          },
+    "Field_AptNumber":  {
+                            "message":  "Apartment"
+                        },
+    "Field_City":  {
+                       "message":  "City"
+                   },
+    "Field_County":  {
+                         "message":  "County"
+                     },
+    "Field_District":  {
+                           "message":  "District"
+                       },
+    "Field_StateOrProvince":  {
+                                  "message":  "State / province"
+                              },
+    "Field_ZipOrPostCode":  {
+                                "message":  "ZIP / postal code"
+                            },
+    "Field_Country":  {
+                          "message":  "Country"
+                      },
+    "Field_CountryCode":  {
+                              "message":  "Country code"
+                          },
+    "Field_CardType":  {
+                           "message":  "Card type"
+                       },
+    "Field_CardNumber":  {
+                             "message":  "Card number"
+                         },
+    "Field_CardHolderName":  {
+                                 "message":  "Card holder"
+                             },
+    "Field_CardExpiresMonth":  {
+                                   "message":  "Expires (month)"
+                               },
+    "Field_CardExpiresYear":  {
+                                  "message":  "Expires (year)"
+                              },
+    "Field_CardValidFromMonth":  {
+                                     "message":  "Valid from (month)"
+                                 },
+    "Field_CardValidFromYear":  {
+                                    "message":  "Valid from (year)"
+                                },
+    "Field_CardValidationCode":  {
+                                     "message":  "Security code"
+                                 },
+    "Field_CardPIN":  {
+                          "message":  "PIN"
+                      },
+    "Field_CardIssuingBank":  {
+                                  "message":  "Issuing bank"
+                              },
+    "Field_CardCustomerServicePhone":  {
+                                           "message":  "Customer service phone"
+                                       },
+    "Field_BankName":  {
+                           "message":  "Bank name"
+                       },
+    "Field_AccountNumber":  {
+                                "message":  "Account number"
+                            },
+    "Field_AccountType":  {
+                              "message":  "Account type"
+                          },
+    "Field_RoutingNumber":  {
+                                "message":  "Routing number"
+                            },
+    "Field_SwiftCode":  {
+                            "message":  "SWIFT code"
+                        },
+    "Field_IBAN":  {
+                       "message":  "IBAN"
+                   },
+    "Field_AccountOwner":  {
+                               "message":  "Account owner"
+                           },
+    "Field_BankPIN":  {
+                          "message":  "Bank PIN"
+                      },
+    "Field_BankAddress":  {
+                              "message":  "Bank address"
+                          },
+    "Field_BankPhone":  {
+                            "message":  "Bank phone"
+                        },
+    "Field_CarMake":  {
+                          "message":  "Make"
+                      },
+    "Field_CarModel":  {
+                           "message":  "Model"
+                       },
+    "Field_CarYear":  {
+                          "message":  "Year"
+                      },
+    "Field_CarPlateNumber":  {
+                                 "message":  "Plate number"
+                             },
+    "Field_CarPlateState":  {
+                                "message":  "Plate state"
+                            },
+    "Field_VIN":  {
+                      "message":  "VIN"
+                  },
+    "PassGen_Output":  {
+                           "message":  "Generated password"
+                       },
+    "PassGen_Generate":  {
+                             "message":  "Generate"
+                         },
+    "PassGen_Copy":  {
+                         "message":  "Copy"
+                     },
+    "PassGen_Type":  {
+                         "message":  "Type into field"
+                     },
+    "PassGen_OnTop":  {
+                          "message":  "Always on top"
+                      },
+    "PassGen_Mode":  {
+                         "message":  "Mode"
+                     },
+    "PassGen_Mode_Random":  {
+                                "message":  "Random"
+                            },
+    "PassGen_Mode_Passphrase":  {
+                                    "message":  "Passphrase"
+                                },
+    "PassGen_Options":  {
+                            "message":  "Options"
+                        },
+    "PassGen_Length":  {
+                           "message":  "Length (4–512)"
+                       },
+    "PassGen_Upper":  {
+                          "message":  "Uppercase A-Z"
+                      },
+    "PassGen_Lower":  {
+                          "message":  "Lowercase a-z"
+                      },
+    "PassGen_Digits":  {
+                           "message":  "Digits 0-9"
+                       },
+    "PassGen_Symbols":  {
+                            "message":  "Symbols"
+                        },
+    "PassGen_SymbolChars":  {
+                                "message":  "Symbol characters"
+                            },
+    "PassGen_HexOnly":  {
+                            "message":  "Hex only (0-9 A-F)"
+                        },
+    "PassGen_ExcludeSimilar":  {
+                                   "message":  "Exclude look-alikes (Il1O0o)"
+                               },
+    "PassGen_RequireEach":  {
+                                "message":  "Include at least one of each type"
+                            },
+    "PassGen_Words":  {
+                          "message":  "Words (3–12)"
+                      },
+    "PassGen_Separator":  {
+                              "message":  "Separator"
+                          },
+    "PassGen_Capitalize":  {
+                               "message":  "Capitalize each word"
+                           },
+    "PassGen_AddNumber":  {
+                              "message":  "Append a number"
+                          },
+    "PassGen_WordlistCredit":  {
+                                   "message":  "Word list: EFF Large Wordlist (CC-BY 3.0)"
+                               },
+    "PassGen_Reset":  {
+                          "message":  "Reset to defaults"
+                      },
+    "PassGen_History":  {
+                            "message":  "History (last 20)"
+                        },
+    "PassGen_HistoryShow":  {
+                                "message":  "Show passwords"
+                            },
+    "PassGen_HistoryClear":  {
+                                 "message":  "Clear history"
+                             },
+    "PassGen_HistoryClearConfirm":  {
+                                        "message":  "Clear the entire generation history?"
+                                    },
+    "PassGen_HistoryEmpty":  {
+                                 "message":  "(empty)"
+                             },
+    "PassGen_HistoryLocked":  {
+                                  "message":  "Unlock to see the history."
+                              },
+    "Search_Placeholder":  {
+                               "message":  "Search (name, URL, user ID)"
+                           },
+    "Search_Help":  {
+                        "message":  "↑↓ select / Enter log in or open / Esc close"
+                    },
+    "Pref_Saved":  {
+                       "message":  "Settings saved."
+                   },
+    "Pref_RestartNote":  {
+                             "message":  "The language change applies to windows you open from now on."
+                         },
+    "Pref_Phase2_Note":  {
+                             "message":  "This feature arrives in a later version. The setting is saved."
+                         },
+    "Pref_Reauth_Note":  {
+                             "message":  "Printing and exporting always require re-entering the master password (cannot be changed)."
+                         },
+    "Pref_Tab_general":  {
+                             "message":  "General"
+                         },
+    "Pref_Tab_autofill":  {
+                              "message":  "Auto-fill"
+                          },
+    "Pref_Tab_autosave":  {
+                              "message":  "Auto-save"
+                          },
+    "Pref_Tab_apps":  {
+                          "message":  "Apps"
+                      },
+    "Pref_Tab_security":  {
+                              "message":  "Security"
+                          },
+    "Pref_Tab_sync":  {
+                          "message":  "Sync"
+                      },
+    "Pref_Tab_domains":  {
+                             "message":  "Domains"
+                         },
+    "Pref_Tab_hotkeys":  {
+                             "message":  "Hotkeys"
+                         },
+    "Pref_Tab_backup":  {
+                            "message":  "Backup"
+                        },
+    "Pref_general_language":  {
+                                  "message":  "Language"
+                              },
+    "Pref_general_startWithWindows":  {
+                                          "message":  "Start TKRForm when Windows starts"
+                                      },
+    "Pref_general_sortOrder":  {
+                                   "message":  "Order of logins"
+                               },
+    "Pref_opt_sort_auto":  {
+                               "message":  "Automatic (favorites, use count, last used)"
+                           },
+    "Pref_opt_sort_count":  {
+                                "message":  "Use count"
+                            },
+    "Pref_opt_sort_recent":  {
+                                 "message":  "Last used"
+                             },
+    "Pref_autofill_mode":  {
+                               "message":  "Auto-fill mode"
+                           },
+    "Pref_opt_fill_off":  {
+                              "message":  "Do not fill"
+                          },
+    "Pref_opt_fill_suggest":  {
+                                  "message":  "Suggest (default)"
+                              },
+    "Pref_opt_fill_auto":  {
+                               "message":  "Fill without asking when there is one match"
+                           },
+    "Pref_autofill_target":  {
+                                 "message":  "Suggest"
+                             },
+    "Pref_opt_target_both":  {
+                                 "message":  "Logins and profiles"
+                             },
+    "Pref_opt_target_logins":  {
+                                   "message":  "Logins only"
+                               },
+    "Pref_opt_target_identities":  {
+                                       "message":  "Profiles only"
+                                   },
+    "Pref_autofill_onlyOnPasswordPages":  {
+                                              "message":  "Suggest logins only on pages with a password field"
+                                          },
+    "Pref_autofill_minIdentityFields":  {
+                                            "message":  "Minimum fields required to fill an profile"
+                                        },
+    "Pref_autofill_includeContacts":  {
+                                          "message":  "Also suggest contacts"
+                                      },
+    "Pref_autofill_basicAuth":  {
+                                    "message":  "Fill browser Basic authentication dialogs"
+                                },
+    "Pref_autofill_inlineMenu":  {
+                                     "message":  "Show the inline menu in input fields"
+                                 },
+    "Pref_autosave_mode":  {
+                               "message":  "Auto-save mode"
+                           },
+    "Pref_opt_save_off":  {
+                              "message":  "Do not save"
+                          },
+    "Pref_opt_save_suggest":  {
+                                  "message":  "Suggest (default)"
+                              },
+    "Pref_opt_save_auto":  {
+                               "message":  "Save without asking"
+                           },
+    "Pref_autosave_forceDialog":  {
+                                      "message":  "Force the save dialog with Alt+click / Shift+Enter"
+                                  },
+    "Pref_autosave_excludeUrls":  {
+                                      "message":  "URLs never to save (one per line)"
+                                  },
+    "Pref_autosave_excludeUrls_Hint":  {
+                                           "message":  "A domain name or part of a URL."
+                                       },
+    "Pref_apps_linkApps":  {
+                               "message":  "Link with Windows apps"
+                           },
+    "Pref_apps_ignoredApps":  {
+                                  "message":  "Apps not to link (one per line)"
+                              },
+    "Pref_apps_allowExec":  {
+                                "message":  "Allow launching executables from app logins"
+                            },
+    "Pref_apps_allowExec_Hint":  {
+                                     "message":  "Risky: when on, saved executables can be launched."
+                                 },
+    "Pref_security_autoLockMinutes":  {
+                                          "message":  "Auto-lock after inactivity"
+                                      },
+    "Pref_opt_min_1":  {
+                           "message":  "1 minute"
+                       },
+    "Pref_opt_min_5":  {
+                           "message":  "5 minutes"
+                       },
+    "Pref_opt_min_15":  {
+                            "message":  "15 minutes"
+                        },
+    "Pref_opt_min_30":  {
+                            "message":  "30 minutes"
+                        },
+    "Pref_opt_min_60":  {
+                            "message":  "60 minutes (default)"
+                        },
+    "Pref_opt_min_240":  {
+                             "message":  "240 minutes"
+                         },
+    "Pref_opt_unlimited":  {
+                               "message":  "Never"
+                           },
+    "Pref_security_lockOnSessionLock":  {
+                                            "message":  "Lock when Windows locks / user switches"
+                                        },
+    "Pref_security_lockOnScreensaver":  {
+                                            "message":  "Lock when the screen saver starts"
+                                        },
+    "Pref_security_lockOnSuspend":  {
+                                        "message":  "Lock on sleep / hibernate"
+                                    },
+    "Pref_security_lockOnBrowsersClosed":  {
+                                               "message":  "Lock when all browsers are closed"
+                                           },
+    "Pref_security_rememberMp":  {
+                                     "message":  "Remember the master password on this PC (protected by Windows DPAPI)"
+                                 },
+    "Pref_security_rememberMp_Hint":  {
+                                          "message":  "When on, the vault unlocks automatically for this Windows user."
+                                      },
+    "Pref_security_iterations":  {
+                                     "message":  "Encryption iterations"
+                                 },
+    "Pref_security_iterations_Hint":  {
+                                          "message":  "Applied the next time you change the master password."
+                                      },
+    "Pref_security_clipboardClearSecs":  {
+                                             "message":  "Seconds before the clipboard is cleared (0 = never)"
+                                         },
+    "Pref_sync_enabled":  {
+                              "message":  "Use a sync server"
+                          },
+    "Pref_sync_serverUrl":  {
+                                "message":  "Sync server URL"
+                            },
+    "Pref_equivDomains":  {
+                              "message":  "Equivalent domains (one group per line, comma separated)"
+                          },
+    "Pref_equivDomains_Hint":  {
+                                   "message":  "e.g. amazon.co.jp, amazon.com"
+                               },
+    "Pref_hotkeys_search":  {
+                                "message":  "Search"
+                            },
+    "Pref_hotkeys_search_Hint":  {
+                                     "message":  "e.g. Ctrl+Alt+S"
+                                 },
+    "Pref_hotkeys_saveApp":  {
+                                 "message":  "Save app login"
+                             },
+    "Pref_hotkeys_lock":  {
+                              "message":  "Lock"
+                          },
+    "Pref_backup_auto":  {
+                             "message":  "Automatic backup (daily)"
+                         },
+    "Pref_backup_generations":  {
+                                    "message":  "Generations to keep"
+                                },
+    "MP_Change":  {
+                      "message":  "Change master password"
+                  },
+    "MP_Old":  {
+                   "message":  "Current master password"
+               },
+    "MP_New":  {
+                   "message":  "New master password"
+               },
+    "MP_Confirm":  {
+                       "message":  "Confirm new master password"
+                   },
+    "MP_Changed":  {
+                       "message":  "Master password changed"
+                   },
+    "Backup_Now":  {
+                       "message":  "Back up now"
+                   },
+    "Backup_Check":  {
+                         "message":  "Check integrity"
+                     },
+    "Backup_CheckOk":  {
+                           "message":  "All items could be read."
+                       },
+    "Backup_CheckBad":  {
+                            "message":  "$1$ items are corrupted. They are marked \"Corrupted\" in the Editor.",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Backup_Done":  {
+                        "message":  "Backup created: $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Backup_List":  {
+                        "message":  "Backups"
+                    },
+    "Backup_None":  {
+                        "message":  "(none yet)"
+                    },
+    "Backup_Restore":  {
+                           "message":  "Restore..."
+                       },
+    "Backup_RestoreConfirm":  {
+                                  "message":  "Restore from \"$1$\"? The current vault is backed up automatically first. You will be locked out and need to log in again. Continue?",
+                                  "placeholders":  {
+                                                       "1":  {
+                                                                 "content":  "$1"
+                                                             }
+                                                   }
+                              },
+    "Backup_Restored":  {
+                            "message":  "Restored. The vault is locked; please log in again."
+                        },
+    "Ext_Name":  {
+                     "message":  "TKRForm Password Manager"
+                 },
+    "Ext_Description":  {
+                            "message":  "Works with the TKRForm desktop app to auto-fill and auto-save passwords."
+                        },
+    "Ext_Cmd_Popup":  {
+                          "message":  "Open the TKRForm popup"
+                      },
+    "Ext_Cmd_Fill":  {
+                         "message":  "Fill with the top match"
+                     },
+    "Ext_Cmd_Generate":  {
+                             "message":  "Generate a password"
+                         },
+    "Ext_Menu_Fill":  {
+                          "message":  "Fill (matching login)"
+                      },
+    "Ext_Menu_Generate":  {
+                              "message":  "Generate password"
+                          },
+    "Ext_Menu_SavePage":  {
+                              "message":  "Save this page"
+                          },
+    "Ext_Menu_Lock":  {
+                          "message":  "Lock"
+                      },
+    "Ext_Title_Locked":  {
+                             "message":  "TKRForm (locked)"
+                         },
+    "Ext_Title_Disconnected":  {
+                                   "message":  "TKRForm (not connected)"
+                               },
+    "Ext_NotConnected":  {
+                             "message":  "Cannot connect to the TKRForm app. Check that it is installed and can start."
+                         },
+    "Ext_Timeout":  {
+                        "message":  "No response from TKRForm"
+                    },
+    "Ext_Reconnect":  {
+                          "message":  "Reconnect"
+                      },
+    "Ext_MasterPassword":  {
+                               "message":  "Master password"
+                           },
+    "Ext_Unlock":  {
+                       "message":  "Unlock"
+                   },
+    "Ext_Lock":  {
+                     "message":  "Lock"
+                 },
+    "Ext_Locked":  {
+                       "message":  "Locked"
+                   },
+    "Ext_Settings":  {
+                         "message":  "Settings"
+                     },
+    "Ext_StartPage":  {
+                          "message":  "Home"
+                      },
+    "Ext_SearchPlaceholder":  {
+                                  "message":  "Search name, URL or user ID"
+                              },
+    "Ext_Tab_Site":  {
+                         "message":  "This site"
+                     },
+    "Ext_Tab_Logins":  {
+                           "message":  "Logins"
+                       },
+    "Ext_Tab_Identities":  {
+                               "message":  "Profiles"
+                           },
+    "Ext_Tab_Notes":  {
+                          "message":  "Notes"
+                      },
+    "Ext_NoMatches":  {
+                          "message":  "No matching items for this site"
+                      },
+    "Ext_NoItems":  {
+                        "message":  "No items"
+                    },
+    "Ext_Logins":  {
+                       "message":  "Logins"
+                   },
+    "Ext_Identities":  {
+                           "message":  "Profiles"
+                       },
+    "Ext_Totp":  {
+                     "message":  "One-time code (TOTP)"
+                 },
+    "Ext_Act_Login":  {
+                          "message":  "Log in"
+                      },
+    "Ext_Act_Fill":  {
+                         "message":  "Fill"
+                     },
+    "Ext_Act_GoFill":  {
+                           "message":  "Open and fill"
+                       },
+    "Ext_Menu_Button":  {
+                            "message":  "Menu"
+                        },
+    "Ext_Menu_PassGen":  {
+                             "message":  "Generate password"
+                         },
+    "Ext_Menu_Edit":  {
+                          "message":  "Edit"
+                      },
+    "Ext_Menu_About":  {
+                           "message":  "About"
+                       },
+    "Ext_About_Version":  {
+                              "message":  "Version $1$",
+                              "placeholders":  {
+                                                   "1":  {
+                                                             "content":  "$1"
+                                                         }
+                                               }
+                          },
+    "Ext_About_Copyright":  {
+                                "message":  "(c) Takara Syscom"
+                            },
+    "Ext_Back":  {
+                     "message":  "← Back"
+                 },
+    "PassGen_Details":  {
+                            "message":  "Options ▼"
+                        },
+    "PassGen_DetailsClose":  {
+                                 "message":  "Options ▲"
+                             },
+    "Ext_Save_NameEmpty":  {
+                               "message":  "Enter a name."
+                           },
+    "Ext_Save_NameDup":  {
+                             "message":  "A login with the same name already exists in this folder. Choose a different name."
+                         },
+    "Ext_Frequent_Empty":  {
+                               "message":  "No frequently used logins yet. Use a login from ABC and it will appear here."
+                           },
+    "Start_Count":  {
+                        "message":  "$1$ logins",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Start_All":  {
+                      "message":  "All logins ($1$)",
+                      "placeholders":  {
+                                           "1":  {
+                                                     "content":  "$1"
+                                                 }
+                                       }
+                  },
+    "Start_Results":  {
+                          "message":  "Search results ($1$)",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Ext_Act_FillMatch":  {
+                              "message":  "Fill (matching login)"
+                          },
+    "Ext_Err_PageMismatch":  {
+                                 "message":  "This page does not match $1$.",
+                                 "placeholders":  {
+                                                      "1":  {
+                                                                "content":  "$1"
+                                                            }
+                                                  }
+                             },
+    "Ext_Act_Open":  {
+                         "message":  "Open"
+                     },
+    "Ext_Act_CopyUser":  {
+                             "message":  "Copy user ID"
+                         },
+    "Ext_Act_CopyPassword":  {
+                                 "message":  "Copy password"
+                             },
+    "Ext_Act_CopyTotp":  {
+                             "message":  "Copy TOTP code"
+                         },
+    "Ext_Act_Edit":  {
+                         "message":  "Edit"
+                     },
+    "Ext_Err_Generic":  {
+                            "message":  "Something went wrong"
+                        },
+    "Ext_Err_Mismatch":  {
+                             "message":  "Not filled: the page URL does not match this login"
+                         },
+    "Ext_Err_NoForm":  {
+                           "message":  "No fillable form was found on this page"
+                       },
+    "Ext_Err_FormEmpty":  {
+                              "message":  "No password has been entered. Fill in the form, then save"
+                          },
+    "Ext_Popup_SaveForm":  {
+                               "message":  "Save form entries"
+                           },
+    "Ext_Popup_SaveForm_Tip":  {
+                                   "message":  "Save the ID and password entered in this page\u0027s form as a login"
+                               },
+    "Ext_Folder_Up":  {
+                          "message":  "Up one folder"
+                      },
+    "Ext_Err_NoIdentityFields":  {
+                                     "message":  "No fillable fields were found on this page"
+                                 },
+    "Ext_Save_Title":  {
+                           "message":  "Save this password?"
+                       },
+    "Ext_Save_TitleUpdate":  {
+                                 "message":  "Update this password?"
+                             },
+    "Ext_Save_TitleSignup":  {
+                                 "message":  "Save this new account?"
+                             },
+    "Ext_Save_TitleChange":  {
+                                 "message":  "Save the changed password?"
+                             },
+    "Ext_Save_Name":  {
+                          "message":  "Name"
+                      },
+    "Ext_Save_Folder":  {
+                            "message":  "Folder"
+                        },
+    "Ext_Save_Root":  {
+                          "message":  "/ (root)"
+                      },
+    "Ext_Save_AsNew":  {
+                           "message":  "Save as a new login instead of updating"
+                       },
+    "Ext_Save_Update":  {
+                            "message":  "Update"
+                        },
+    "Ext_Save_Skip":  {
+                          "message":  "Not now"
+                      },
+    "Ext_Save_Never":  {
+                           "message":  "Never for this site"
+                       },
+    "Ext_Save_NeedUnlock":  {
+                                "message":  "Unlock to save."
+                            },
+    "Ext_Save_Saved":  {
+                           "message":  "Saved to TKRForm"
+                       },
+    "Ext_Save_Updated":  {
+                             "message":  "Updated the password in TKRForm"
+                         },
+    "Ext_Opt_Autofill":  {
+                             "message":  "Auto-fill"
+                         },
+    "Ext_Opt_Autosave":  {
+                             "message":  "Auto-save"
+                         },
+    "Ext_Opt_Domains":  {
+                            "message":  "Equivalent domains"
+                        },
+    "Ext_Opt_DomainsHint":  {
+                                "message":  "Domains to treat as the same site (one group per line, comma separated. e.g. amazon.co.jp, amazon.com)"
+                            },
+    "Ext_Opt_Home":  {
+                         "message":  "Home"
+                     },
+    "Ext_Opt_HomeIcons":  {
+                              "message":  "Show site icons on Home (fetched from each site)"
+                          },
+    "Ext_Opt_HomeIconsNote":  {
+                                  "message":  "When on, TKRForm connects to each saved site to fetch its top page and icon image (no cookies are sent). When off (the default), nothing is fetched, and Home shows the icons Chrome already has, or the first letter of the name."
+                              },
+    "Ext_Home_IconsOff":  {
+                              "message":  "To show site icons, turn it on in Settings."
+                          },
+    "Ext_Home_IconsOffLink":  {
+                                  "message":  "Open Settings"
+                              },
+    "Ext_Opt_HomeIconsClear":  {
+                                   "message":  "Clear the icon cache"
+                               },
+    "Ext_Opt_HomeIconsCleared":  {
+                                     "message":  "The icon cache was cleared."
+                                 },
+    "Ext_Opt_Shortcuts":  {
+                              "message":  "Keyboard shortcuts"
+                          },
+    "Ext_Opt_ShortcutsNote":  {
+                                  "message":  "To change them, open chrome://extensions/shortcuts (edge://extensions/shortcuts in Edge)."
+                              },
+    "Ext_Opt_NeedUnlock":  {
+                               "message":  "Unlock TKRForm to change settings."
+                           },
+    "Ext_Opt_Connected":  {
+                              "message":  "Connected to the TKRForm app v$1$.",
+                              "placeholders":  {
+                                                   "1":  {
+                                                             "content":  "$1"
+                                                         }
+                                               }
+                          },
+    "Sync_Url":  {
+                     "message":  "Sync server URL"
+                 },
+    "Sync_Email":  {
+                       "message":  "Email (account)"
+                   },
+    "Sync_Password":  {
+                          "message":  "Master password (to confirm)"
+                      },
+    "Sync_Https_Note":  {
+                            "message":  "Your master password and plain data are never sent. Only encrypted data is uploaded. The URL must start with https://."
+                        },
+    "Sync_Register":  {
+                          "message":  "Create an account with this vault"
+                      },
+    "Sync_Login":  {
+                       "message":  "Log in to an existing account"
+                   },
+    "Sync_Now":  {
+                     "message":  "Sync now"
+                 },
+    "Sync_Disconnect":  {
+                            "message":  "Stop syncing..."
+                        },
+    "Sync_DisconnectConfirm":  {
+                                   "message":  "Stop syncing on this device? The server token is revoked and this device\u0027s sync records (sync.json and sync.token) are deleted. Your vault data stays on this device."
+                               },
+    "Sync_Connected":  {
+                           "message":  "Connected to the sync server"
+                       },
+    "Sync_Report":  {
+                        "message":  "Synced (received $1$ / sent $2$ / conflicts $3$)",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   },
+                                             "2":  {
+                                                       "content":  "$2"
+                                                   },
+                                             "3":  {
+                                                       "content":  "$3"
+                                                   }
+                                         }
+                    },
+    "Sync_Status_Off":  {
+                            "message":  "Sync is off."
+                        },
+    "Sync_Status_On":  {
+                           "message":  "Sync is on."
+                       },
+    "Sync_Status_Ok":  {
+                           "message":  "Sync is on (last sync: $1$)",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Sync_Status_Error":  {
+                              "message":  "Sync error: $1$",
+                              "placeholders":  {
+                                                   "1":  {
+                                                             "content":  "$1"
+                                                         }
+                                               }
+                          },
+    "Setup_Sync_Create":  {
+                              "message":  "Create a new account (upload this vault)"
+                          },
+    "Setup_Sync_Join":  {
+                            "message":  "Join an existing account (use the vault on the server)"
+                        },
+    "Setup_Sync_Required":  {
+                                "message":  "Enter the sync server URL and email."
+                            },
+    "Setup_Sync_Failed":  {
+                              "message":  "The vault was created, but setting up sync failed: $1$",
+                              "placeholders":  {
+                                                   "1":  {
+                                                             "content":  "$1"
+                                                         }
+                                               }
+                          },
+    "AppSave_Title":  {
+                          "message":  "Save a Windows app login"
+                      },
+    "AppSave_Heading":  {
+                            "message":  "Save a Windows app login"
+                        },
+    "AppSave_PasswordNote":  {
+                                 "message":  "Password fields cannot be read from the app. Enter the password to save below."
+                             },
+    "AppSave_TitleMatch":  {
+                               "message":  "Window title (fill only when part of it matches)"
+                           },
+    "AppSave_Use":  {
+                        "message":  "Save"
+                    },
+    "AppSave_Submit":  {
+                           "message":  "Press the login button after filling"
+                       },
+    "AppSave_NoFields":  {
+                             "message":  "No input fields were found."
+                         },
+    "Tray_Apps_Menu":  {
+                           "message":  "App logins"
+                       },
+    "Menu_FillApp":  {
+                         "message":  "Fill into app"
+                     },
+    "App_Filled":  {
+                       "message":  "Filled $1$ fields",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "App_Help":  {
+                     "message":  "To fill, bring the app to the front and choose it from the tray \"App logins\" menu or quick search. Nothing is filled unless the exe name and window title match."
+                 },
+    "Security_Title":  {
+                           "message":  "Security Center"
+                       },
+    "Tray_Security":  {
+                          "message":  "Security Center"
+                      },
+    "Cmd_Security":  {
+                         "message":  "Security Center"
+                     },
+    "Sec_Score":  {
+                      "message":  "Score"
+                  },
+    "Sec_ScoreBody":  {
+                          "message":  "Checked $1$ logins. The fewer weak, reused or old passwords, the higher the score.",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Sec_Tab_Weak":  {
+                         "message":  "Weak"
+                     },
+    "Sec_Tab_Reused":  {
+                           "message":  "Reused"
+                       },
+    "Sec_Tab_Old":  {
+                        "message":  "Old"
+                    },
+    "Sec_Tab_Dups":  {
+                         "message":  "Duplicates"
+                     },
+    "Sec_Tab_Breach":  {
+                           "message":  "Breached"
+                       },
+    "Sec_Tab_Off":  {
+                        "message":  "Off"
+                    },
+    "Sec_Desc_Weak":  {
+                          "message":  "Passwords with a strength under 50 bits. Make them longer and use more kinds of characters."
+                      },
+    "Sec_Desc_Reused":  {
+                            "message":  "The same password is used by two or more logins. If one leaks, the others are at risk too."
+                        },
+    "Sec_Desc_Old":  {
+                         "message":  "Logins whose password has not changed for 365 days or more."
+                     },
+    "Sec_Desc_Dups":  {
+                          "message":  "Two or more logins have the same URL and user ID."
+                      },
+    "Sec_Desc_Breach":  {
+                            "message":  "Checks whether your saved passwords appear in known leaks."
+                        },
+    "Sec_NoIssues":  {
+                         "message":  "No problems were found"
+                     },
+    "Sec_GroupReused":  {
+                            "message":  "Same password ($1$ logins)",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_GroupDup":  {
+                         "message":  "Same URL and user ID ($1$ logins)",
+                         "placeholders":  {
+                                              "1":  {
+                                                        "content":  "$1"
+                                                    }
+                                          }
+                     },
+    "Sec_Changed":  {
+                        "message":  "Changed: $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Sec_Corrupt":  {
+                        "message":  "$1$ corrupted items were not included in the check.",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Sec_Open":  {
+                     "message":  "Open"
+                 },
+    "Sec_Rescan":  {
+                       "message":  "Scan again"
+                   },
+    "Sec_Breach":  {
+                       "message":  "Breach check"
+                   },
+    "Sec_BreachOff":  {
+                          "message":  "Breach check is off. When on, it checks whether your saved passwords appear in known leaks."
+                      },
+    "Sec_BreachEnable":  {
+                             "message":  "Enable breach check..."
+                         },
+    "Sec_BreachDisable":  {
+                              "message":  "Turn off breach check"
+                          },
+    "Sec_BreachRun":  {
+                          "message":  "Check for breaches"
+                      },
+    "Sec_BreachConsentTitle":  {
+                                   "message":  "Consent for breach check"
+                               },
+    "Sec_BreachConsentBody":  {
+                                  "message":  "This feature queries the Have I Been Pwned (Pwned Passwords) service.\n\n- Your passwords are never sent. Only the first 5 characters of each password\u0027s SHA-1 hash are sent, and the matching is done on this PC (k-anonymity).\n- Which item a hash belongs to is not sent.\n- Destination: api.pwnedpasswords.com (https)\n\nTurn it on? You can turn it off at any time."
+                              },
+    "Sec_BreachConsentOk":  {
+                                "message":  "Agree and enable"
+                            },
+    "Sec_BreachDone":  {
+                           "message":  "Checked $1$ logins.",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Sec_BreachFound":  {
+                            "message":  "Passwords found in leaks ($1$)",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_BreachCount":  {
+                            "message":  "$1$ times",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_BreachClean":  {
+                            "message":  "No leaked passwords were found."
+                        },
+    "Hello_Unlock":  {
+                         "message":  "Unlock with Windows Hello"
+                     },
+    "Hello_Title":  {
+                        "message":  "Unlock with Windows Hello"
+                    },
+    "Hello_Unsupported":  {
+                              "message":  "Windows Hello is not available on this PC. Set up a PIN or biometrics in Windows settings."
+                          },
+    "Hello_On":  {
+                     "message":  "You can unlock with Windows Hello."
+                 },
+    "Hello_Off":  {
+                      "message":  "Unlocking with Windows Hello is off."
+                  },
+    "Hello_Note":  {
+                       "message":  "When on, you can unlock with a Windows Hello check (PIN, face or fingerprint) instead of the master password. Turn it on again after changing the master password."
+                   },
+    "Hello_Enable":  {
+                         "message":  "Enable Windows Hello"
+                     },
+    "Hello_Enabled":  {
+                          "message":  "Windows Hello is enabled"
+                      },
+    "Hello_Disable":  {
+                          "message":  "Stop using Windows Hello..."
+                      },
+    "Hello_DisableConfirm":  {
+                                 "message":  "Stop unlocking with Windows Hello? The registered credential and this vault\u0027s hello.key are deleted. You can still unlock with the master password."
+                             },
+    "Import_Format_onepassword":  {
+                                      "message":  "Format: 1Password CSV"
+                                  },
+    "Import_Format_lastpass":  {
+                                   "message":  "Format: LastPass CSV"
+                               },
+    "Import_Format_dashlane":  {
+                                   "message":  "Format: Dashlane CSV"
+                               },
+    "Import_Format_keeper":  {
+                                 "message":  "Format: Keeper CSV (no header row)"
+                             },
+    "Import_Format_keepass":  {
+                                  "message":  "Format: KeePass / KeePassXC CSV"
+                              },
+    "Import_Format_bitwardencsv":  {
+                                       "message":  "Format: Bitwarden CSV"
+                                   },
+    "Import_Source":  {
+                          "message":  "Source"
+                      },
+    "Import_Source_Auto":  {
+                               "message":  "Auto-detect"
+                           },
+    "Import_Source_Keeper":  {
+                                 "message":  "Keeper (CSV without header row)"
+                             },
+    "Tray_Update":  {
+                        "message":  "Check for updates..."
+                    },
+    "Pref_general_checkUpdates":  {
+                                      "message":  "Check for updates at startup and every 24 hours"
+                                  },
+    "Pref_general_checkUpdates_Hint":  {
+                                           "message":  "When on, TKRForm asks the distribution server whether a new version is available. When off, nothing is sent automatically (it asks only when you press \"Check now\")."
+                                       },
+    "Pref_general_updateUrl":  {
+                                   "message":  "Update info (latest.json) URL"
+                               },
+    "Pref_general_updateUrl_Hint":  {
+                                        "message":  "When empty, latest.json next to the sync server is used. Without a sync server, no check is made."
+                                    },
+    "Upd_Check":  {
+                      "message":  "Check now"
+                  },
+    "Upd_Latest":  {
+                       "message":  "You are up to date (v$1$)",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "Upd_Available":  {
+                          "message":  "Version $1$ is available",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Upd_Confirm":  {
+                        "message":  "Update to v$1$?\n\n$2$\n\nThe download is verified with SHA-256 and only run if it matches. TKRForm quits before the installer runs.",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   },
+                                             "2":  {
+                                                       "content":  "$2"
+                                                   }
+                                         }
+                    },
+    "Upd_Install":  {
+                        "message":  "Download and update"
+                    },
+    "Folder_Move":  {
+                        "message":  "Move..."
+                    },
+    "Folder_MoveTitle":  {
+                             "message":  "Move folder \"$1$\" to",
+                             "placeholders":  {
+                                                  "1":  {
+                                                            "content":  "$1"
+                                                        }
+                                              }
+                         },
+    "Folder_Moved":  {
+                         "message":  "Folder moved (Ctrl+Z to undo)"
+                     },
+    "Ext_Popup_Frequent":  {
+                               "message":  "Frequently used"
+                           },
+    "Hello_Waiting":  {
+                          "message":  "Waiting for Windows Hello. Verify with your PIN, face or fingerprint in the dialog."
+                      },
+    "Ext_Hello_Unlock":  {
+                             "message":  "Unlock with Windows Hello"
+                         },
+    "Ext_Hello_Waiting":  {
+                              "message":  "Waiting for Windows Hello..."
+                          },
+    "Ext_Hello_Or":  {
+                         "message":  "or unlock with the master password"
+                     },
+    "Hello_RegisteredDisabled":  {
+                                     "message":  "Windows Hello is registered but turned off (the setting may have been lost). Turn it back on to use it for unlocking, after a Windows Hello check."
+                                 },
+    "Hello_Reenable":  {
+                           "message":  "Turn back on"
+                       },
+    "Pk_Create_Title":  {
+                            "message":  "Save a passkey in TKRForm"
+                        },
+    "Pk_Create_Lead":  {
+                           "message":  "Save a passkey for $1$ in tkrform. You can sign in with it next time.",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Pk_Get_Title":  {
+                         "message":  "Sign in with a passkey"
+                     },
+    "Pk_Get_Lead":  {
+                        "message":  "Sign in to $1$ with a passkey saved in tkrform.",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Pk_Save":  {
+                    "message":  "Save"
+                },
+    "Pk_Use":  {
+                   "message":  "Sign in"
+               },
+    "Pk_Other":  {
+                     "message":  "Use another method"
+                 },
+    "Pk_Cancel":  {
+                      "message":  "Cancel"
+                  },
+    "Pk_Verifying":  {
+                         "message":  "Verifying... (follow the Windows Hello prompt if it appears)"
+                     },
+    "Pk_Password_Label":  {
+                              "message":  "Master password"
+                          },
+    "Pk_Password_Needed":  {
+                               "message":  "Enter your master password to use the passkey."
+                           },
+    "Pk_Password_Bad":  {
+                            "message":  "The master password is incorrect."
+                        },
+    "Pk_Uv_Failed":  {
+                         "message":  "Windows Hello could not verify you. Verify with your master password."
+                     },
+    "Pk_Locked":  {
+                      "message":  "TKRForm is locked."
+                  },
+    "Pk_Error":  {
+                     "message":  "The passkey could not be processed."
+                 },
+    "Pk_Section":  {
+                       "message":  "Passkeys ($1$)",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "Pk_Created":  {
+                       "message":  "Created: $1$",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "Pk_LastUsed":  {
+                        "message":  "Last used: $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Pk_NeverUsed":  {
+                         "message":  "Never used"
+                     },
+    "Pk_Delete":  {
+                      "message":  "Delete passkey"
+                  },
+    "Pk_DeleteConfirm":  {
+                             "message":  "If you delete this passkey, you may no longer be able to sign in to that site. Delete it?"
+                         },
+    "Pk_Deleted":  {
+                       "message":  "Passkey deleted"
+                   },
+    "Pk_Badge":  {
+                     "message":  "Has a passkey"
+                 },
+    "Pref_autofill_passkeys":  {
+                                   "message":  "Save website passkeys in TKRForm and use them to sign in"
+                               },
+    "Pref_autofill_passkeyExclude":  {
+                                         "message":  "Sites where passkeys are not handled (one per line)"
+                                     },
+    "Pref_autofill_passkeyExclude_Hint":  {
+                                              "message":  "A domain name or part of a URL. On these sites the browser built-in passkey UI is used."
+                                          },
+    "Legal_Trademarks":  {
+                             "message":  "RoboForm is a trademark of Siber Systems, Inc. TKRForm is not affiliated with Siber Systems, Inc. 1Password, LastPass, Dashlane, Keeper, KeePass, Bitwarden, Chrome, Edge, Firefox, Windows Hello and other names are trademarks or registered trademarks of their respective owners."
+                         },
+    "Reset_Button":  {
+                         "message":  "Reset everything..."
+                     },
+    "Reset_Title":  {
+                        "message":  "Reset everything"
+                    },
+    "Reset_Warn":  {
+                       "message":  "This deletes ALL TKRForm data:\n\n- the vault (all logins, profiles, notes, ...)\n- settings, the sync connection and the Windows Hello registration\n\nBackups (the default folder and any folder you chose) are NOT deleted. You can restore from them after the reset.\n\nDeleted data cannot be recovered otherwise."
+                   },
+    "Reset_Next":  {
+                       "message":  "Continue"
+                   },
+    "Reset_Reauth":  {
+                         "message":  "Enter your master password to reset everything. All data will be deleted immediately."
+                     },
+    "Backup_Dir":  {
+                       "message":  "Backup folder"
+                   },
+    "Backup_DirChange":  {
+                             "message":  "Change..."
+                         },
+    "Backup_DirReset":  {
+                            "message":  "Reset to default"
+                        },
+    "Backup_DirPick":  {
+                           "message":  "Choose a folder for backups"
+                       },
+    "Backup_DirChanged":  {
+                              "message":  "Backup folder changed. Existing backups were not moved or deleted."
+                          },
+    "Backup_LastError":  {
+                             "message":  "The automatic backup failed: $1$",
+                             "placeholders":  {
+                                                  "1":  {
+                                                            "content":  "$1"
+                                                        }
+                                              }
+                         },
+    "Backup_Previous":  {
+                            "message":  "$1$ backups remain in a previous folder: $2$",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       },
+                                                 "2":  {
+                                                           "content":  "$2"
+                                                       }
+                                             }
+                        },
+    "Backup_Loc_Default":  {
+                               "message":  "default folder"
+                           },
+    "Backup_Loc_Previous":  {
+                                "message":  "previous folder"
+                            },
+    "Backup_Loc_Picked":  {
+                              "message":  "selected folder"
+                          },
+    "Backup_RestoreFromFolder":  {
+                                     "message":  "Restore from a folder..."
+                                 },
+    "Backup_RestorePickTitle":  {
+                                    "message":  "Choose the folder that contains the backups"
+                                },
+    "Backup_RestoreNone":  {
+                               "message":  "No TKRForm backups (yyyyMMdd-HHmmss.tkb) were found in this folder: $1$",
+                               "placeholders":  {
+                                                    "1":  {
+                                                              "content":  "$1"
+                                                          }
+                                                }
+                           },
+    "Pk_Cond_Heading":  {
+                            "message":  "Passkeys"
+                        }
+}

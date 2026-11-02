@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TKRForm</title>
+<link rel="stylesheet" href="common.css">
+<link rel="stylesheet" href="editor.css">
+</head>
+<body>
+<div id="app">
+  <div id="toolbar" role="toolbar" data-i18n-aria="Editor_Toolbar">
+    <button type="button" id="b-new" aria-haspopup="menu" data-i18n="Cmd_New"></button>
+    <button type="button" id="b-newfolder" data-i18n="Cmd_NewFolder"></button>
+    <button type="button" id="b-dup" data-i18n="Cmd_Duplicate"></button>
+    <button type="button" id="b-rename" data-i18n="Cmd_Rename"></button>
+    <button type="button" id="b-move" data-i18n="Cmd_Move"></button>
+    <button type="button" id="b-delete" class="danger" data-i18n="Cmd_Delete"></button>
+    <button type="button" id="b-print" data-i18n="Cmd_Print"></button>
+    <span class="sep"></span>
+    <button type="button" id="b-undo" class="icon" data-i18n-title="Cmd_Undo" data-i18n-aria="Cmd_Undo">↶</button>
+    <button type="button" id="b-redo" class="icon" data-i18n-title="Cmd_Redo" data-i18n-aria="Cmd_Redo">↷</button>
+    <div class="grow"></div>
+    <input type="search" id="q" data-i18n-ph="Editor_SearchPlaceholder" data-i18n-aria="Editor_SearchPlaceholder" autocomplete="off">
+    <button type="button" id="b-more" aria-haspopup="menu" data-i18n="Cmd_More"></button>
+  </div>
+  <div id="panes">
+    <nav id="left" data-i18n-aria="Editor_Nav">
+      <ul id="views" role="listbox"></ul>
+      <div class="pane-title" id="folders-title" data-i18n="Editor_Folders"></div>
+      <ul id="tree" role="tree"></ul>
+    </nav>
+    <section id="middle">
+      <div id="list-head" class="row">
+        <span id="list-count" class="sub grow" role="status"></span>
+        <label class="sub" for="sort" data-i18n="Editor_Sort"></label>
+        <select id="sort">
+          <option value="name" data-i18n="Sort_Name"></option>
+          <option value="modified" data-i18n="Sort_Modified"></option>
+          <option value="usage" data-i18n="Sort_Usage"></option>
+        </select>
+      </div>
+      <div id="trash-bar" class="hidden msg warn row">
+        <span class="grow" data-i18n="Trash_Note"></span>
+        <button type="button" id="b-empty-trash" class="danger" data-i18n="Trash_Empty"></button>
+      </div>
+      <div id="list" tabindex="0" role="listbox" aria-multiselectable="true" data-i18n-aria="Editor_List"><div id="spacer"></div></div>
+    </section>
+    <section id="detail" aria-live="polite"></section>
+  </div>
+</div>
+<div id="print-area"></div>
+<script src="common.js"></script>
+<script src="editor-forms.js"></script>
+<script src="editor-dialogs.js"></script>
+<script src="editor.js"></script>
+</body>
+</html>

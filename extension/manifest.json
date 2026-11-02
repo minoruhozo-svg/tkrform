@@ -1,0 +1,57 @@
+{
+  "manifest_version": 3,
+  "name": "__MSG_Ext_Name__",
+  "version": "0.2.0",
+  "description": "__MSG_Ext_Description__",
+  "default_locale": "ja",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAo1GmTFecBdvkuBPtyvLjOiaHJnkwsU9DV8XzZEFDOjgP69oRMhZpQNGjk9jsZ6NdmbE+2DEzGf82K3ndybLS6f02DqOFqFpTnyV15oLA5OW4JciFUL1Rgn6fCkmmAJQjC24yhPRqb1s2b4XVXyr89nGi9prOoFQUZXdLLX0uVdvNRUSDF56FMy9dbANOpNZR5jos4NdgVWxvXrLHlzhPFG8XbEis/0oz8aDYg7OxQcFpBSccC8d9HsDAqmdIOEnxTE4tZmplNO2iEj8TsTJQv/ZKf8zuIwdqnBb/DlvnOVoMOOYaFHcQyzIaBUaS44u8VzGYsT1LmCjq7Al02fF8nQIDAQAB",
+  "minimum_chrome_version": "116",
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "TKRForm",
+    "default_icon": { "16": "icons/locked16.png", "32": "icons/locked32.png", "48": "icons/locked48.png", "128": "icons/locked128.png" }
+  },
+  "options_page": "options.html",
+  "background": { "service_worker": "bg.js", "type": "module" },
+  "permissions": ["tabs", "scripting", "storage", "unlimitedStorage", "favicon", "webNavigation", "webRequest", "webRequestAuthProvider", "contextMenus", "nativeMessaging", "idle"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["inject.js"],
+      "world": "MAIN",
+      "run_at": "document_start",
+      "all_frames": true
+    },
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "all_frames": true,
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["passkey.js"],
+      "all_frames": true,
+      "run_at": "document_start"
+    }
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+L" },
+      "description": "__MSG_Ext_Cmd_Popup__"
+    },
+    "fill-best": {
+      "suggested_key": { "default": "Alt+Shift+F" },
+      "description": "__MSG_Ext_Cmd_Fill__"
+    },
+    "generate": {
+      "suggested_key": { "default": "Alt+Shift+G" },
+      "description": "__MSG_Ext_Cmd_Generate__"
+    }
+  },
+  "web_accessible_resources": [
+    { "resources": ["save.html", "generator.html", "icons/icon16.png"], "matches": ["http://*/*", "https://*/*"] }
+  ]
+}

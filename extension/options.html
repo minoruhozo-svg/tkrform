@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>TKRForm</title>
+<link rel="stylesheet" href="ext.css">
+<style>
+  body { max-width: 640px; margin: 0 auto; padding: 20px 16px 40px; }
+  h1 { font-size: 20px; }
+  h2 { font-size: 15px; margin: 22px 0 8px; }
+  fieldset { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 12px 14px; }
+  kbd { font-family: var(--mono); background: var(--sky-light); border-radius: 4px; padding: 0 5px; }
+</style>
+</head>
+<body>
+<h1>TKRForm</h1>
+<div id="conn" class="msg"></div>
+<h2 data-i18n="Ext_Opt_Home"></h2>
+<fieldset class="col">
+  <label class="check"><input type="checkbox" id="home-icons"><span data-i18n="Ext_Opt_HomeIcons"></span></label>
+  <div class="sub" data-i18n="Ext_Opt_HomeIconsNote"></div>
+  <div class="row"><button type="button" id="icons-clear" data-i18n="Ext_Opt_HomeIconsClear"></button><span id="icons-msg" class="sub"></span></div>
+</fieldset>
+
+<h2 data-i18n="Ext_Opt_Autofill"></h2>
+<fieldset class="col" id="f-autofill"></fieldset>
+<h2 data-i18n="Ext_Opt_Autosave"></h2>
+<fieldset class="col" id="f-autosave"></fieldset>
+<h2 data-i18n="Ext_Opt_Domains"></h2>
+<fieldset class="col">
+  <label class="field"><span data-i18n="Ext_Opt_DomainsHint"></span><textarea id="equiv" rows="4"></textarea></label>
+</fieldset>
+<div class="row" style="margin-top:14px"><button type="button" id="save" class="primary" data-i18n="Common_Save"></button><span id="saved" class="sub"></span></div>
+
+<h2 data-i18n="Ext_Opt_Shortcuts"></h2>
+<div class="col sub">
+  <div><kbd>Alt+Shift+L</kbd> <span data-i18n="Ext_Cmd_Popup"></span></div>
+  <div><kbd>Alt+Shift+F</kbd> <span data-i18n="Ext_Cmd_Fill"></span></div>
+  <div><kbd>Alt+Shift+G</kbd> <span data-i18n="Ext_Cmd_Generate"></span></div>
+  <div data-i18n="Ext_Opt_ShortcutsNote"></div>
+</div>
+<script src="ext.js"></script>
+<script src="options.js"></script>
+</body>
+</html>

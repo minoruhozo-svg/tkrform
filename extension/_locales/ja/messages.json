@@ -1,0 +1,2575 @@
+{
+    "Lang_Code":  {
+                      "message":  "ja"
+                  },
+    "App_Name":  {
+                     "message":  "TKRForm"
+                 },
+    "Common_OK":  {
+                      "message":  "OK"
+                  },
+    "Common_Cancel":  {
+                          "message":  "キャンセル"
+                      },
+    "Common_Back":  {
+                        "message":  "戻る"
+                    },
+    "Common_Next":  {
+                        "message":  "次へ"
+                    },
+    "Common_Skip":  {
+                        "message":  "スキップ"
+                    },
+    "Common_Save":  {
+                        "message":  "保存"
+                    },
+    "Common_Use":  {
+                       "message":  "使う"
+                   },
+    "Common_Close":  {
+                         "message":  "閉じる"
+                     },
+    "Common_Notice":  {
+                          "message":  "お知らせ"
+                      },
+    "Common_Confirm":  {
+                           "message":  "確認"
+                       },
+    "Common_Copied":  {
+                          "message":  "コピーしました$1$",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Err_BadPassword":  {
+                            "message":  "マスターパスワードが違います"
+                        },
+    "Err_NameEmpty":  {
+                          "message":  "名前を入力してください"
+                      },
+    "Strength_Bits":  {
+                          "message":  "強度: $1$ ビット",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Reauth_Title":  {
+                         "message":  "マスターパスワードの確認"
+                     },
+    "Reauth_Message":  {
+                           "message":  "続けるにはマスターパスワードを入力してください。"
+                       },
+    "Lock_Message":  {
+                         "message":  "ロックされています。マスターパスワードを入力してください。"
+                     },
+    "Setup_Title":  {
+                        "message":  "TKRForm セットアップ"
+                    },
+    "Login_Title":  {
+                        "message":  "TKRForm ログイン"
+                    },
+    "Editor_Title":  {
+                         "message":  "TKRForm エディタ"
+                     },
+    "PassGen_Title":  {
+                          "message":  "パスワード生成器"
+                      },
+    "Search_Title":  {
+                         "message":  "TKRForm 検索"
+                     },
+    "Settings_Title":  {
+                           "message":  "TKRForm 設定"
+                       },
+    "About_Title":  {
+                        "message":  "TKRForm のバージョン情報"
+                    },
+    "ExtHelp_Title":  {
+                          "message":  "ブラウザ拡張の導入"
+                      },
+    "Tray_Tooltip_Locked":  {
+                                "message":  "TKRForm（ロック中）"
+                            },
+    "Tray_Tooltip_Unlocked":  {
+                                  "message":  "TKRForm"
+                              },
+    "Tray_Logins_Menu":  {
+                             "message":  "ログイン"
+                         },
+    "Tray_Identities_Menu":  {
+                                 "message":  "プロフィール"
+                             },
+    "Tray_Notes_Menu":  {
+                            "message":  "メモ"
+                        },
+    "Tray_Empty":  {
+                       "message":  "（なし）"
+                   },
+    "Tray_More":  {
+                      "message":  "…ほか $1$ 件（エディタで表示）",
+                      "placeholders":  {
+                                           "1":  {
+                                                     "content":  "$1"
+                                                 }
+                                       }
+                  },
+    "Tray_Search":  {
+                        "message":  "検索..."
+                    },
+    "Tray_OpenEditor":  {
+                            "message":  "エディタを開く"
+                        },
+    "Tray_PassGen":  {
+                         "message":  "パスワード生成器"
+                     },
+    "Tray_Sync":  {
+                      "message":  "今すぐ同期"
+                  },
+    "Tray_Lock":  {
+                      "message":  "ロック"
+                  },
+    "Tray_Login":  {
+                       "message":  "ログイン..."
+                   },
+    "Tray_Settings":  {
+                          "message":  "設定..."
+                      },
+    "Tray_Help":  {
+                      "message":  "ヘルプ"
+                  },
+    "Tray_ExtensionHelp":  {
+                               "message":  "ブラウザ拡張の導入方法"
+                           },
+    "Tray_About":  {
+                       "message":  "バージョン情報"
+                   },
+    "Tray_Quit":  {
+                      "message":  "終了"
+                  },
+    "About_Version":  {
+                          "message":  "バージョン $1$",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "About_Body":  {
+                       "message":  "Windows 向けのパスワード管理とフォーム自動記入ソフトウェアです。データは暗号化され、この PC の中だけに保存されます。"
+                   },
+    "About_DataDir":  {
+                          "message":  "データの場所: $1$",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "About_Licenses":  {
+                           "message":  "パスフレーズ用の単語表は EFF Large Wordlist（CC-BY 3.0）、公開サフィックスは Public Suffix List（MPL-2.0）を使用しています。"
+                       },
+    "Login_Heading":  {
+                          "message":  "TKRForm ログイン"
+                      },
+    "Login_Password":  {
+                           "message":  "マスターパスワード"
+                       },
+    "Login_Button":  {
+                         "message":  "ログイン"
+                     },
+    "Login_ShowHint":  {
+                           "message":  "ヒントを表示"
+                       },
+    "Login_HintLabel":  {
+                            "message":  "ヒント: $1$",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Login_NoVault":  {
+                          "message":  "保管庫がまだ作成されていません。セットアップを先に行ってください。"
+                      },
+    "Setup_Heading":  {
+                          "message":  "TKRForm セットアップ"
+                      },
+    "Setup_Welcome_Title":  {
+                                "message":  "ようこそ"
+                            },
+    "Setup_Welcome_Body":  {
+                               "message":  "TKRForm はパスワードの保管とフォームの自動記入を行います。はじめに、保管庫を守るマスターパスワードを決めます。"
+                           },
+    "Setup_Welcome_Point1":  {
+                                 "message":  "データは暗号化され、この PC の外には出ません。"
+                             },
+    "Setup_Welcome_Point2":  {
+                                 "message":  "マスターパスワードは保存されません。忘れると復元できません。"
+                             },
+    "Setup_Welcome_Point3":  {
+                                 "message":  "設定はあとから変更できます。"
+                             },
+    "Setup_Storage_Title":  {
+                                "message":  "保存先"
+                            },
+    "Setup_Storage_Local":  {
+                                "message":  "ローカルのみ"
+                            },
+    "Setup_Storage_LocalDesc":  {
+                                    "message":  "この PC にだけ保存します。"
+                                },
+    "Setup_Storage_Sync":  {
+                               "message":  "同期サーバを使う"
+                           },
+    "Setup_Storage_SyncDesc":  {
+                                   "message":  "複数の PC で共有します。"
+                               },
+    "Setup_MP_Title":  {
+                           "message":  "マスターパスワード"
+                       },
+    "Setup_MP_Body":  {
+                          "message":  "長くて、ほかで使っていない文章のようなものがおすすめです。"
+                      },
+    "Setup_MP_Input":  {
+                           "message":  "マスターパスワード"
+                       },
+    "Setup_MP_Confirm":  {
+                             "message":  "もう一度入力"
+                         },
+    "Setup_MP_Empty":  {
+                           "message":  "マスターパスワードを入力してください。"
+                       },
+    "Setup_MP_Mismatch":  {
+                              "message":  "2 回の入力が一致しません。"
+                          },
+    "Setup_MP_Weak":  {
+                          "message":  "強度が 50 ビット未満です。長くするか、「それでも使う」にチェックしてください。"
+                      },
+    "Setup_MP_WeakOk":  {
+                            "message":  "弱いと分かった上で、このパスワードを使う"
+                        },
+    "Setup_MP_Advanced":  {
+                              "message":  "詳細設定"
+                          },
+    "Setup_MP_Iterations":  {
+                                "message":  "暗号化の反復回数"
+                            },
+    "Setup_MP_IterationsNote":  {
+                                    "message":  "多いほど総当たりに強くなりますが、ロック解除に時間がかかります。"
+                                },
+    "Setup_Hint_Title":  {
+                             "message":  "マスターパスワードのヒント（任意）"
+                         },
+    "Setup_Hint_Warn":  {
+                            "message":  "ヒントは暗号化されず、平文で保存されます。パスワードそのものや、推測できる言葉は書かないでください。"
+                        },
+    "Setup_Hint_Input":  {
+                             "message":  "ヒント"
+                         },
+    "Setup_CreateButton":  {
+                               "message":  "保管庫を作成"
+                           },
+    "Setup_Created":  {
+                          "message":  "保管庫を作成しました。"
+                      },
+    "Setup_Ext_Title":  {
+                            "message":  "ブラウザ拡張の導入"
+                        },
+    "Setup_Ext_Step1":  {
+                            "message":  "Chrome または Edge で拡張機能のページを開き、「デベロッパー モード」をオンにします。"
+                        },
+    "Setup_Ext_Step2":  {
+                            "message":  "「パッケージ化されていない拡張機能を読み込む」を押し、下のフォルダを選びます。"
+                        },
+    "Setup_Ext_Step3":  {
+                            "message":  "ツールバーの TKRForm のアイコンを押して、ロック解除できることを確認します。"
+                        },
+    "Setup_Ext_Path":  {
+                           "message":  "拡張のフォルダ: $1$",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Setup_Ext_PathMissing":  {
+                                  "message":  "拡張のフォルダが見つかりません。インストール先の extension フォルダを選んでください。"
+                              },
+    "Setup_Ext_OpenFolder":  {
+                                 "message":  "フォルダを開く"
+                             },
+    "Setup_Ext_OpenChrome":  {
+                                 "message":  "Chrome の拡張機能ページ"
+                             },
+    "Setup_Ext_OpenEdge":  {
+                               "message":  "Edge の拡張機能ページ"
+                           },
+    "Setup_Ext_Note":  {
+                           "message":  "TKRForm との接続は自動で登録済みです。拡張を読み込んだあとブラウザを再起動する必要はありません。"
+                       },
+    "Setup_Import_Title":  {
+                               "message":  "他のソフトから取り込む"
+                           },
+    "Setup_Import_Body":  {
+                              "message":  "Chrome・Edge・Firefox・Bitwarden・汎用 CSV などのファイルを取り込めます。あとからでも実行できます。"
+                          },
+    "Setup_Import_Pick":  {
+                              "message":  "ファイルを選ぶ..."
+                          },
+    "Setup_Finish":  {
+                         "message":  "完了してエディタを開く"
+                     },
+    "Cmd_Import":  {
+                       "message":  "インポート..."
+                   },
+    "Cmd_Export":  {
+                       "message":  "エクスポート..."
+                   },
+    "Import_PickTitle":  {
+                             "message":  "取り込むファイルを選択"
+                         },
+    "Import_FileFilter":  {
+                              "message":  "CSV / JSON"
+                          },
+    "Import_CsvInfo":  {
+                           "message":  "$1$ 行",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Import_JsonInfo":  {
+                            "message":  "JSON ファイル"
+                        },
+    "Import_Format_chrome":  {
+                                 "message":  "形式: Chrome / Edge の CSV"
+                             },
+    "Import_Format_firefox":  {
+                                  "message":  "形式: Firefox の CSV"
+                              },
+    "Import_Format_roboform":  {
+                                   "message":  "形式: RoboForm のエクスポート CSV"
+                               },
+    "Import_Format_generic":  {
+                                  "message":  "形式: 汎用 CSV（列の対応付けを確認してください）"
+                              },
+    "Import_Kind_Bitwarden":  {
+                                  "message":  "形式: Bitwarden の JSON"
+                              },
+    "Import_Kind_Tkrform":  {
+                                "message":  "形式: TKRForm の JSON"
+                            },
+    "Import_Mapping":  {
+                           "message":  "列の対応付け"
+                       },
+    "Import_None":  {
+                        "message":  "（なし）"
+                    },
+    "Import_Col_Name":  {
+                            "message":  "名前"
+                        },
+    "Import_Col_Url":  {
+                           "message":  "URL"
+                       },
+    "Import_Col_User":  {
+                            "message":  "ユーザー ID"
+                        },
+    "Import_Col_Password":  {
+                                "message":  "パスワード"
+                            },
+    "Import_Col_Note":  {
+                            "message":  "メモ"
+                        },
+    "Import_Col_Folder":  {
+                              "message":  "フォルダ"
+                          },
+    "Import_Col_Totp":  {
+                            "message":  "TOTP キー"
+                        },
+    "Import_Sample":  {
+                          "message":  "先頭の行（パスワードは伏せています）"
+                      },
+    "Import_SkipDup":  {
+                           "message":  "同じ URL とユーザー ID が既にあるものは取り込まない"
+                       },
+    "Import_FolderNote":  {
+                              "message":  "取り込んだ項目は「インポート 日付」フォルダに入ります。"
+                          },
+    "Import_Run":  {
+                       "message":  "取り込む"
+                   },
+    "Import_Done":  {
+                        "message":  "$1$ 件を取り込みました（重複として除外: $2$ 件）。\n取り込み先: $3$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   },
+                                             "2":  {
+                                                       "content":  "$2"
+                                                   },
+                                             "3":  {
+                                                       "content":  "$3"
+                                                   }
+                                         }
+                    },
+    "Import_DupList":  {
+                           "message":  "重複として除外した項目:\n$1$",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Export_Csv":  {
+                       "message":  "CSV（UTF-8、BOM 付き。ログインのみ）"
+                   },
+    "Export_Json":  {
+                        "message":  "TKRForm JSON（平文、全種別）"
+                    },
+    "Export_Tkb":  {
+                       "message":  "TKRForm 暗号化バックアップ（.tkb）"
+                   },
+    "Export_TkbFilter":  {
+                             "message":  "TKRForm バックアップ"
+                         },
+    "Export_PlainWarning":  {
+                                "message":  "CSV と JSON は、保護されていないファイルとして出力します。保管場所と処分に注意してください。パスキーの秘密鍵は CSV・JSON には含まれません（暗号化バックアップ .tkb には含まれます）。"
+                            },
+    "Export_Reauth":  {
+                          "message":  "平文で出力するため、マスターパスワードを入力してください。"
+                      },
+    "Export_Done":  {
+                        "message":  "書き出しました: $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Export_SkippedCorrupt":  {
+                                  "message":  "破損していた $1$ 件は含まれていません。",
+                                  "placeholders":  {
+                                                       "1":  {
+                                                                 "content":  "$1"
+                                                             }
+                                                   }
+                              },
+    "Print_Count":  {
+                        "message":  "$1$ 件を印刷します。",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Print_IncludePasswords":  {
+                                   "message":  "パスワードも印刷する"
+                               },
+    "Print_Warning":  {
+                          "message":  "印刷した紙は、安全な場所に保管し、不要になったら細断してください。"
+                      },
+    "Print_Reauth":  {
+                         "message":  "印刷するため、マスターパスワードを入力してください。"
+                     },
+    "Print_Nothing":  {
+                          "message":  "印刷できるログインまたはブックマークがありません"
+                      },
+    "Print_User":  {
+                       "message":  "ユーザー ID"
+                   },
+    "Editor_Toolbar":  {
+                           "message":  "ツールバー"
+                       },
+    "Editor_Nav":  {
+                       "message":  "種別とフォルダ"
+                   },
+    "Editor_List":  {
+                        "message":  "アイテムの一覧"
+                    },
+    "Editor_Folders":  {
+                           "message":  "フォルダ"
+                       },
+    "Editor_NoFolders":  {
+                             "message":  "（フォルダはありません）"
+                         },
+    "Editor_Sort":  {
+                        "message":  "並べ替え"
+                    },
+    "Editor_SearchPlaceholder":  {
+                                     "message":  "検索 (Ctrl+F)"
+                                 },
+    "Editor_Count":  {
+                         "message":  "$1$ 件",
+                         "placeholders":  {
+                                              "1":  {
+                                                        "content":  "$1"
+                                                    }
+                                          }
+                     },
+    "Editor_SelectItem":  {
+                              "message":  "アイテムを選ぶか、「新規」から作成してください。"
+                          },
+    "Editor_MultiSelected":  {
+                                 "message":  "$1$ 件を選択中",
+                                 "placeholders":  {
+                                                      "1":  {
+                                                                "content":  "$1"
+                                                            }
+                                                  }
+                             },
+    "Editor_NewItem":  {
+                           "message":  "新規: $1$",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Editor_Saved":  {
+                         "message":  "保存しました"
+                     },
+    "Editor_Trashed":  {
+                           "message":  "$1$ 件をゴミ箱へ移しました（Ctrl+Z で元に戻せます）",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Editor_LoginStarted":  {
+                                "message":  "ブラウザでログインを開始しました"
+                            },
+    "Editor_DiscardConfirm":  {
+                                  "message":  "保存していない変更があります。破棄しますか？"
+                              },
+    "Editor_Discard":  {
+                           "message":  "破棄する"
+                       },
+    "Cmd_New":  {
+                    "message":  "新規 ▼"
+                },
+    "Cmd_NewFolder":  {
+                          "message":  "新規フォルダ"
+                      },
+    "Cmd_Duplicate":  {
+                          "message":  "複製"
+                      },
+    "Cmd_Rename":  {
+                       "message":  "名前変更"
+                   },
+    "Cmd_Move":  {
+                     "message":  "移動"
+                 },
+    "Cmd_Delete":  {
+                       "message":  "削除"
+                   },
+    "Cmd_Print":  {
+                      "message":  "印刷"
+                  },
+    "Cmd_Undo":  {
+                     "message":  "元に戻す (Ctrl+Z)"
+                 },
+    "Cmd_Redo":  {
+                     "message":  "やり直し (Ctrl+Y)"
+                 },
+    "Cmd_More":  {
+                     "message":  "その他 ▼"
+                 },
+    "Cmd_Generator":  {
+                          "message":  "パスワード生成器"
+                      },
+    "Cmd_Settings":  {
+                         "message":  "設定..."
+                     },
+    "Cmd_ExtHelp":  {
+                        "message":  "ブラウザ拡張の導入方法"
+                    },
+    "Cmd_Lock":  {
+                     "message":  "ロック"
+                 },
+    "Cmd_Revert":  {
+                       "message":  "変更を取り消す"
+                   },
+    "Cmd_Show":  {
+                     "message":  "表示 / 非表示"
+                 },
+    "Cmd_CopyPassword":  {
+                             "message":  "パスワードをコピー"
+                         },
+    "Cmd_Generate":  {
+                         "message":  "パスワードを生成"
+                     },
+    "Cmd_GoTo":  {
+                     "message":  "行く"
+                 },
+    "Sort_Name":  {
+                      "message":  "名前"
+                  },
+    "Sort_Modified":  {
+                          "message":  "更新日"
+                      },
+    "Sort_Usage":  {
+                       "message":  "使用頻度"
+                   },
+    "View_All":  {
+                     "message":  "すべて"
+                 },
+    "View_Logins":  {
+                        "message":  "ログイン"
+                    },
+    "View_Identities":  {
+                            "message":  "プロフィール"
+                        },
+    "View_Notes":  {
+                       "message":  "メモ"
+                   },
+    "View_Favorites":  {
+                           "message":  "お気に入り"
+                       },
+    "View_Trash":  {
+                       "message":  "ゴミ箱"
+                   },
+    "Type_Login":  {
+                       "message":  "ログイン"
+                   },
+    "Type_Bookmark":  {
+                          "message":  "ブックマーク"
+                      },
+    "Type_AppLogin":  {
+                          "message":  "アプリログイン"
+                      },
+    "Type_Identity":  {
+                          "message":  "プロフィール"
+                      },
+    "Type_Contact":  {
+                         "message":  "連絡先"
+                     },
+    "Type_Note":  {
+                      "message":  "メモ"
+                  },
+    "Type_Folder":  {
+                        "message":  "フォルダ"
+                    },
+    "Badge_1":  {
+                    "message":  "ログ"
+                },
+    "Badge_2":  {
+                    "message":  "ブク"
+                },
+    "Badge_3":  {
+                    "message":  "検索"
+                },
+    "Badge_4":  {
+                    "message":  "アプ"
+                },
+    "Badge_5":  {
+                    "message":  "ID"
+                },
+    "Badge_6":  {
+                    "message":  "連絡"
+                },
+    "Badge_7":  {
+                    "message":  "メモ"
+                },
+    "Badge_8":  {
+                    "message":  "📁"
+                },
+    "Item_Name":  {
+                      "message":  "名前"
+                  },
+    "Item_Folder":  {
+                        "message":  "フォルダ"
+                    },
+    "Item_Favorite":  {
+                          "message":  "お気に入り"
+                      },
+    "Item_Corrupt":  {
+                         "message":  "破損"
+                     },
+    "Item_CorruptBody":  {
+                             "message":  "このアイテムは読み取れません（ファイルが壊れているか、改変されています）。ほかのアイテムは影響を受けません。バックアップから復元するか、完全に削除してください。"
+                         },
+    "Folder_Root":  {
+                        "message":  "/（ルート）"
+                    },
+    "Folder_NewSub":  {
+                          "message":  "新規サブフォルダ..."
+                      },
+    "Folder_Delete":  {
+                          "message":  "フォルダをゴミ箱へ"
+                      },
+    "Folder_DeleteConfirm":  {
+                                 "message":  "フォルダ「$1$」と中の $2$ 件をゴミ箱へ移します。よろしいですか？",
+                                 "placeholders":  {
+                                                      "1":  {
+                                                                "content":  "$1"
+                                                            },
+                                                      "2":  {
+                                                                "content":  "$2"
+                                                            }
+                                                  }
+                             },
+    "Folder_NamePrompt":  {
+                              "message":  "フォルダ名"
+                          },
+    "Folder_NewOption":  {
+                             "message":  "新しいフォルダ..."
+                         },
+    "Move_Title":  {
+                       "message":  "$1$ 件の移動先",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "Menu_Login":  {
+                       "message":  "ログイン"
+                   },
+    "Menu_LoginCurrent":  {
+                              "message":  "現在のウィンドウでログイン"
+                          },
+    "Menu_LoginWindow":  {
+                             "message":  "新規ウィンドウでログイン"
+                         },
+    "Menu_GoFill":  {
+                        "message":  "開いて記入"
+                    },
+    "Menu_Go":  {
+                    "message":  "行く"
+                },
+    "Menu_BatchLogin":  {
+                            "message":  "まとめてログイン"
+                        },
+    "Menu_CopyUrl":  {
+                         "message":  "URL をコピー"
+                     },
+    "Menu_Favorite":  {
+                          "message":  "お気に入りに追加"
+                      },
+    "Menu_Unfavorite":  {
+                            "message":  "お気に入りから外す"
+                        },
+    "Batch_Confirm":  {
+                          "message":  "$1$ 件のログインを、それぞれ新しいタブで開きます。よろしいですか？",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Clip_Copied":  {
+                        "message":  "$1$ 件をコピーしました",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Clip_Cut":  {
+                     "message":  "$1$ 件を切り取りました",
+                     "placeholders":  {
+                                          "1":  {
+                                                    "content":  "$1"
+                                                }
+                                      }
+                 },
+    "Clip_Pasted":  {
+                        "message":  "$1$ 件を貼り付けました",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Trash_Note":  {
+                       "message":  "ゴミ箱のアイテムは 30 日間残ります。完全削除は取り消せません。"
+                   },
+    "Trash_Empty":  {
+                        "message":  "ゴミ箱を空にする..."
+                    },
+    "Trash_ItemNote":  {
+                           "message":  "このアイテムはゴミ箱にあります（$1$ に移動）。",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Trash_Restore":  {
+                          "message":  "元に戻す"
+                      },
+    "Trash_Restored":  {
+                           "message":  "$1$ 件を元に戻しました",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Trash_Purge":  {
+                        "message":  "完全に削除..."
+                    },
+    "Trash_PurgeConfirm":  {
+                               "message":  "次の $1$ 件を完全に削除します。この操作は取り消せません。\n\n$2$",
+                               "placeholders":  {
+                                                    "1":  {
+                                                              "content":  "$1"
+                                                          },
+                                                    "2":  {
+                                                              "content":  "$2"
+                                                          }
+                                                }
+                           },
+    "Trash_Purged":  {
+                         "message":  "$1$ 件を完全に削除しました",
+                         "placeholders":  {
+                                              "1":  {
+                                                        "content":  "$1"
+                                                    }
+                                          }
+                     },
+    "Login_Url":  {
+                      "message":  "URL"
+                  },
+    "Login_MatchLevel":  {
+                             "message":  "照合のレベル"
+                         },
+    "Match_Domain":  {
+                         "message":  "ドメイン一致（既定）"
+                     },
+    "Match_Host":  {
+                       "message":  "ホスト完全一致"
+                   },
+    "Match_Prefix":  {
+                         "message":  "URL 前方一致"
+                     },
+    "Match_Exact":  {
+                        "message":  "完全一致"
+                    },
+    "Login_Advanced":  {
+                           "message":  "詳細"
+                       },
+    "Login_MatchUrl":  {
+                           "message":  "照合用 URL"
+                       },
+    "Login_MatchUrlHint":  {
+                               "message":  "空なら上の URL を使います。"
+                           },
+    "Login_MatchUrlPlaceholder":  {
+                                      "message":  "例: https://example.com"
+                                  },
+    "Login_Fields":  {
+                         "message":  "フィールド"
+                     },
+    "Fields_Name":  {
+                        "message":  "名前"
+                    },
+    "Fields_Id":  {
+                      "message":  "ID"
+                  },
+    "Fields_Value":  {
+                         "message":  "値"
+                     },
+    "Fields_Kind":  {
+                        "message":  "型"
+                    },
+    "Fields_Role":  {
+                        "message":  "役割"
+                    },
+    "Fields_Add":  {
+                       "message":  "＋ フィールドを追加"
+                   },
+    "Fields_Remove":  {
+                          "message":  "削除"
+                      },
+    "Field_Password":  {
+                           "message":  "パスワード"
+                       },
+    "Kind_text":  {
+                      "message":  "テキスト"
+                  },
+    "Kind_password":  {
+                          "message":  "パスワード"
+                      },
+    "Kind_checkbox":  {
+                          "message":  "チェックボックス"
+                      },
+    "Kind_radio":  {
+                       "message":  "ラジオ"
+                   },
+    "Kind_textarea":  {
+                          "message":  "テキストエリア"
+                      },
+    "Kind_select":  {
+                        "message":  "選択リスト"
+                    },
+    "Role_None":  {
+                      "message":  "（なし）"
+                  },
+    "Role_User":  {
+                      "message":  "ユーザー ID"
+                  },
+    "Role_Password":  {
+                          "message":  "パスワード"
+                      },
+    "Role_NewPassword":  {
+                             "message":  "新しいパスワード"
+                         },
+    "Role_Otp":  {
+                     "message":  "ワンタイムコード"
+                 },
+    "Login_NoSubmit":  {
+                           "message":  "記入後に送信しない"
+                       },
+    "Login_BasicAuth":  {
+                            "message":  "ブラウザのベーシック認証ダイアログに使う"
+                        },
+    "Login_Totp":  {
+                       "message":  "TOTP キー"
+                   },
+    "Login_TotpHint":  {
+                           "message":  "Base32 のキー、または otpauth:// の URI"
+                       },
+    "Totp_FromQr":  {
+                        "message":  "QR コードの画像から読み込む..."
+                    },
+    "Totp_QrPick":  {
+                        "message":  "QR コードの画像を選択"
+                    },
+    "Totp_ImageFilter":  {
+                             "message":  "画像"
+                         },
+    "Totp_ClickCopy":  {
+                           "message":  "クリックでコピー"
+                       },
+    "Totp_Remain":  {
+                        "message":  "残り $1$ 秒",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Login_Note":  {
+                       "message":  "メモ"
+                   },
+    "Login_Hint":  {
+                       "message":  "ヒント（ログインのときに表示します）"
+                   },
+    "Login_Chain":  {
+                        "message":  "多段ログイン"
+                    },
+    "Login_ChainHint":  {
+                            "message":  "複数のページにまたがるログインのとき、このログインの前後に続けて記入する、別のログインを指定します。"
+                        },
+    "Chain_Previous":  {
+                           "message":  "この前に記入するログイン"
+                       },
+    "Chain_Next":  {
+                       "message":  "このあとに続けて記入するログイン"
+                   },
+    "Chain_Add":  {
+                      "message":  "追加..."
+                  },
+    "Login_History":  {
+                          "message":  "パスワード履歴（$1$ 件）",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "App_ExePath":  {
+                        "message":  "実行ファイルのパス"
+                    },
+    "App_WindowTitle":  {
+                            "message":  "ウィンドウタイトル"
+                        },
+    "Note_Mono":  {
+                      "message":  "等幅フォントで表示"
+                  },
+    "Identity_Country":  {
+                             "message":  "国"
+                         },
+    "Country_JP":  {
+                       "message":  "日本"
+                   },
+    "Country_US":  {
+                       "message":  "アメリカ"
+                   },
+    "Identity_Instance":  {
+                              "message":  "項目の組"
+                          },
+    "Identity_DefaultInstance":  {
+                                     "message":  "既定"
+                                 },
+    "Identity_AddInstance":  {
+                                 "message":  "組を追加"
+                             },
+    "Identity_RemoveInstance":  {
+                                    "message":  "この組を削除"
+                                },
+    "Identity_InstanceName":  {
+                                  "message":  "名前（例: 仕事用カード）"
+                              },
+    "Identity_RemoveInstanceConfirm":  {
+                                           "message":  "「$1$」を削除します。よろしいですか？",
+                                           "placeholders":  {
+                                                                "1":  {
+                                                                          "content":  "$1"
+                                                                      }
+                                                            }
+                                       },
+    "Custom_Hint":  {
+                        "message":  "独自の項目です。正規表現を入れると、その名前の欄にだけ記入します。"
+                    },
+    "Custom_Key":  {
+                       "message":  "キー"
+                   },
+    "Custom_Value":  {
+                         "message":  "値"
+                     },
+    "Custom_Match":  {
+                         "message":  "照合する正規表現"
+                     },
+    "Group_Person":  {
+                         "message":  "個人"
+                     },
+    "Group_Business":  {
+                           "message":  "会社"
+                       },
+    "Group_Address":  {
+                          "message":  "住所"
+                      },
+    "Group_CreditCard":  {
+                             "message":  "カード"
+                         },
+    "Group_BankAccount":  {
+                              "message":  "口座"
+                          },
+    "Group_Passport":  {
+                           "message":  "旅券"
+                       },
+    "Group_Car":  {
+                      "message":  "車"
+                  },
+    "Group_Custom":  {
+                         "message":  "カスタム"
+                     },
+    "Field_Title":  {
+                        "message":  "敬称"
+                    },
+    "Field_FirstName":  {
+                            "message":  "名"
+                        },
+    "Field_MiddleName":  {
+                             "message":  "ミドルネーム"
+                         },
+    "Field_LastName":  {
+                           "message":  "姓"
+                       },
+    "Field_FirstNameKana":  {
+                                "message":  "名（読み）"
+                            },
+    "Field_LastNameKana":  {
+                               "message":  "姓（読み）"
+                           },
+    "Field_FullName":  {
+                           "message":  "氏名"
+                       },
+    "Field_Sex":  {
+                      "message":  "性別"
+                  },
+    "Field_BirthDay":  {
+                           "message":  "誕生日（日）"
+                       },
+    "Field_BirthMonth":  {
+                             "message":  "誕生日（月）"
+                         },
+    "Field_BirthYear":  {
+                            "message":  "誕生日（年）"
+                        },
+    "Field_Age":  {
+                      "message":  "年齢"
+                  },
+    "Field_BirthPlace":  {
+                             "message":  "出生地"
+                         },
+    "Field_Email":  {
+                        "message":  "メールアドレス"
+                    },
+    "Field_HomePhone":  {
+                            "message":  "自宅の電話"
+                        },
+    "Field_WorkPhone":  {
+                            "message":  "勤務先の電話"
+                        },
+    "Field_CellPhone":  {
+                            "message":  "携帯電話"
+                        },
+    "Field_Fax":  {
+                      "message":  "FAX"
+                  },
+    "Field_SkypeId":  {
+                          "message":  "Skype ID"
+                      },
+    "Field_Website":  {
+                          "message":  "Web サイト"
+                      },
+    "Field_Income":  {
+                         "message":  "年収"
+                     },
+    "Field_SocialSecurityNumber":  {
+                                       "message":  "社会保障番号"
+                                   },
+    "Field_DriverLicenseNumber":  {
+                                      "message":  "運転免許証番号"
+                                  },
+    "Field_DriverLicenseState":  {
+                                     "message":  "免許の発行州"
+                                 },
+    "Field_DriverLicenseExpiresDay":  {
+                                          "message":  "免許の有効期限（日）"
+                                      },
+    "Field_DriverLicenseExpiresMonth":  {
+                                            "message":  "免許の有効期限（月）"
+                                        },
+    "Field_DriverLicenseExpiresYear":  {
+                                           "message":  "免許の有効期限（年）"
+                                       },
+    "Field_Company":  {
+                          "message":  "会社名"
+                      },
+    "Field_CompanyKana":  {
+                              "message":  "会社名（読み）"
+                          },
+    "Field_Department":  {
+                             "message":  "部署"
+                         },
+    "Field_Position":  {
+                           "message":  "役職"
+                       },
+    "Field_CompanyPhone":  {
+                               "message":  "会社の電話"
+                           },
+    "Field_TollFreePhone":  {
+                                "message":  "フリーダイヤル"
+                            },
+    "Field_CompanyFax":  {
+                             "message":  "会社の FAX"
+                         },
+    "Field_CompanyWebsite":  {
+                                 "message":  "会社の Web サイト"
+                             },
+    "Field_TaxId":  {
+                        "message":  "納税者番号"
+                    },
+    "Field_CompanyVATNumber":  {
+                                   "message":  "VAT 番号"
+                               },
+    "Field_EmployerIdNumber":  {
+                                   "message":  "雇用者番号"
+                               },
+    "Field_TypeOfBusiness":  {
+                                 "message":  "業種"
+                             },
+    "Field_CompanyRegistrationNumber":  {
+                                            "message":  "法人番号"
+                                        },
+    "Field_PassportNumber":  {
+                                 "message":  "旅券番号"
+                             },
+    "Field_IssueDate":  {
+                            "message":  "発行日"
+                        },
+    "Field_ExpirationDate":  {
+                                 "message":  "有効期限"
+                             },
+    "Field_IssuePlace":  {
+                             "message":  "発行地"
+                         },
+    "Field_AddressLine1":  {
+                               "message":  "住所 1"
+                           },
+    "Field_AddressLine2":  {
+                               "message":  "住所 2"
+                           },
+    "Field_AddressLine3":  {
+                               "message":  "住所 3"
+                           },
+    "Field_StreetName":  {
+                             "message":  "通り名"
+                         },
+    "Field_HouseNumber":  {
+                              "message":  "番地"
+                          },
+    "Field_AptNumber":  {
+                            "message":  "部屋番号"
+                        },
+    "Field_City":  {
+                       "message":  "市区町村"
+                   },
+    "Field_County":  {
+                         "message":  "郡"
+                     },
+    "Field_District":  {
+                           "message":  "地区"
+                       },
+    "Field_StateOrProvince":  {
+                                  "message":  "都道府県 / 州"
+                              },
+    "Field_ZipOrPostCode":  {
+                                "message":  "郵便番号"
+                            },
+    "Field_Country":  {
+                          "message":  "国"
+                      },
+    "Field_CountryCode":  {
+                              "message":  "国コード"
+                          },
+    "Field_CardType":  {
+                           "message":  "カードの種類"
+                       },
+    "Field_CardNumber":  {
+                             "message":  "カード番号"
+                         },
+    "Field_CardHolderName":  {
+                                 "message":  "名義人"
+                             },
+    "Field_CardExpiresMonth":  {
+                                   "message":  "有効期限（月）"
+                               },
+    "Field_CardExpiresYear":  {
+                                  "message":  "有効期限（年）"
+                              },
+    "Field_CardValidFromMonth":  {
+                                     "message":  "開始（月）"
+                                 },
+    "Field_CardValidFromYear":  {
+                                    "message":  "開始（年）"
+                                },
+    "Field_CardValidationCode":  {
+                                     "message":  "セキュリティコード"
+                                 },
+    "Field_CardPIN":  {
+                          "message":  "暗証番号"
+                      },
+    "Field_CardIssuingBank":  {
+                                  "message":  "発行銀行"
+                              },
+    "Field_CardCustomerServicePhone":  {
+                                           "message":  "カスタマーサービスの電話"
+                                       },
+    "Field_BankName":  {
+                           "message":  "銀行名"
+                       },
+    "Field_AccountNumber":  {
+                                "message":  "口座番号"
+                            },
+    "Field_AccountType":  {
+                              "message":  "口座の種類"
+                          },
+    "Field_RoutingNumber":  {
+                                "message":  "ルーティング番号"
+                            },
+    "Field_SwiftCode":  {
+                            "message":  "SWIFT コード"
+                        },
+    "Field_IBAN":  {
+                       "message":  "IBAN"
+                   },
+    "Field_AccountOwner":  {
+                               "message":  "口座名義"
+                           },
+    "Field_BankPIN":  {
+                          "message":  "暗証番号"
+                      },
+    "Field_BankAddress":  {
+                              "message":  "銀行の住所"
+                          },
+    "Field_BankPhone":  {
+                            "message":  "銀行の電話"
+                        },
+    "Field_CarMake":  {
+                          "message":  "メーカー"
+                      },
+    "Field_CarModel":  {
+                           "message":  "車種"
+                       },
+    "Field_CarYear":  {
+                          "message":  "年式"
+                      },
+    "Field_CarPlateNumber":  {
+                                 "message":  "ナンバー"
+                             },
+    "Field_CarPlateState":  {
+                                "message":  "ナンバーの登録地"
+                            },
+    "Field_VIN":  {
+                      "message":  "車台番号"
+                  },
+    "PassGen_Output":  {
+                           "message":  "生成されたパスワード"
+                       },
+    "PassGen_Generate":  {
+                             "message":  "生成"
+                         },
+    "PassGen_Copy":  {
+                         "message":  "コピー"
+                     },
+    "PassGen_Type":  {
+                         "message":  "記入"
+                     },
+    "PassGen_OnTop":  {
+                          "message":  "常に手前に表示"
+                      },
+    "PassGen_Mode":  {
+                         "message":  "モード"
+                     },
+    "PassGen_Mode_Random":  {
+                                "message":  "ランダム"
+                            },
+    "PassGen_Mode_Passphrase":  {
+                                    "message":  "パスフレーズ"
+                                },
+    "PassGen_Options":  {
+                            "message":  "設定"
+                        },
+    "PassGen_Length":  {
+                           "message":  "文字数（4〜512）"
+                       },
+    "PassGen_Upper":  {
+                          "message":  "大文字 A-Z"
+                      },
+    "PassGen_Lower":  {
+                          "message":  "小文字 a-z"
+                      },
+    "PassGen_Digits":  {
+                           "message":  "数字 0-9"
+                       },
+    "PassGen_Symbols":  {
+                            "message":  "記号"
+                        },
+    "PassGen_SymbolChars":  {
+                                "message":  "使う記号"
+                            },
+    "PassGen_HexOnly":  {
+                            "message":  "16 進のみ（0-9 A-F）"
+                        },
+    "PassGen_ExcludeSimilar":  {
+                                   "message":  "似た文字を除く（Il1O0o）"
+                               },
+    "PassGen_RequireEach":  {
+                                "message":  "各文字種を最低 1 文字含める"
+                            },
+    "PassGen_Words":  {
+                          "message":  "単語数（3〜12）"
+                      },
+    "PassGen_Separator":  {
+                              "message":  "区切り文字"
+                          },
+    "PassGen_Capitalize":  {
+                               "message":  "各単語の先頭を大文字にする"
+                           },
+    "PassGen_AddNumber":  {
+                              "message":  "数字を追加する"
+                          },
+    "PassGen_WordlistCredit":  {
+                                   "message":  "単語表: EFF Large Wordlist（CC-BY 3.0）"
+                               },
+    "PassGen_Reset":  {
+                          "message":  "既定に戻す"
+                      },
+    "PassGen_History":  {
+                            "message":  "生成履歴（直近 20 件）"
+                        },
+    "PassGen_HistoryShow":  {
+                                "message":  "パスワードを表示する"
+                            },
+    "PassGen_HistoryClear":  {
+                                 "message":  "履歴を消去"
+                             },
+    "PassGen_HistoryClearConfirm":  {
+                                        "message":  "生成履歴をすべて消去します。よろしいですか？"
+                                    },
+    "PassGen_HistoryEmpty":  {
+                                 "message":  "（履歴はありません）"
+                             },
+    "PassGen_HistoryLocked":  {
+                                  "message":  "履歴を見るにはロックを解除してください。"
+                              },
+    "Search_Placeholder":  {
+                               "message":  "検索（名前・URL・ユーザー ID）"
+                           },
+    "Search_Help":  {
+                        "message":  "↑↓ で選択 / Enter でログイン・開く / Esc で閉じる"
+                    },
+    "Pref_Saved":  {
+                       "message":  "設定を保存しました。"
+                   },
+    "Pref_RestartNote":  {
+                             "message":  "言語の変更は、開き直した画面から反映されます。"
+                         },
+    "Pref_Phase2_Note":  {
+                             "message":  "この項目は次の版で有効になります。設定値は保存されます。"
+                         },
+    "Pref_Reauth_Note":  {
+                             "message":  "印刷とエクスポートでは、必ずマスターパスワードの再入力を求めます（変更できません）。"
+                         },
+    "Pref_Tab_general":  {
+                             "message":  "一般"
+                         },
+    "Pref_Tab_autofill":  {
+                              "message":  "自動記入"
+                          },
+    "Pref_Tab_autosave":  {
+                              "message":  "自動保存"
+                          },
+    "Pref_Tab_apps":  {
+                          "message":  "アプリ"
+                      },
+    "Pref_Tab_security":  {
+                              "message":  "セキュリティ"
+                          },
+    "Pref_Tab_sync":  {
+                          "message":  "同期"
+                      },
+    "Pref_Tab_domains":  {
+                             "message":  "ドメイン"
+                         },
+    "Pref_Tab_hotkeys":  {
+                             "message":  "ホットキー"
+                         },
+    "Pref_Tab_backup":  {
+                            "message":  "バックアップ"
+                        },
+    "Pref_general_language":  {
+                                  "message":  "言語"
+                              },
+    "Pref_general_startWithWindows":  {
+                                          "message":  "Windows の起動時に TKRForm を起動する"
+                                      },
+    "Pref_general_sortOrder":  {
+                                   "message":  "ログインの並べ方"
+                               },
+    "Pref_opt_sort_auto":  {
+                               "message":  "自動（お気に入り → 使用回数 → 最終使用日時）"
+                           },
+    "Pref_opt_sort_count":  {
+                                "message":  "使用回数"
+                            },
+    "Pref_opt_sort_recent":  {
+                                 "message":  "最終使用日時"
+                             },
+    "Pref_autofill_mode":  {
+                               "message":  "自動記入のモード"
+                           },
+    "Pref_opt_fill_off":  {
+                              "message":  "記入しない"
+                          },
+    "Pref_opt_fill_suggest":  {
+                                  "message":  "提案する（既定）"
+                              },
+    "Pref_opt_fill_auto":  {
+                               "message":  "候補が 1 件なら聞かずに記入する"
+                           },
+    "Pref_autofill_target":  {
+                                 "message":  "提案する対象"
+                             },
+    "Pref_opt_target_both":  {
+                                 "message":  "ログインとプロフィール"
+                             },
+    "Pref_opt_target_logins":  {
+                                   "message":  "ログインのみ"
+                               },
+    "Pref_opt_target_identities":  {
+                                       "message":  "プロフィールのみ"
+                                   },
+    "Pref_autofill_onlyOnPasswordPages":  {
+                                              "message":  "パスワード欄があるページだけでログインを提案する"
+                                          },
+    "Pref_autofill_minIdentityFields":  {
+                                            "message":  "プロフィールの記入に必要な最小フィールド数"
+                                        },
+    "Pref_autofill_includeContacts":  {
+                                          "message":  "連絡先からの記入も提案する"
+                                      },
+    "Pref_autofill_basicAuth":  {
+                                    "message":  "ブラウザのベーシック認証ダイアログに記入する"
+                                },
+    "Pref_autofill_inlineMenu":  {
+                                     "message":  "入力欄にインラインメニューを表示する"
+                                 },
+    "Pref_autosave_mode":  {
+                               "message":  "自動保存のモード"
+                           },
+    "Pref_opt_save_off":  {
+                              "message":  "保存しない"
+                          },
+    "Pref_opt_save_suggest":  {
+                                  "message":  "提案する（既定）"
+                              },
+    "Pref_opt_save_auto":  {
+                               "message":  "聞かずに保存する"
+                           },
+    "Pref_autosave_forceDialog":  {
+                                      "message":  "Alt+クリック / Shift+Enter で保存ダイアログを強制表示する"
+                                  },
+    "Pref_autosave_excludeUrls":  {
+                                      "message":  "保存を提案しない URL（1 行に 1 つ）"
+                                  },
+    "Pref_autosave_excludeUrls_Hint":  {
+                                           "message":  "ドメイン名、または URL の一部。"
+                                       },
+    "Pref_apps_linkApps":  {
+                               "message":  "Windows アプリと連結する"
+                           },
+    "Pref_apps_ignoredApps":  {
+                                  "message":  "連結しないアプリ（1 行に 1 つ）"
+                              },
+    "Pref_apps_allowExec":  {
+                                "message":  "アプリログインからの実行ファイル起動を許可する"
+                            },
+    "Pref_apps_allowExec_Hint":  {
+                                     "message":  "危険な設定です。オンにすると、保存された実行ファイルを起動できるようになります。"
+                                 },
+    "Pref_security_autoLockMinutes":  {
+                                          "message":  "無操作で自動ロックするまでの時間"
+                                      },
+    "Pref_opt_min_1":  {
+                           "message":  "1 分"
+                       },
+    "Pref_opt_min_5":  {
+                           "message":  "5 分"
+                       },
+    "Pref_opt_min_15":  {
+                            "message":  "15 分"
+                        },
+    "Pref_opt_min_30":  {
+                            "message":  "30 分"
+                        },
+    "Pref_opt_min_60":  {
+                            "message":  "60 分（既定）"
+                        },
+    "Pref_opt_min_240":  {
+                             "message":  "240 分"
+                         },
+    "Pref_opt_unlimited":  {
+                               "message":  "無制限"
+                           },
+    "Pref_security_lockOnSessionLock":  {
+                                            "message":  "Windows のロック / ユーザー切替でロックする"
+                                        },
+    "Pref_security_lockOnScreensaver":  {
+                                            "message":  "スクリーンセーバーの起動でロックする"
+                                        },
+    "Pref_security_lockOnSuspend":  {
+                                        "message":  "スタンバイ / 休止でロックする"
+                                    },
+    "Pref_security_lockOnBrowsersClosed":  {
+                                               "message":  "すべてのブラウザを閉じたときにロックする"
+                                           },
+    "Pref_security_rememberMp":  {
+                                     "message":  "この PC でマスターパスワードを記憶する（Windows の DPAPI で保護）"
+                                 },
+    "Pref_security_rememberMp_Hint":  {
+                                          "message":  "オンにすると、この Windows ユーザーで起動したとき自動でロック解除されます。"
+                                      },
+    "Pref_security_iterations":  {
+                                     "message":  "暗号化の反復回数"
+                                 },
+    "Pref_security_iterations_Hint":  {
+                                          "message":  "次にマスターパスワードを変更したときから適用されます。"
+                                      },
+    "Pref_security_clipboardClearSecs":  {
+                                             "message":  "クリップボードを自動で消去するまでの秒数（0 で消去しない）"
+                                         },
+    "Pref_sync_enabled":  {
+                              "message":  "同期サーバを使う"
+                          },
+    "Pref_sync_serverUrl":  {
+                                "message":  "同期サーバの URL"
+                            },
+    "Pref_equivDomains":  {
+                              "message":  "同等ドメインの表（1 行に 1 グループ、カンマ区切り）"
+                          },
+    "Pref_equivDomains_Hint":  {
+                                   "message":  "例: amazon.co.jp, amazon.com"
+                               },
+    "Pref_hotkeys_search":  {
+                                "message":  "検索"
+                            },
+    "Pref_hotkeys_search_Hint":  {
+                                     "message":  "例: Ctrl+Alt+S"
+                                 },
+    "Pref_hotkeys_saveApp":  {
+                                 "message":  "アプリログインの保存"
+                             },
+    "Pref_hotkeys_lock":  {
+                              "message":  "ロック"
+                          },
+    "Pref_backup_auto":  {
+                             "message":  "自動バックアップ（毎日）"
+                         },
+    "Pref_backup_generations":  {
+                                    "message":  "残す世代数"
+                                },
+    "MP_Change":  {
+                      "message":  "マスターパスワードを変更"
+                  },
+    "MP_Old":  {
+                   "message":  "現在のマスターパスワード"
+               },
+    "MP_New":  {
+                   "message":  "新しいマスターパスワード"
+               },
+    "MP_Confirm":  {
+                       "message":  "新しいマスターパスワード（確認）"
+                   },
+    "MP_Changed":  {
+                       "message":  "マスターパスワードを変更しました"
+                   },
+    "Backup_Now":  {
+                       "message":  "今すぐバックアップ"
+                   },
+    "Backup_Check":  {
+                         "message":  "整合性を確認"
+                     },
+    "Backup_CheckOk":  {
+                           "message":  "すべてのアイテムを読み取れました。"
+                       },
+    "Backup_CheckBad":  {
+                            "message":  "$1$ 件のアイテムが破損しています。エディタで「破損」と表示されます。",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Backup_Done":  {
+                        "message":  "バックアップしました: $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Backup_List":  {
+                        "message":  "バックアップ一覧"
+                    },
+    "Backup_None":  {
+                        "message":  "（まだありません）"
+                    },
+    "Backup_Restore":  {
+                           "message":  "復元..."
+                       },
+    "Backup_RestoreConfirm":  {
+                                  "message":  "「$1$」から復元します。現在の保管庫の内容は、復元前に自動でバックアップされます。復元後はロックされ、再ログインが必要です。続けますか？",
+                                  "placeholders":  {
+                                                       "1":  {
+                                                                 "content":  "$1"
+                                                             }
+                                                   }
+                              },
+    "Backup_Restored":  {
+                            "message":  "復元しました。ロックされたので、ログインし直してください。"
+                        },
+    "Ext_Name":  {
+                     "message":  "TKRForm パスワードマネージャ"
+                 },
+    "Ext_Description":  {
+                            "message":  "TKRForm デスクトップアプリと連携して、パスワードの自動記入と自動保存を行います。"
+                        },
+    "Ext_Cmd_Popup":  {
+                          "message":  "TKRForm のポップアップを開く"
+                      },
+    "Ext_Cmd_Fill":  {
+                         "message":  "最優先の候補で記入する"
+                     },
+    "Ext_Cmd_Generate":  {
+                             "message":  "パスワードを生成する"
+                         },
+    "Ext_Menu_Fill":  {
+                          "message":  "記入（一致する候補）"
+                      },
+    "Ext_Menu_Generate":  {
+                              "message":  "パスワードを生成"
+                          },
+    "Ext_Menu_SavePage":  {
+                              "message":  "このページを保存"
+                          },
+    "Ext_Menu_Lock":  {
+                          "message":  "ロック"
+                      },
+    "Ext_Title_Locked":  {
+                             "message":  "TKRForm（ロック中）"
+                         },
+    "Ext_Title_Disconnected":  {
+                                   "message":  "TKRForm（未接続）"
+                               },
+    "Ext_NotConnected":  {
+                             "message":  "TKRForm アプリに接続できません。アプリがインストールされ、起動できる状態か確認してください。"
+                         },
+    "Ext_Timeout":  {
+                        "message":  "TKRForm から応答がありません"
+                    },
+    "Ext_Reconnect":  {
+                          "message":  "再接続"
+                      },
+    "Ext_MasterPassword":  {
+                               "message":  "マスターパスワード"
+                           },
+    "Ext_Unlock":  {
+                       "message":  "ロック解除"
+                   },
+    "Ext_Lock":  {
+                     "message":  "ロック"
+                 },
+    "Ext_Locked":  {
+                       "message":  "ロックされています"
+                   },
+    "Ext_Settings":  {
+                         "message":  "設定"
+                     },
+    "Ext_StartPage":  {
+                          "message":  "ホーム"
+                      },
+    "Ext_SearchPlaceholder":  {
+                                  "message":  "名前・URL・ユーザー ID で検索"
+                              },
+    "Ext_Tab_Site":  {
+                         "message":  "このサイト"
+                     },
+    "Ext_Tab_Logins":  {
+                           "message":  "ログイン"
+                       },
+    "Ext_Tab_Identities":  {
+                               "message":  "プロフィール"
+                           },
+    "Ext_Tab_Notes":  {
+                          "message":  "メモ"
+                      },
+    "Ext_NoMatches":  {
+                          "message":  "このサイトに一致する項目はありません"
+                      },
+    "Ext_NoItems":  {
+                        "message":  "項目がありません"
+                    },
+    "Ext_Logins":  {
+                       "message":  "ログイン"
+                   },
+    "Ext_Identities":  {
+                           "message":  "プロフィール"
+                       },
+    "Ext_Totp":  {
+                     "message":  "ワンタイムコード（TOTP）"
+                 },
+    "Ext_Act_Login":  {
+                          "message":  "ログイン"
+                      },
+    "Ext_Act_Fill":  {
+                         "message":  "記入"
+                     },
+    "Ext_Act_GoFill":  {
+                           "message":  "開いて記入"
+                       },
+    "Ext_Menu_Button":  {
+                            "message":  "メニュー"
+                        },
+    "Ext_Menu_PassGen":  {
+                             "message":  "パスワード生成"
+                         },
+    "Ext_Menu_Edit":  {
+                          "message":  "編集"
+                      },
+    "Ext_Menu_About":  {
+                           "message":  "バージョン情報"
+                       },
+    "Ext_About_Version":  {
+                              "message":  "バージョン $1$",
+                              "placeholders":  {
+                                                   "1":  {
+                                                             "content":  "$1"
+                                                         }
+                                               }
+                          },
+    "Ext_About_Copyright":  {
+                                "message":  "(c) タカラシスコム"
+                            },
+    "Ext_Back":  {
+                     "message":  "← 戻る"
+                 },
+    "PassGen_Details":  {
+                            "message":  "詳細設定 ▼"
+                        },
+    "PassGen_DetailsClose":  {
+                                 "message":  "詳細設定 ▲"
+                             },
+    "Ext_Save_NameEmpty":  {
+                               "message":  "名前を入力してください。"
+                           },
+    "Ext_Save_NameDup":  {
+                             "message":  "同じフォルダに、同じ名前のログインがあります。別の名前にしてください。"
+                         },
+    "Ext_Frequent_Empty":  {
+                               "message":  "まだよく使うログインはありません。ABC から選んで使うと、ここに並びます。"
+                           },
+    "Start_Count":  {
+                        "message":  "ログイン $1$ 件",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Start_All":  {
+                      "message":  "すべてのログイン（$1$ 件）",
+                      "placeholders":  {
+                                           "1":  {
+                                                     "content":  "$1"
+                                                 }
+                                       }
+                  },
+    "Start_Results":  {
+                          "message":  "検索結果（$1$ 件）",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Ext_Act_FillMatch":  {
+                              "message":  "記入（一致する候補）"
+                          },
+    "Ext_Err_PageMismatch":  {
+                                 "message":  "このページは $1$ と一致しません。",
+                                 "placeholders":  {
+                                                      "1":  {
+                                                                "content":  "$1"
+                                                            }
+                                                  }
+                             },
+    "Ext_Act_Open":  {
+                         "message":  "開く"
+                     },
+    "Ext_Act_CopyUser":  {
+                             "message":  "ユーザー ID をコピー"
+                         },
+    "Ext_Act_CopyPassword":  {
+                                 "message":  "パスワードをコピー"
+                             },
+    "Ext_Act_CopyTotp":  {
+                             "message":  "TOTP コードをコピー"
+                         },
+    "Ext_Act_Edit":  {
+                         "message":  "編集"
+                     },
+    "Ext_Err_Generic":  {
+                            "message":  "処理に失敗しました"
+                        },
+    "Ext_Err_Mismatch":  {
+                             "message":  "このページの URL と一致しないため記入しませんでした"
+                         },
+    "Ext_Err_NoForm":  {
+                           "message":  "このページに記入できるフォームが見つかりません"
+                       },
+    "Ext_Err_FormEmpty":  {
+                              "message":  "パスワードが入力されていません。フォームに入力してから保存してください"
+                          },
+    "Ext_Popup_SaveForm":  {
+                               "message":  "フォームの入力内容を保存"
+                           },
+    "Ext_Popup_SaveForm_Tip":  {
+                                   "message":  "このページのフォームに入力した ID とパスワードを、ログインとして保存します"
+                               },
+    "Ext_Folder_Up":  {
+                          "message":  "上のフォルダへ"
+                      },
+    "Ext_Err_NoIdentityFields":  {
+                                     "message":  "このページに記入できる欄が見つかりません"
+                                 },
+    "Ext_Save_Title":  {
+                           "message":  "パスワードを保存しますか？"
+                       },
+    "Ext_Save_TitleUpdate":  {
+                                 "message":  "パスワードを更新しますか？"
+                             },
+    "Ext_Save_TitleSignup":  {
+                                 "message":  "新しいアカウントを保存しますか？"
+                             },
+    "Ext_Save_TitleChange":  {
+                                 "message":  "変更したパスワードを保存しますか？"
+                             },
+    "Ext_Save_Name":  {
+                          "message":  "名前"
+                      },
+    "Ext_Save_Folder":  {
+                            "message":  "フォルダ"
+                        },
+    "Ext_Save_Root":  {
+                          "message":  "/（ルート）"
+                      },
+    "Ext_Save_AsNew":  {
+                           "message":  "更新ではなく、新しいログインとして保存する"
+                       },
+    "Ext_Save_Update":  {
+                            "message":  "更新"
+                        },
+    "Ext_Save_Skip":  {
+                          "message":  "今回はしない"
+                      },
+    "Ext_Save_Never":  {
+                           "message":  "このサイトでは今後しない"
+                       },
+    "Ext_Save_NeedUnlock":  {
+                                "message":  "保存するにはロックを解除してください。"
+                            },
+    "Ext_Save_Saved":  {
+                           "message":  "TKRForm に保存しました"
+                       },
+    "Ext_Save_Updated":  {
+                             "message":  "TKRForm のパスワードを更新しました"
+                         },
+    "Ext_Opt_Autofill":  {
+                             "message":  "自動記入"
+                         },
+    "Ext_Opt_Autosave":  {
+                             "message":  "自動保存"
+                         },
+    "Ext_Opt_Domains":  {
+                            "message":  "同等ドメイン"
+                        },
+    "Ext_Opt_DomainsHint":  {
+                                "message":  "同じサイトとして扱うドメイン（1 行に 1 グループ、カンマ区切り。例: amazon.co.jp, amazon.com）"
+                            },
+    "Ext_Opt_Home":  {
+                         "message":  "ホーム"
+                     },
+    "Ext_Opt_HomeIcons":  {
+                              "message":  "ホームにサイトのアイコンを表示する（各サイトから取得する）"
+                          },
+    "Ext_Opt_HomeIconsNote":  {
+                                  "message":  "オンにすると、保存しているサイトへ、トップページとアイコンの画像を取りに行く通信が起きます（Cookie は送りません）。オフのとき（初期設定）は通信せず、Chrome が持っているアイコンか、名前の頭文字だけを表示します。"
+                              },
+    "Ext_Home_IconsOff":  {
+                              "message":  "サイトのアイコンを表示するには、設定でオンにしてください。"
+                          },
+    "Ext_Home_IconsOffLink":  {
+                                  "message":  "設定を開く"
+                              },
+    "Ext_Opt_HomeIconsClear":  {
+                                   "message":  "アイコンのキャッシュを消す"
+                               },
+    "Ext_Opt_HomeIconsCleared":  {
+                                     "message":  "アイコンのキャッシュを消しました。"
+                                 },
+    "Ext_Opt_Shortcuts":  {
+                              "message":  "キーボードショートカット"
+                          },
+    "Ext_Opt_ShortcutsNote":  {
+                                  "message":  "変更するには、アドレスバーに chrome://extensions/shortcuts（Edge は edge://extensions/shortcuts）を入力して開きます。"
+                              },
+    "Ext_Opt_NeedUnlock":  {
+                               "message":  "設定を変更するには、TKRForm のロックを解除してください。"
+                           },
+    "Ext_Opt_Connected":  {
+                              "message":  "TKRForm アプリ v$1$ に接続しています。",
+                              "placeholders":  {
+                                                   "1":  {
+                                                             "content":  "$1"
+                                                         }
+                                               }
+                          },
+    "Sync_Url":  {
+                     "message":  "同期サーバの URL"
+                 },
+    "Sync_Email":  {
+                       "message":  "メールアドレス（アカウント）"
+                   },
+    "Sync_Password":  {
+                          "message":  "マスターパスワード（確認のため）"
+                      },
+    "Sync_Https_Note":  {
+                            "message":  "マスターパスワードと平文のデータはサーバへ送られません。送るのは暗号化済みのデータだけです。URL は https:// で始めてください。"
+                        },
+    "Sync_Register":  {
+                          "message":  "この保管庫でアカウントを作成"
+                      },
+    "Sync_Login":  {
+                       "message":  "既存のアカウントでログイン"
+                   },
+    "Sync_Now":  {
+                     "message":  "今すぐ同期"
+                 },
+    "Sync_Disconnect":  {
+                            "message":  "同期をやめる..."
+                        },
+    "Sync_DisconnectConfirm":  {
+                                   "message":  "この端末の同期をやめます。サーバのトークンを破棄し、この端末の同期の記録（sync.json と sync.token）を削除します。保管庫のデータはこの端末に残ります。続けますか？"
+                               },
+    "Sync_Connected":  {
+                           "message":  "同期サーバに接続しました"
+                       },
+    "Sync_Report":  {
+                        "message":  "同期しました（受信 $1$ 件 / 送信 $2$ 件 / 競合 $3$ 件）",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   },
+                                             "2":  {
+                                                       "content":  "$2"
+                                                   },
+                                             "3":  {
+                                                       "content":  "$3"
+                                                   }
+                                         }
+                    },
+    "Sync_Status_Off":  {
+                            "message":  "同期はオフです。"
+                        },
+    "Sync_Status_On":  {
+                           "message":  "同期はオンです。"
+                       },
+    "Sync_Status_Ok":  {
+                           "message":  "同期はオンです（最終同期: $1$）",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Sync_Status_Error":  {
+                              "message":  "同期でエラー: $1$",
+                              "placeholders":  {
+                                                   "1":  {
+                                                             "content":  "$1"
+                                                         }
+                                               }
+                          },
+    "Setup_Sync_Create":  {
+                              "message":  "新しいアカウントを作る（この端末の保管庫をアップロード）"
+                          },
+    "Setup_Sync_Join":  {
+                            "message":  "既存のアカウントに参加する（サーバの保管庫を使う）"
+                        },
+    "Setup_Sync_Required":  {
+                                "message":  "同期サーバの URL とメールアドレスを入力してください。"
+                            },
+    "Setup_Sync_Failed":  {
+                              "message":  "保管庫は作成しましたが、同期の設定に失敗しました: $1$",
+                              "placeholders":  {
+                                                   "1":  {
+                                                             "content":  "$1"
+                                                         }
+                                               }
+                          },
+    "AppSave_Title":  {
+                          "message":  "Windows アプリのログインを保存"
+                      },
+    "AppSave_Heading":  {
+                            "message":  "Windows アプリのログインを保存"
+                        },
+    "AppSave_PasswordNote":  {
+                                 "message":  "パスワード欄の値はアプリから読み取れません。保存するパスワードを下で入力してください。"
+                             },
+    "AppSave_TitleMatch":  {
+                               "message":  "ウィンドウタイトル（一部が一致したものだけに記入）"
+                           },
+    "AppSave_Use":  {
+                        "message":  "保存"
+                    },
+    "AppSave_Submit":  {
+                           "message":  "記入後にログインボタンを押す"
+                       },
+    "AppSave_NoFields":  {
+                             "message":  "入力欄が見つかりませんでした。"
+                         },
+    "Tray_Apps_Menu":  {
+                           "message":  "アプリログイン"
+                       },
+    "Menu_FillApp":  {
+                         "message":  "アプリに記入"
+                     },
+    "App_Filled":  {
+                       "message":  "$1$ 個の欄に記入しました",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "App_Help":  {
+                     "message":  "記入するときは、対象のアプリを前面にして、トレイの「アプリログイン」またはクイック検索から選びます。exe のファイル名とウィンドウタイトルが一致しないアプリには記入しません。"
+                 },
+    "Security_Title":  {
+                           "message":  "セキュリティセンター"
+                       },
+    "Tray_Security":  {
+                          "message":  "セキュリティセンター"
+                      },
+    "Cmd_Security":  {
+                         "message":  "セキュリティセンター"
+                     },
+    "Sec_Score":  {
+                      "message":  "スコア"
+                  },
+    "Sec_ScoreBody":  {
+                          "message":  "$1$ 件のログインを調べました。弱い・使い回し・古いパスワードが少ないほど高くなります。",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Sec_Tab_Weak":  {
+                         "message":  "弱い"
+                     },
+    "Sec_Tab_Reused":  {
+                           "message":  "使い回し"
+                       },
+    "Sec_Tab_Old":  {
+                        "message":  "古い"
+                    },
+    "Sec_Tab_Dups":  {
+                         "message":  "重複"
+                     },
+    "Sec_Tab_Breach":  {
+                           "message":  "漏洩"
+                       },
+    "Sec_Tab_Off":  {
+                        "message":  "オフ"
+                    },
+    "Sec_Desc_Weak":  {
+                          "message":  "強度が 50 ビット未満のパスワードです。長くして、文字の種類を増やしましょう。"
+                      },
+    "Sec_Desc_Reused":  {
+                            "message":  "同じパスワードを 2 件以上のログインで使っています。1 つが漏れると、ほかも危険になります。"
+                        },
+    "Sec_Desc_Old":  {
+                         "message":  "365 日以上、パスワードを変更していないログインです。"
+                     },
+    "Sec_Desc_Dups":  {
+                          "message":  "URL とユーザー ID が同じログインが、2 件以上あります。"
+                      },
+    "Sec_Desc_Breach":  {
+                            "message":  "保存したパスワードが、過去の漏洩に含まれていないかを確認します。"
+                        },
+    "Sec_NoIssues":  {
+                         "message":  "問題は見つかりませんでした"
+                     },
+    "Sec_GroupReused":  {
+                            "message":  "同じパスワードを使用（$1$ 件）",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_GroupDup":  {
+                         "message":  "URL とユーザー ID が同じ（$1$ 件）",
+                         "placeholders":  {
+                                              "1":  {
+                                                        "content":  "$1"
+                                                    }
+                                          }
+                     },
+    "Sec_Changed":  {
+                        "message":  "変更: $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Sec_Corrupt":  {
+                        "message":  "破損したアイテムが $1$ 件あり、検査に含まれていません。",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Sec_Open":  {
+                     "message":  "開く"
+                 },
+    "Sec_Rescan":  {
+                       "message":  "もう一度調べる"
+                   },
+    "Sec_Breach":  {
+                       "message":  "漏洩チェック"
+                   },
+    "Sec_BreachOff":  {
+                          "message":  "漏洩チェックはオフです。オンにすると、保存したパスワードが過去の漏洩に含まれていないかを確認できます。"
+                      },
+    "Sec_BreachEnable":  {
+                             "message":  "漏洩チェックを有効にする..."
+                         },
+    "Sec_BreachDisable":  {
+                              "message":  "漏洩チェックをオフにする"
+                          },
+    "Sec_BreachRun":  {
+                          "message":  "漏洩を確認する"
+                      },
+    "Sec_BreachConsentTitle":  {
+                                   "message":  "漏洩チェックの同意"
+                               },
+    "Sec_BreachConsentBody":  {
+                                  "message":  "この機能は、Have I Been Pwned（Pwned Passwords）のサービスに問い合わせます。\n\n・パスワードそのものは送りません。パスワードの SHA-1 ハッシュの先頭 5 文字だけを送り、返ってきた候補の中でこの PC が照合します（k-匿名性）。\n・どのアイテムのものかは送りません。\n・通信先: api.pwnedpasswords.com（https）\n\nオンにしてよろしいですか？ 設定はいつでもオフにできます。"
+                              },
+    "Sec_BreachConsentOk":  {
+                                "message":  "同意して有効にする"
+                            },
+    "Sec_BreachDone":  {
+                           "message":  "$1$ 件を確認しました。",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Sec_BreachFound":  {
+                            "message":  "漏洩が確認されたパスワード（$1$ 件）",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_BreachCount":  {
+                            "message":  "$1$ 回",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_BreachClean":  {
+                            "message":  "漏洩したパスワードは見つかりませんでした。"
+                        },
+    "Hello_Unlock":  {
+                         "message":  "Windows Hello でロック解除"
+                     },
+    "Hello_Title":  {
+                        "message":  "Windows Hello でロック解除"
+                    },
+    "Hello_Unsupported":  {
+                              "message":  "この PC では Windows Hello を利用できません。Windows の設定で PIN や生体認証を登録してください。"
+                          },
+    "Hello_On":  {
+                     "message":  "Windows Hello でロック解除できます。"
+                 },
+    "Hello_Off":  {
+                      "message":  "Windows Hello でのロック解除はオフです。"
+                  },
+    "Hello_Note":  {
+                       "message":  "オンにすると、Windows Hello の確認（PIN・顔・指紋）でマスターパスワードなしにロック解除できます。マスターパスワードを変更したときは、再度オンにしてください。"
+                   },
+    "Hello_Enable":  {
+                         "message":  "Windows Hello を有効にする"
+                     },
+    "Hello_Enabled":  {
+                          "message":  "Windows Hello を有効にしました"
+                      },
+    "Hello_Disable":  {
+                          "message":  "Windows Hello をやめる..."
+                      },
+    "Hello_DisableConfirm":  {
+                                 "message":  "Windows Hello でのロック解除をやめます。登録した資格情報と、この保管庫の hello.key を削除します。マスターパスワードでは引き続き解除できます。"
+                             },
+    "Import_Format_onepassword":  {
+                                      "message":  "形式: 1Password の CSV"
+                                  },
+    "Import_Format_lastpass":  {
+                                   "message":  "形式: LastPass の CSV"
+                               },
+    "Import_Format_dashlane":  {
+                                   "message":  "形式: Dashlane の CSV"
+                               },
+    "Import_Format_keeper":  {
+                                 "message":  "形式: Keeper の CSV（ヘッダ行なし）"
+                             },
+    "Import_Format_keepass":  {
+                                  "message":  "形式: KeePass / KeePassXC の CSV"
+                              },
+    "Import_Format_bitwardencsv":  {
+                                       "message":  "形式: Bitwarden の CSV"
+                                   },
+    "Import_Source":  {
+                          "message":  "取り込み元"
+                      },
+    "Import_Source_Auto":  {
+                               "message":  "自動判定"
+                           },
+    "Import_Source_Keeper":  {
+                                 "message":  "Keeper（ヘッダ行のない CSV）"
+                             },
+    "Tray_Update":  {
+                        "message":  "更新を確認..."
+                    },
+    "Pref_general_checkUpdates":  {
+                                      "message":  "起動時と 24 時間ごとに更新を確認する"
+                                  },
+    "Pref_general_checkUpdates_Hint":  {
+                                           "message":  "オンにすると、新しい版がないかを配布元に問い合わせます。オフのときは、自動では通信しません（「今すぐ更新を確認」を押したときだけ問い合わせます）。"
+                                       },
+    "Pref_general_updateUrl":  {
+                                   "message":  "更新情報（latest.json）の URL"
+                               },
+    "Pref_general_updateUrl_Hint":  {
+                                        "message":  "空のときは、同期サーバと同じ場所の latest.json を使います。同期サーバがなければ確認しません。"
+                                    },
+    "Upd_Check":  {
+                      "message":  "今すぐ更新を確認"
+                  },
+    "Upd_Latest":  {
+                       "message":  "最新の版です（v$1$）",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "Upd_Available":  {
+                          "message":  "新しい版 v$1$ があります",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Upd_Confirm":  {
+                        "message":  "v$1$ に更新しますか？\n\n$2$\n\nダウンロード後に SHA-256 を照合し、一致したものだけを実行します。インストーラの実行前に TKRForm を終了します。",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   },
+                                             "2":  {
+                                                       "content":  "$2"
+                                                   }
+                                         }
+                    },
+    "Upd_Install":  {
+                        "message":  "ダウンロードして更新"
+                    },
+    "Folder_Move":  {
+                        "message":  "移動..."
+                    },
+    "Folder_MoveTitle":  {
+                             "message":  "フォルダ「$1$」の移動先",
+                             "placeholders":  {
+                                                  "1":  {
+                                                            "content":  "$1"
+                                                        }
+                                              }
+                         },
+    "Folder_Moved":  {
+                         "message":  "フォルダを移動しました（Ctrl+Z で元に戻せます）"
+                     },
+    "Ext_Popup_Frequent":  {
+                               "message":  "よく使う"
+                           },
+    "Hello_Waiting":  {
+                          "message":  "Windows Hello の確認を待っています。表示された画面で PIN・顔・指紋のいずれかで確認してください。"
+                      },
+    "Ext_Hello_Unlock":  {
+                             "message":  "Windows Hello でロック解除"
+                         },
+    "Ext_Hello_Waiting":  {
+                              "message":  "Windows Hello の確認を待っています..."
+                          },
+    "Ext_Hello_Or":  {
+                         "message":  "またはマスターパスワードで解除"
+                     },
+    "Hello_RegisteredDisabled":  {
+                                     "message":  "Windows Hello は登録済みですが、無効になっています（設定が失われた可能性があります）。有効に戻すと、Windows Hello の確認のあと、ロック解除に使えるようになります。"
+                                 },
+    "Hello_Reenable":  {
+                           "message":  "有効に戻す"
+                       },
+    "Pk_Create_Title":  {
+                            "message":  "パスキーを TKRForm に保存"
+                        },
+    "Pk_Create_Lead":  {
+                           "message":  "$1$ のパスキーを TKRForm に保存します。次回から、このパスキーでログインできます。",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Pk_Get_Title":  {
+                         "message":  "パスキーでログイン"
+                     },
+    "Pk_Get_Lead":  {
+                        "message":  "$1$ に、TKRForm のパスキーでログインします。",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Pk_Save":  {
+                    "message":  "保存"
+                },
+    "Pk_Use":  {
+                   "message":  "ログイン"
+               },
+    "Pk_Other":  {
+                     "message":  "ほかの方法を使う"
+                 },
+    "Pk_Cancel":  {
+                      "message":  "キャンセル"
+                  },
+    "Pk_Verifying":  {
+                         "message":  "確認しています...（Windows Hello の画面が出たら操作してください）"
+                     },
+    "Pk_Password_Label":  {
+                              "message":  "マスターパスワード"
+                          },
+    "Pk_Password_Needed":  {
+                               "message":  "パスキーを使うには、マスターパスワードの入力が必要です。"
+                           },
+    "Pk_Password_Bad":  {
+                            "message":  "マスターパスワードが違います。"
+                        },
+    "Pk_Uv_Failed":  {
+                         "message":  "Windows Hello で確認できませんでした。マスターパスワードで確認してください。"
+                     },
+    "Pk_Locked":  {
+                      "message":  "TKRForm がロックされています。"
+                  },
+    "Pk_Error":  {
+                     "message":  "パスキーを処理できませんでした。"
+                 },
+    "Pk_Section":  {
+                       "message":  "パスキー ($1$)",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "Pk_Created":  {
+                       "message":  "作成: $1$",
+                       "placeholders":  {
+                                            "1":  {
+                                                      "content":  "$1"
+                                                  }
+                                        }
+                   },
+    "Pk_LastUsed":  {
+                        "message":  "最終使用: $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Pk_NeverUsed":  {
+                         "message":  "未使用"
+                     },
+    "Pk_Delete":  {
+                      "message":  "パスキーを削除"
+                  },
+    "Pk_DeleteConfirm":  {
+                             "message":  "このパスキーを削除すると、そのサイトにログインできなくなる場合があります。削除しますか？"
+                         },
+    "Pk_Deleted":  {
+                       "message":  "パスキーを削除しました"
+                   },
+    "Pk_Badge":  {
+                     "message":  "パスキーあり"
+                 },
+    "Pref_autofill_passkeys":  {
+                                   "message":  "Web サイトのパスキーを TKRForm に保存し、ログインに使う"
+                               },
+    "Pref_autofill_passkeyExclude":  {
+                                         "message":  "パスキーを扱わないサイト（1 行に 1 つ）"
+                                     },
+    "Pref_autofill_passkeyExclude_Hint":  {
+                                              "message":  "ドメイン名、または URL の一部。これらのサイトでは、ブラウザ標準のパスキーがそのまま使われます。"
+                                          },
+    "Legal_Trademarks":  {
+                             "message":  "RoboForm は Siber Systems, Inc. の商標です。TKRForm は Siber Systems, Inc. とは関係ありません。1Password、LastPass、Dashlane、Keeper、KeePass、Bitwarden、Chrome、Edge、Firefox、Windows Hello などの名称は、各社の商標または登録商標です。"
+                         },
+    "Reset_Button":  {
+                         "message":  "全初期化..."
+                     },
+    "Reset_Title":  {
+                        "message":  "全初期化"
+                    },
+    "Reset_Warn":  {
+                       "message":  "TKRForm のデータを、すべて消します。\n\n・保管庫（すべてのログイン・プロフィール・メモなど）\n・設定、同期の接続、Windows Hello の登録\n\nバックアップ（既定の保存先と、指定した保存先）は消しません。初期化のあとで、「復元」から戻せます。\n\n消したデータは、このままでは元に戻せません。"
+                   },
+    "Reset_Next":  {
+                       "message":  "続ける"
+                   },
+    "Reset_Reauth":  {
+                         "message":  "全初期化のため、マスターパスワードを入力してください。入力すると、すべてのデータがすぐに消えます。"
+                     },
+    "Backup_Dir":  {
+                       "message":  "保存先フォルダ"
+                   },
+    "Backup_DirChange":  {
+                             "message":  "変更..."
+                         },
+    "Backup_DirReset":  {
+                            "message":  "既定に戻す"
+                        },
+    "Backup_DirPick":  {
+                           "message":  "バックアップの保存先を選んでください"
+                       },
+    "Backup_DirChanged":  {
+                              "message":  "保存先を変更しました。以前のバックアップは移動も削除もしていません。"
+                          },
+    "Backup_LastError":  {
+                             "message":  "自動バックアップに失敗しました: $1$",
+                             "placeholders":  {
+                                                  "1":  {
+                                                            "content":  "$1"
+                                                        }
+                                              }
+                         },
+    "Backup_Previous":  {
+                            "message":  "以前の保存先に $1$ 件のバックアップが残っています: $2$",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       },
+                                                 "2":  {
+                                                           "content":  "$2"
+                                                       }
+                                             }
+                        },
+    "Backup_Loc_Default":  {
+                               "message":  "既定の保存先"
+                           },
+    "Backup_Loc_Previous":  {
+                                "message":  "以前の保存先"
+                            },
+    "Backup_Loc_Picked":  {
+                              "message":  "選んだフォルダ"
+                          },
+    "Backup_RestoreFromFolder":  {
+                                     "message":  "フォルダを指定して復元..."
+                                 },
+    "Backup_RestorePickTitle":  {
+                                    "message":  "バックアップが入っているフォルダを選んでください"
+                                },
+    "Backup_RestoreNone":  {
+                               "message":  "このフォルダには、TKRForm のバックアップ（yyyyMMdd-HHmmss.tkb）がありません: $1$",
+                               "placeholders":  {
+                                                    "1":  {
+                                                              "content":  "$1"
+                                                          }
+                                                }
+                           },
+    "Pk_Cond_Heading":  {
+                            "message":  "パスキー"
+                        }
+}

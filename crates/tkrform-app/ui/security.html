@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TKRForm</title>
+<link rel="stylesheet" href="common.css">
+<style>
+  main { padding: 18px 24px 40px; display: flex; flex-direction: column; gap: 14px; max-width: 820px; }
+  .top { display: flex; gap: 20px; align-items: center; }
+  .ring { width: 96px; height: 96px; flex: none; }
+  .ring text { font: 700 26px var(--font); fill: var(--ink); }
+  #tabs { flex-wrap: wrap; }
+  #tabs button .cnt { font-size: 12px; font-weight: 600; margin-left: 4px; color: var(--coral-dark); }
+  #tabs button .cnt.ok { color: var(--mint); }
+  #tabs button .cnt.off { color: var(--ink-sub); font-weight: 400; }
+  section.card[role=tabpanel] { display: flex; flex-direction: column; gap: 10px; }
+  section.card[role=tabpanel].hidden { display: none; }
+  ul.rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+  ul.rows li { display: flex; gap: 10px; align-items: center; padding: 4px 6px; border-radius: 4px; }
+  ul.rows li:hover { background: var(--hover); }
+  .grp { border-left: 3px solid var(--amber); padding-left: 8px; margin: 6px 0; }
+  .grp-title { font-size: 12px; font-weight: 600; color: var(--ink-sub); padding: 2px 6px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="top card">
+    <svg class="ring" viewBox="0 0 100 100" id="ring" role="img"></svg>
+    <div class="grow"><h1 data-i18n="Security_Title"></h1><div class="sub" id="score-body"></div><div id="corrupt" class="msg warn hidden"></div></div>
+    <button type="button" id="rescan" data-i18n="Sec_Rescan"></button>
+  </div>
+  <div class="tabs" role="tablist" id="tabs" data-i18n-aria="Security_Title"></div>
+  <section class="card" id="panel-weak" role="tabpanel" aria-labelledby="tab-weak"><div class="sub" data-desc="Sec_Desc_Weak"></div><div class="body"></div></section>
+  <section class="card hidden" id="panel-reused" role="tabpanel" aria-labelledby="tab-reused"><div class="sub" data-desc="Sec_Desc_Reused"></div><div class="body"></div></section>
+  <section class="card hidden" id="panel-old" role="tabpanel" aria-labelledby="tab-old"><div class="sub" data-desc="Sec_Desc_Old"></div><div class="body"></div></section>
+  <section class="card hidden" id="panel-dups" role="tabpanel" aria-labelledby="tab-dups"><div class="sub" data-desc="Sec_Desc_Dups"></div><div class="body"></div></section>
+  <section class="card hidden" id="panel-breach" role="tabpanel" aria-labelledby="tab-breach">
+    <div class="col">
+      <div class="sub" id="breach-state"></div>
+      <div class="row" id="breach-actions"></div>
+      <div id="breach-result"></div>
+    </div>
+  </section>
+</main>
+<script src="common.js"></script>
+<script src="security.js"></script>
+</body>
+</html>

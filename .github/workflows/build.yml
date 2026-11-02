@@ -1,0 +1,80 @@
+# TKRForm のビルド: リリースビルド → cargo test → インストーラ作成 → 成果物のアップロード。
+# 署名は、SignPath Foundation の承認後に、下の「署名」の手順を有効にする（今は動かさない）。
+
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: テスト
+        run: cargo test --workspace
+
+      - name: リリースビルド
+        run: cargo build --release
+
+      - name: Inno Setup の確認（なければ入れる）
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe")) { choco install innosetup -y --no-progress }
+
+      - name: インストーラの作成
+        shell: pwsh
+        run: '& "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" installer\tkrform.iss'
+
+      - name: 成果物（署名前）のアップロード
+        id: upload-unsigned
+        uses: actions/upload-artifact@v4
+        with:
+          name: tkrform-unsigned
+          path: |
+            target/release/TKRForm.exe
+            target/release/tkrform-nmhost.exe
+            installer/Output/tkrform-setup-*.exe
+
+      # ------------------------------------------------------------------
+      # 署名（SignPath Foundation の承認後に有効にする。今は動かさない）
+      #
+      # 承認されたら、次の 2 つを実際の値に置き換え、`if: false` を外す。
+      #   - organization-id: SignPath の組織の ID（<組織の ID>）
+      #   - project-slug / signing-policy-slug: SignPath のプロジェクト名・署名ポリシー名（<プロジェクト名> / <署名ポリシー名>）
+      # また、GitHub のリポジトリの Secrets に、SignPath の API トークン（SIGNPATH_API_TOKEN）を登録する。
+      # 署名の依頼は、承認者が SignPath 側で、リリースのたびに手動で承認する（CODE_SIGNING_POLICY.md）。
+      # ------------------------------------------------------------------
+      # - name: 署名（SignPath）
+      #   if: false   # 承認後に、この行を消す
+      #   uses: signpath/github-action-submit-signing-request@v1
+      #   with:
+      #     api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+      #     organization-id: '<組織の ID>'
+      #     project-slug: '<プロジェクト名>'
+      #     signing-policy-slug: '<署名ポリシー名>'
+      #     artifact-configuration-slug: '<成果物の設定名>'
+      #     github-artifact-id: ${{ steps.upload-unsigned.outputs.artifact-id }}
+      #     wait-for-completion: true
+      #     output-artifact-directory: 'signed'
+      #
+      # - name: 署名済みの成果物のアップロード
+      #   if: false
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: tkrform-signed
+      #     path: signed
