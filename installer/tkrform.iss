@@ -11,8 +11,9 @@
 ; - アンインストール時は、ユーザーデータ（%LOCALAPPDATA%\tkrform）を消すかどうかを必ず確認する。既定は「残す」。
 
 #define AppName "TKRForm"
-#define AppVersion "0.2.0"
-#define AppPublisher "TKRForm"
+; 版は Cargo.toml から来る（リリースビルドした TKRForm.exe の製品バージョン）。ここには書かない
+#define AppVersion GetStringFileInfo("..\target\release\TKRForm.exe", "ProductVersion")
+#define AppPublisher "Takara Syscom"
 #define NmHostName "jp.tkrs.tkrform"
 ; 拡張 ID は extension/manifest.json の key から決まる固定値（tools/ext-id.txt）
 #define ExtId "peloncdiaianimbhoficpdcpiooldofd"
@@ -28,6 +29,12 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 OutputDir=Output
 OutputBaseFilename=tkrform-setup-{#AppVersion}
+VersionInfoVersion={#AppVersion}.0
+VersionInfoProductName={#AppName}
+VersionInfoProductVersion={#AppVersion}
+VersionInfoCompany={#AppPublisher}
+VersionInfoCopyright=Copyright (c) 2026 Takara Syscom
+VersionInfoDescription={#AppName} Setup
 Compression=lzma2
 SolidCompression=yes
 WizardStyle=modern

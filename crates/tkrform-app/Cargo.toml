@@ -15,6 +15,7 @@ custom-protocol = ["tauri/custom-protocol"]
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
+serde_json.workspace = true
 
 [dependencies]
 tkrform-core = { path = "../tkrform-core" }
