@@ -237,23 +237,36 @@ mod tests {
 
     #[test]
     fn watch_finds_dialog_window() {
+        if crate::sys::skip_without_desktop("hello::tests::watch_finds_dialog_window") {
+            return;
+        }
         let _g = SERIAL.lock().unwrap_or_else(|e| e.into_inner());
         let _ = take_notes();
-        let th = std::thread::spawn(|| unsafe {
+        // ウィンドウは、見張りが見つけるまで（時間ではなく、合図で）残す。負荷で遅れても、見つけられる
+        let (ready_tx, ready_rx) = std::sync::mpsc::channel::<()>();
+        let (done_tx, done_rx) = std::sync::mpsc::channel::<()>();
+        let th = std::thread::spawn(move || unsafe {
             let wc = WNDCLASSW { lpfnWndProc: Some(proc), hInstance: HINSTANCE::default(), lpszClassName: w!("TkrformTestDialogClass"), ..Default::default() };
             RegisterClassW(&wc);
             let h = CreateWindowExW(Default::default(), w!("TkrformTestDialogClass"), w!("test"), WS_OVERLAPPEDWINDOW | WS_VISIBLE, 0, 0, 100, 100, None, None, None, None).unwrap();
-            std::thread::sleep(std::time::Duration::from_millis(1500));
+            let _ = ready_tx.send(());
+            let _ = done_rx.recv_timeout(std::time::Duration::from_secs(10));
             let _ = DestroyWindow(h);
         });
-        std::thread::sleep(std::time::Duration::from_millis(300));
+        ready_rx.recv_timeout(std::time::Duration::from_secs(5)).expect("ウィンドウを作れた");
+        let mut found = Vec::new();
         {
-            let _w = DialogWatch::start_class("TkrformTestDialogClass", 3000);
-            std::thread::sleep(std::time::Duration::from_millis(600));
+            let _w = DialogWatch::start_class("TkrformTestDialogClass", 8000);
+            let t0 = std::time::Instant::now();
+            while t0.elapsed().as_secs() < 6 && !found.iter().any(|n: &String| n.starts_with("hello.dialog.found")) {
+                std::thread::sleep(std::time::Duration::from_millis(100));
+                found.extend(take_notes());
+            }
         }
+        let _ = done_tx.send(());
         th.join().unwrap();
-        let notes = take_notes();
-        assert!(notes.iter().any(|n| n.starts_with("hello.dialog.found") && n.contains("TkrformTestDialogClass")), "{notes:?}");
+        found.extend(take_notes());
+        assert!(found.iter().any(|n| n.starts_with("hello.dialog.found") && n.contains("TkrformTestDialogClass")), "{found:?}");
     }
 
     #[test]

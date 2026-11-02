@@ -450,3 +450,15 @@ pub fn show_inactive(hwnd: HWND) {
         let _ = SetWindowPos(hwnd, Some(HWND_BOTTOM), 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
     }
 }
+
+/// 試験用: 対話的なデスクトップ（ログイン中のユーザーの画面）が要る試験を、飛ばすか。
+/// GitHub Actions などの CI（環境変数 `CI` が空でない）には、ウィンドウを見られるデスクトップがないので、理由を出して飛ばす。
+/// 手元の PC（`CI` なし）では、飛ばさずに実行する。
+#[cfg(test)]
+pub fn skip_without_desktop(test: &str) -> bool {
+    let ci = std::env::var("CI").map(|v| !v.is_empty()).unwrap_or(false);
+    if ci {
+        eprintln!("skip {test}: CI には対話的なデスクトップがないため（ウィンドウの作成・列挙に依存する試験）");
+    }
+    ci
+}
