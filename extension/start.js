@@ -75,7 +75,7 @@ async function load() {
   try {
     const st = await bg({ t: 'state' });
     if (!st.connected || st.locked) {
-      msg.textContent = st.connected ? t('Ext_Locked') : t('Ext_NotConnected');
+      msg.textContent = st.connected ? t('Ext_Locked') : st.starting ? t('Ext_Starting') : t('Ext_NotConnected');
       msg.classList.remove('hidden');
       grid.replaceChildren();
       count.textContent = '';
@@ -122,7 +122,7 @@ $('#q').addEventListener('input', () => { clearTimeout(qTimer); qTimer = setTime
 let lastState = '';
 chrome.runtime.onMessage.addListener((m) => {
   if (!m || m.t !== 'state' || !m.state) return;
-  const key = `${m.state.connected}/${m.state.locked}`;
+  const key = `${m.state.connected}/${m.state.locked}/${m.state.starting}`;
   if (key !== lastState) { lastState = key; load(); }
 });
 load();

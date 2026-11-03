@@ -6,8 +6,8 @@ import http from 'node:http';
 import zlib from 'node:zlib';
 import fs from 'node:fs';
 import path from 'node:path';
-import { spawn } from 'node:child_process';
-import { Cdp, PipeClient, startApp, killTree, waitTarget, waitFor, tmpDir, sleep, ROOT, listTargets, watchWindows } from './lib.mjs';
+import { spawn, execFileSync } from 'node:child_process';
+import { nmRegistrySave, nmRegistryRestore, Cdp, PipeClient, startApp, killTree, waitTarget, waitFor, tmpDir, sleep, ROOT, listTargets, watchWindows } from './lib.mjs';
 
 const APP_PORT = 9336;
 const CHROME_PORT = 9677;
@@ -148,9 +148,10 @@ server.on('connection', () => {});
 const helloStub = path.join(dataDir, '..', path.basename(dataDir) + '-hello-stub.txt');
 fs.writeFileSync(helloStub, 'ok');
 // Windows Hello の確認ダイアログは自動操作できないため、テスト専用の差し替え（TKRFORM_TEST のときだけ有効）で成功・失敗を再現する
+const nmSaved = nmRegistrySave(); // アプリが書き換える Native Messaging の登録を、終わったら戻す
 const app = startApp({ dataDir, cdpPort: APP_PORT, env: { TKRFORM_REGISTER_NM: '1', TKRFORM_HELLO_STUB_FILE: helloStub } });
 let chrome = null;
-const cleanup = () => { try { server.close(); } catch (_) { /* 無視 */ } if (chrome) killTree(chrome); killTree(app.child); };
+const cleanup = () => { try { server.close(); } catch (_) { /* 無視 */ } if (chrome) killTree(chrome); killTree(app.child); nmRegistryRestore(nmSaved); };
 
 async function chromeTargets() {
   return (await fetch(`http://127.0.0.1:${CHROME_PORT}/json/list`)).json();
@@ -202,7 +203,11 @@ try {
   chrome = spawn(CHROME, [
     `--user-data-dir=${profile}`, `--remote-debugging-port=${CHROME_PORT}`, '--remote-debugging-pipe', '--enable-unsafe-extension-debugging',
     '--no-first-run', '--no-default-browser-check', ...(headful ? [] : ['--headless=new']), 'about:blank',
-  ], { stdio: ['ignore', 'pipe', 'pipe', 'pipe', 'pipe'] });
+  ], {
+    stdio: ['ignore', 'pipe', 'pipe', 'pipe', 'pipe'],
+    // 接続役がアプリを起動し直すとき、利用者の保管庫ではなく、テスト用のものを使うよう、環境を引き継がせる
+    env: { ...process.env, TKRFORM_TEST: '1', TKRFORM_DATA_DIR: dataDir, WEBVIEW2_USER_DATA_FOLDER: dataDir + '-wv2-relaunch', WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS: `--remote-debugging-port=${APP_PORT}` },
+  });
   chrome.stderr.on('data', (d) => { if (process.env.E2E_DEBUG) console.log('chrome:', String(d).slice(0, 400)); });
   chrome.on('exit', (c) => console.log('chrome exit', c));
   await waitFor(async () => (await chromeTargets()).length > 0, 30000, 'Chrome の起動');
@@ -1211,6 +1216,31 @@ try {
   hl.close();
   await pipe.ok('lock');
   await waitFor(async () => (await swState()).locked === true, 3000);
+  // ------------------------------------------------------ アプリが終了しても、接続役（NM ホスト）は生きたまま。拡張から要求すると、接続役がアプリを起動して、つなぎ直す
+  {
+    const psJson = (cmd) => JSON.parse(execFileSync('powershell', ['-NoProfile', '-Command', cmd], { encoding: 'utf8' }).trim() || '[]');
+    // プロセスの一覧（Name, ProcessId, ParentProcessId）。接続役の親は、Chrome の本体とは限らない（途中に別のプロセスがある）ので、祖先をたどる
+    const procs = (name) => [].concat(psJson('@(Get-CimInstance Win32_Process | Select-Object Name, ProcessId, ParentProcessId) | ConvertTo-Json -Compress')).filter((p) => p.Name.toLowerCase() === name.toLowerCase());
+    const allProcs = () => [].concat(psJson('@(Get-CimInstance Win32_Process | Select-Object Name, ProcessId, ParentProcessId) | ConvertTo-Json -Compress'));
+    const descendantOf = (p, rootPid, all) => { for (let q = p, n = 0; q && n < 12; n++) { if (q.ParentProcessId === rootPid) return true; q = all.find((x) => x.ProcessId === q.ParentProcessId); } return false; };
+    const all0 = allProcs();
+    const hostBefore = all0.filter((p) => p.Name.toLowerCase() === 'tkrform-nmhost.exe').find((p) => descendantOf(p, chrome.pid, all0));
+    ok(!!hostBefore, '接続役（NM ホスト）が、この Chrome から起動されて動いている');
+    killTree(app.child);
+    await sleep(2500); // 接続役が disconnected を送り、拡張が「未接続」にする時間
+    const hostAfter = procs('tkrform-nmhost.exe').find((p) => p.ProcessId === hostBefore.ProcessId);
+    ok(!!hostAfter, 'アプリが終了しても、接続役は動き続けている');
+    // 拡張から要求（ポップアップが開いたときの state の問い合わせ）→ 接続役がアプリを起動する
+    const st1 = await swState();
+    ok(st1.connected === true || st1.starting === true, `未接続のときに state を問い合わせると、アプリの起動が始まる（connected=${st1.connected} starting=${st1.starting}）`);
+    await waitFor(async () => (await swState()).connected === true, 30000, 'アプリが起動してつながる');
+    ok(true, '接続役がアプリを起動し、拡張がつなぎ直せた');
+    const newApp = procs('TKRForm.exe').find((p) => p.ParentProcessId === hostBefore.ProcessId);
+    ok(!!newApp, 'アプリは、接続役が起動した（親は、同じ接続役）');
+    // 起動したアプリを片付ける（利用者の TKRForm には触れない。この接続役が起動したものだけ）
+    if (newApp) { try { execFileSync('taskkill', ['/pid', String(newApp.ProcessId), '/T', '/F'], { stdio: 'ignore' }); } catch (_) { /* 既に終了 */ } }
+  }
+
   swc.close(); ui.close(); pipe.close();
 } catch (e) {
   failed++;

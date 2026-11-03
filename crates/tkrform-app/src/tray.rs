@@ -114,11 +114,11 @@ fn build_menu(app: &AppHandle, core: &Arc<Core>) -> tauri::Result<Menu<Wry>> {
     } else {
         mb.text("m:lock", format!("{}\t{}", l("Tray_Lock"), prefs.hotkeys.lock))
     };
-    let help = SubmenuBuilder::new(app, l("Tray_Help"))
-        .text("m:ext_help", l("Tray_ExtensionHelp"))
-        .text("m:update", l("Tray_Update"))
-        .text("m:about", l("Tray_About"))
-        .build()?;
+    let mut help = SubmenuBuilder::new(app, l("Tray_Help")).text("m:ext_help", l("Tray_ExtensionHelp"));
+    if !crate::msix::is_packaged() {
+        help = help.text("m:update", l("Tray_Update")); // Store 版は、Store が更新する
+    }
+    let help = help.text("m:about", l("Tray_About")).build()?;
     mb.text("m:settings", l("Tray_Settings")).item(&help).separator().text("m:quit", l("Tray_Quit")).build()
 }
 

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  TKRForm の MSIX（Microsoft Store 版）のマニフェストのひな形。build-msix.ps1 が、{{...}} を埋めて AppxManifest.xml を作る。
+
+  Identity の Name / Publisher、表示名は、Partner Center で予約した値に差し替える（build-msix.ps1 の引数）。
+
+  仮想化の宣言（Properties と Capabilities の unvirtualizedResources）の理由は、仕様書.md の「Microsoft Store 版（MSIX）」の節。
+  要点: Chrome / Edge は、レジストリの HKCU\Software\{Google\Chrome,Microsoft\Edge}\NativeMessagingHosts\jp.tkrs.tkrform と、
+  %LOCALAPPDATA%\tkrform\nm の中のマニフェストと NM ホストを、パッケージの外から読む。仮想化されると、パッケージの中にしか見えず、拡張が接続できない。
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:virtualization="http://schemas.microsoft.com/appx/manifest/virtualization/windows10"
+  IgnorableNamespaces="uap desktop desktop6 rescap virtualization">
+
+  <Identity Name="{{IDENTITY_NAME}}" Publisher="{{PUBLISHER}}" Version="{{VERSION}}" ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>{{DISPLAY_NAME}}</DisplayName>
+    <PublisherDisplayName>{{PUBLISHER_DISPLAY_NAME}}</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+
+    <!-- Windows 10（1903 以降）向け: 仮想化を止める範囲を限定できないので、HKCU と AppData の書き込みの仮想化を、まとめて止める。 -->
+    <desktop6:RegistryWriteVirtualization>disabled</desktop6:RegistryWriteVirtualization>
+    <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
+
+    <!-- Windows 11 以降: 仮想化を止める場所を、必要なものだけに限る（こちらが優先される）。 -->
+    <virtualization:FileSystemWriteVirtualization>
+      <virtualization:ExcludedDirectories>
+        <!-- 保管庫・設定・NM ホストのコピー・拡張のコピー（インストーラ版と同じ保管庫を使うため、仮想化しない） -->
+        <virtualization:ExcludedDirectory>$(KnownFolder:LocalAppData)\tkrform</virtualization:ExcludedDirectory>
+      </virtualization:ExcludedDirectories>
+    </virtualization:FileSystemWriteVirtualization>
+    <virtualization:RegistryWriteVirtualization>
+      <virtualization:ExcludedKeys>
+        <!-- Chrome / Edge が読む、Native Messaging ホストの登録 -->
+        <virtualization:ExcludedKey>HKEY_CURRENT_USER\Software\Google\Chrome\NativeMessagingHosts\jp.tkrs.tkrform</virtualization:ExcludedKey>
+        <virtualization:ExcludedKey>HKEY_CURRENT_USER\Software\Microsoft\Edge\NativeMessagingHosts\jp.tkrs.tkrform</virtualization:ExcludedKey>
+      </virtualization:ExcludedKeys>
+    </virtualization:RegistryWriteVirtualization>
+  </Properties>
+
+  <Dependencies>
+    <!-- unvirtualizedResources が使えるのは Windows 10 1903（10.0.18362）以降 -->
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.18362.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="ja-JP" />
+    <Resource Language="en-US" />
+  </Resources>
+
+  <Applications>
+    <Application Id="TKRForm" Executable="TKRForm.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="{{DISPLAY_NAME}}"
+        Description="Password manager and form filler for Windows"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png" />
+      <Extensions>
+        <!-- 自動起動。設定の「Windows の起動時に起動する」と連動する（StartupTask API）。既定はオフ -->
+        <desktop:Extension Category="windows.startupTask" Executable="TKRForm.exe" EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="TKRFormStartup" Enabled="false" DisplayName="{{DISPLAY_NAME}}" />
+        </desktop:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+    <rescap:Capability Name="unvirtualizedResources" />
+  </Capabilities>
+</Package>

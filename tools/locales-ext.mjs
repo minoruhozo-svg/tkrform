@@ -13,6 +13,7 @@ export const rows = [
   ['Ext_Title_Disconnected', 'TKRForm（未接続）', 'TKRForm (not connected)'],
   ['Ext_NotConnected', 'TKRForm アプリに接続できません。アプリがインストールされ、起動できる状態か確認してください。', 'Cannot connect to the TKRForm app. Check that it is installed and can start.'],
   ['Ext_Timeout', 'TKRForm から応答がありません', 'No response from TKRForm'],
+  ['Ext_Starting', 'TKRForm を起動しています…', 'Starting TKRForm…'],
   ['Ext_Reconnect', '再接続', 'Reconnect'],
   ['Ext_MasterPassword', 'マスターパスワード', 'Master password'],
   ['Ext_Unlock', 'ロック解除', 'Unlock'],

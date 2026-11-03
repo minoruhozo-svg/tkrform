@@ -7,10 +7,12 @@ const HOST = 'jp.tkrs.tkrform';
 const EXT_BASE = chrome.runtime.getURL('');
 const msg = (key, ...subs) => chrome.i18n.getMessage(key, subs) || key;
 
-const state = { connected: false, locked: true, exists: true, version: '', error: '', helloAvailable: false };
+const state = { connected: false, locked: true, exists: true, version: '', error: '', helloAvailable: false, starting: false };
 let port = null;
 let nextId = 1;
 let lastConnectTry = 0;
+let lastKick = 0;
+let startingTimer = null;
 const pending = new Map();
 let prefsCache = null;
 let helloWaiters = [];
@@ -19,8 +21,26 @@ const pendingSaves = new Map(); // token -> { data, tabId, check }
 
 // ------------------------------------------------------------------ Native Messaging
 
+/** 接続役（NM ホスト）は生きているが、アプリにつながっていない（アプリが終了した）とき、hello を送る。
+ *  接続役は、要求を受けると、アプリを起動してつなぎ直す（`connected` → hello の応答で、接続済みに戻る）。起動を待つ間は、state.starting を立てる。 */
+function kickApp() {
+  const now = Date.now();
+  if (!port || state.connected || now - lastKick < 1500) return;
+  lastKick = now;
+  try {
+    port.postMessage({ id: 0, cmd: 'hello', args: { extVersion: chrome.runtime.getManifest().version } });
+  } catch (_) { return; }
+  state.starting = true;
+  clearTimeout(startingTimer);
+  startingTimer = setTimeout(() => { if (state.starting) { state.starting = false; broadcastState(); } }, 12000);
+  broadcastState();
+}
+
 function connect() {
-  if (port) return;
+  if (port) {
+    if (!state.connected) kickApp();
+    return;
+  }
   const now = Date.now();
   if (now - lastConnectTry < 1500) return;
   lastConnectTry = now;
@@ -85,6 +105,7 @@ function onNative(m) {
 function setConnected(c, err) {
   state.connected = c;
   state.error = err || '';
+  if (c) { state.starting = false; clearTimeout(startingTimer); }
   if (!c) { prefsCache = null; updateIcon(); broadcastState(); }
 }
 
@@ -407,7 +428,7 @@ async function handle(m, sender) {
       await ready();
       return { ...state, prefs: state.connected && !state.locked ? await getPrefs() : null };
     case 'reconnect':
-      lastConnectTry = 0; connect();
+      lastConnectTry = 0; lastKick = 0; connect();
       return state;
     case 'match':
       return call('match', { url: sender.url });

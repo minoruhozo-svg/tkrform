@@ -4456,6 +4456,7 @@ dependencies = [
  "tauri-plugin-dialog",
  "tauri-plugin-global-shortcut",
  "tauri-plugin-single-instance",
+ "tempfile",
  "tkrform-core",
  "tkrform-ipc",
  "ureq",
@@ -4509,6 +4510,7 @@ version = "0.2.0"
 dependencies = [
  "serde_json",
  "tkrform-ipc",
+ "windows",
  "winresource",
 ]
 

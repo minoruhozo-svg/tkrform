@@ -513,6 +513,7 @@
   "Ext_Title_Disconnected": "TKRForm (not connected)",
   "Ext_NotConnected": "Cannot connect to the TKRForm app. Check that it is installed and can start.",
   "Ext_Timeout": "No response from TKRForm",
+  "Ext_Starting": "Starting TKRForm…",
   "Ext_Reconnect": "Reconnect",
   "Ext_MasterPassword": "Master password",
   "Ext_Unlock": "Unlock",

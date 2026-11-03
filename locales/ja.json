@@ -513,6 +513,7 @@
   "Ext_Title_Disconnected": "TKRForm（未接続）",
   "Ext_NotConnected": "TKRForm アプリに接続できません。アプリがインストールされ、起動できる状態か確認してください。",
   "Ext_Timeout": "TKRForm から応答がありません",
+  "Ext_Starting": "TKRForm を起動しています…",
   "Ext_Reconnect": "再接続",
   "Ext_MasterPassword": "マスターパスワード",
   "Ext_Unlock": "ロック解除",

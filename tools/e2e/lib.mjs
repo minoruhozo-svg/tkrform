@@ -3,7 +3,7 @@
 //   - CDP（Chrome DevTools Protocol）クライアント
 //   - Named Pipe クライアント（拡張と同じプロトコル）
 //   - Native Messaging ホストの起動
-import { spawn, execSync } from 'node:child_process';
+import { spawn, execSync, execFileSync } from 'node:child_process';
 import net from 'node:net';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -72,6 +72,31 @@ export function startApp({ dataDir, cdpPort = 9333, args = [], exe, env = {} }) 
   child.stderr.on('data', (d) => log.push(String(d)));
   watchWindows(child.pid, 'TKRForm');
   return { child, log, cdpPort };
+}
+
+// ---------------------------------------------------------------- Native Messaging の登録（HKCU）の退避と復元
+// TKRFORM_REGISTER_NM つきで起動するアプリは、Chrome / Edge が読む HKCU の登録を、テスト用のフォルダを指すように書き換える。
+// 利用者の（またはインストールした）TKRForm の登録を壊さないよう、テストの前に値を控えて、終わったら戻す。
+const NM_REG_KEYS = ['Google\\Chrome', 'Microsoft\\Edge'].map((v) => 'HKCU:\\Software\\' + v + '\\NativeMessagingHosts\\jp.tkrs.tkrform');
+
+export function nmRegistrySave() {
+  try {
+    const script = "$o = @{}; foreach ($k in @('" + NM_REG_KEYS.join("','") + "')) { $o[$k] = if (Test-Path $k) { (Get-Item $k).GetValue('') } else { $null } }; $o | ConvertTo-Json -Compress";
+    return JSON.parse(execFileSync('powershell', ['-NoProfile', '-Command', script], { encoding: 'utf8' }));
+  } catch (_) { return null; }
+}
+
+export function nmRegistryRestore(saved) {
+  if (!saved) return;
+  for (const k of NM_REG_KEYS) {
+    const v = saved[k];
+    try {
+      const cmd = v
+        ? "if (-not (Test-Path '" + k + "')) { New-Item -Path '" + k + "' -Force | Out-Null }; Set-ItemProperty -Path '" + k + "' -Name '(default)' -Value '" + String(v).replace(/'/g, "''") + "'"
+        : "Remove-Item -Path '" + k + "' -Recurse -ErrorAction SilentlyContinue";
+      execFileSync('powershell', ['-NoProfile', '-Command', cmd], { stdio: 'ignore' });
+    } catch (_) { /* 戻せなくても、テストの結果は変えない */ }
+  }
 }
 
 export function killTree(child) {

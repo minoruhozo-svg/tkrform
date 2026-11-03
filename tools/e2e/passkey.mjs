@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawn } from 'node:child_process';
-import { Cdp, PipeClient, startApp, killTree, waitTarget, waitFor, tmpDir, sleep, ROOT, watchWindows } from './lib.mjs';
+import { nmRegistrySave, nmRegistryRestore, Cdp, PipeClient, startApp, killTree, waitTarget, waitFor, tmpDir, sleep, ROOT, watchWindows } from './lib.mjs';
 
 const APP_PORT = 9362;
 const CHROME_PORT = 9678;
@@ -174,9 +174,10 @@ function verifyAssertion(r, challenge, { uv, userHandle, rpId = 'localhost' }) {
 // "起動"
 
 step('アプリの起動');
+const nmSaved = nmRegistrySave(); // アプリが書き換える Native Messaging の登録を、終わったら戻す
 const app = startApp({ dataDir, cdpPort: APP_PORT, env: { TKRFORM_REGISTER_NM: '1' } });
 let chrome = null;
-const cleanup = () => { try { server.close(); } catch (_) { /* 無視 */ } if (chrome) killTree(chrome); killTree(app.child); };
+const cleanup = () => { try { server.close(); } catch (_) { /* 無視 */ } if (chrome) killTree(chrome); killTree(app.child); nmRegistryRestore(nmSaved); };
 const chromeTargets = async () => (await fetch(`http://127.0.0.1:${CHROME_PORT}/json/list`)).json();
 async function openTab(url) {
   const t = await (await fetch(`http://127.0.0.1:${CHROME_PORT}/json/new?${encodeURIComponent(url)}`, { method: 'PUT' })).json();

@@ -216,19 +216,22 @@ async function refreshBackups() {
   await initI18n();
   await LockGuard.init(() => location.reload());
   prefs = await rpc('getPrefs');
+  const info = await rpc('status').catch(() => ({}));
   const tabs = $('#tabs'), panes = $('#panes');
   function select(id) {
     $$('#tabs button').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.id === id)));
     $$('.pane').forEach((p) => p.classList.toggle('active', p.dataset.id === id));
   }
-  TABS.forEach(([id, fields], i) => {
+  TABS.forEach(([id, fields0], i) => {
+    // Microsoft Store 版は、Store が更新するので、更新の設定は出さない
+    const fields = info.packaged && id === 'general' ? fields0.filter(([p]) => p !== 'general.checkUpdates' && p !== 'general.updateUrl') : fields0;
     const tab = el('button', { role: 'tab', 'aria-selected': i === 0 ? 'true' : 'false', text: t('Pref_Tab_' + id), onclick: () => select(id) });
     tab.dataset.id = id;
     tabs.append(tab);
     const pane = el('section', { class: 'pane' + (i === 0 ? ' active' : ''), role: 'tabpanel' });
     pane.dataset.id = id;
     if (id === 'sync') buildSyncPane(pane);
-    if (id === 'general') pane.append(el('div', { class: 'row' }, el('button', { type: 'button', id: 'upd-check', text: t('Upd_Check'), onclick: checkUpdates }), el('span', { id: 'upd-msg', class: 'sub' })));
+    if (id === 'general' && !info.packaged) pane.append(el('div', { class: 'row' }, el('button', { type: 'button', id: 'upd-check', text: t('Upd_Check'), onclick: checkUpdates }), el('span', { id: 'upd-msg', class: 'sub' })));
     fields.forEach((f) => pane.append(buildField(f)));
     if (id === 'security') {
       pane.append(el('div', { class: 'sub', text: t('Pref_Reauth_Note') }));

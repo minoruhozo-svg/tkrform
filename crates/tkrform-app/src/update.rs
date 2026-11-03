@@ -52,6 +52,9 @@ fn http_get_limited(url: &str, max: u64) -> Result<Vec<u8>, SvcError> {
 
 /// 新しい版があれば返す。
 pub fn check(core: &Core) -> Result<Option<Manifest>, SvcError> {
+    if crate::msix::is_packaged() {
+        return Err(SvcError::internal("Microsoft Store 版は、Store が更新します"));
+    }
     let url = manifest_url(core).ok_or_else(|| SvcError::internal("更新情報の URL が設定されていません（設定の「一般」または同期サーバ）"))?;
     let body = http_get_limited(&url, MAX_MANIFEST_BYTES)?;
     let m = parse_manifest(&String::from_utf8_lossy(&body))?;
@@ -140,6 +143,9 @@ pub fn status_json(m: Option<&Manifest>) -> Value {
 
 /// 起動 1 分後と 24 時間ごとに確認する。同じ版の通知は 1 回だけ。
 pub fn start_thread(core: &Arc<Core>) {
+    if crate::msix::is_packaged() {
+        return; // Store 版は、アプリ自身では更新を確認しない（Store が更新する）
+    }
     let core = core.clone();
     std::thread::Builder::new()
         .name("tkrform-update".into())

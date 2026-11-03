@@ -5,6 +5,7 @@
 mod clip;
 mod commands;
 mod hello;
+mod msix;
 mod passkey;
 mod core;
 mod locale;
@@ -51,7 +52,8 @@ fn start_pipe(core: &Arc<Core>) {
 
 fn main() {
     wins::mark_main_thread();
-    let background = std::env::args().any(|a| a == "--background");
+    // --background、または Store 版の自動起動（windows.startupTask）による起動なら、画面を出さずに常駐だけする
+    let background = std::env::args().any(|a| a == "--background") || msix::started_by_startup_task();
     let ext_help = std::env::args().any(|a| a == "--ext-help");
     let core = Core::new();
 
@@ -91,7 +93,13 @@ fn main() {
                 if let Err(e) = sys::register_native_host(&core.root) {
                     core.log("nm.register.failed", &e);
                 }
-                sys::set_autostart(core.prefs().general.start_with_windows);
+                let want_autostart = core.prefs().general.start_with_windows;
+                if sys::set_autostart(want_autostart) != want_autostart && want_autostart {
+                    // Store 版: 利用者が、タスクマネージャーなどで、自動起動を無効にしている。設定の表示を、実際に合わせる
+                    let mut p = core.prefs();
+                    p.general.start_with_windows = false;
+                    let _ = core.set_prefs(p);
+                }
                 tray::init(&handle, &core)?;
                 start_pipe(&core);
                 winevents::start(&core);

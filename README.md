@@ -64,6 +64,10 @@ cargo build --release
 
 出力は `installer\Output\tkrform-setup-<版>.exe` です。版は `installer\tkrform.iss` の `AppVersion` で決まります。GitHub Actions でも同じ手順でビルドします（[.github/workflows/build.yml](.github/workflows/build.yml)）。
 
+### Microsoft Store 用の MSIX
+
+リリースビルドのあと、`powershell -File installer\msix\build-msix.ps1` で `.msix` を作ります（手元で試すテスト用の自己署名は `-SelfSign`）。くわしくは [仕様書.md](仕様書.md) の「Microsoft Store 版（MSIX）」を参照してください。
+
 ## テスト
 
 ```bash

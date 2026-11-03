@@ -1718,6 +1718,9 @@
     "Ext_Timeout":  {
                         "message":  "No response from TKRForm"
                     },
+    "Ext_Starting":  {
+                         "message":  "Starting TKRForm…"
+                     },
     "Ext_Reconnect":  {
                           "message":  "Reconnect"
                       },

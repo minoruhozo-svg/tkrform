@@ -70,6 +70,7 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
             "locked": core.is_locked(),
             "exists": core.exists(),
             "accountName": "tkrform",
+            "packaged": crate::msix::is_packaged(),
             // 拡張に「Windows Hello で解除できるか」を伝える（有効で、登録済み）
             "helloAvailable": core.prefs().security.windows_hello && core.dir.join("hello.key").is_file(),
         })),
@@ -79,6 +80,7 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
             "locked": core.is_locked(),
             "hint": core.hint(),
             "version": env!("CARGO_PKG_VERSION"),
+            "packaged": crate::msix::is_packaged(),
             "dataDir": core.dir.to_string_lossy(),
         })),
         "setup" if a.get("sync").map(|x| x.get("mode").and_then(Value::as_str) == Some("join")).unwrap_or(false) => {
@@ -630,7 +632,7 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
             Ok(json!({}))
         }
         "openExtensionFolder" => {
-            if let Some(dir) = extension_dir() {
+            if let Some(dir) = extension_dir(core) {
                 sys::open_folder(&dir);
                 Ok(json!({"path": dir.to_string_lossy()}))
             } else {
@@ -638,7 +640,7 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
             }
         }
         "extensionInfo" => Ok(json!({
-            "path": extension_dir().map(|p| p.to_string_lossy().to_string()),
+            "path": extension_dir(core).map(|p| p.to_string_lossy().to_string()),
             "id": tkrform_ipc::proto::ALLOWED_EXTENSION_IDS.first(),
         })),
         "fillLogin" => {
@@ -803,7 +805,14 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
 
 // -------------------------------------------------------------------- ヘルパ
 
-fn extension_dir() -> Option<std::path::PathBuf> {
+fn extension_dir(core: &Core) -> Option<std::path::PathBuf> {
+    // Store 版: インストール先は Chrome が読めないので、起動時にコピーした、パッケージの外のフォルダを使う
+    if crate::msix::is_packaged() {
+        let p = core.root.join("extension");
+        if p.join("manifest.json").is_file() {
+            return p.canonicalize().ok();
+        }
+    }
     let exe = std::env::current_exe().ok()?;
     let base = exe.parent()?;
     let candidates = [base.join("extension"), base.join("..").join("..").join("extension"), base.join("..").join("..").join("..").join("extension")];

@@ -1718,6 +1718,9 @@
     "Ext_Timeout":  {
                         "message":  "TKRForm から応答がありません"
                     },
+    "Ext_Starting":  {
+                         "message":  "TKRForm を起動しています…"
+                     },
     "Ext_Reconnect":  {
                           "message":  "再接続"
                       },

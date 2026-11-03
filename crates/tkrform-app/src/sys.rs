@@ -154,10 +154,13 @@ pub fn quiet() -> bool {
     testing() && std::env::var_os("TKRFORM_E2E_INTERACTIVE").is_none()
 }
 
-/// Windows ログオン時の自動起動（HKCU Run）。
-pub fn set_autostart(enable: bool) {
+/// Windows ログオン時の自動起動（HKCU Run。Store 版は windows.startupTask）。いま有効になっているか（なっていなければ false）を返す。
+pub fn set_autostart(enable: bool) -> bool {
     if testing() {
-        return;
+        return enable;
+    }
+    if crate::msix::is_packaged() {
+        return crate::msix::set_startup_task(enable);
     }
     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
     if enable {
@@ -167,6 +170,7 @@ pub fn set_autostart(enable: bool) {
     } else if let Ok(key) = hkcu.open_subkey_with_flags(RUN_KEY, winreg::enums::KEY_SET_VALUE) {
         let _ = key.delete_value("tkrform");
     }
+    enable
 }
 
 /// NM ホストのマニフェストを書いて HKCU に登録する（Chrome と Edge）。何度呼んでもよい。
@@ -175,9 +179,29 @@ pub fn register_native_host(data_root: &Path) -> Result<PathBuf, String> {
         return Err("テスト中のため登録しません".into());
     }
     let exe = std::env::current_exe().map_err(|e| e.to_string())?;
-    let host = exe.with_file_name("tkrform-nmhost.exe");
+    let mut host = exe.with_file_name("tkrform-nmhost.exe");
     let dir = data_root.join("nm");
     std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
+    if crate::msix::is_packaged() {
+        // Store 版: インストール先は、Chrome が実行も読み取りもできない。NM ホストと拡張のフォルダを、パッケージの外へコピーして使う
+        // （使用中で置き換えられなければ、前のコピーを使い続ける）
+        let copy = dir.join("tkrform-nmhost.exe");
+        if let Err(e) = crate::msix::copy_if_changed(&host, &copy) {
+            if !copy.is_file() {
+                return Err(format!("NM ホストをコピーできません: {e}"));
+            }
+        }
+        host = copy;
+        // ホストが、アプリを起動するための ID（パッケージのアプリは、実行ファイルのパスでは起動できない）
+        if let Some(id) = crate::msix::app_user_model_id() {
+            let _ = std::fs::write(dir.join("app-id.txt"), id);
+        }
+        if let Some(ext) = exe.parent().map(|p| p.join("extension")).filter(|p| p.is_dir()) {
+            let _ = crate::msix::copy_dir_if_changed(&ext, &data_root.join("extension"));
+        }
+    } else {
+        let _ = std::fs::remove_file(dir.join("app-id.txt")); // インストーラ版では、使わない（Store 版の残りがあれば消す）
+    }
     let manifest_path = dir.join(format!("{}.json", tkrform_ipc::proto::HOST_NAME));
     let origins: Vec<String> =
         tkrform_ipc::proto::ALLOWED_EXTENSION_IDS.iter().map(|id| format!("chrome-extension://{id}/")).collect();

@@ -32,8 +32,28 @@ fn send_raw(out: &SharedOut, bytes: &[u8]) {
     let _ = o.flush();
 }
 
+/// Store 版（MSIX）のアプリを、アプリケーションユーザーモデル ID で起動する（パッケージのアプリは、実行ファイルのパスでは起動できない）。
+fn launch_packaged(aumid: &str) -> bool {
+    use windows::core::HSTRING;
+    use windows::Win32::System::Com::{CoCreateInstance, CoInitializeEx, CLSCTX_LOCAL_SERVER, COINIT_MULTITHREADED};
+    use windows::Win32::UI::Shell::{ApplicationActivationManager, IApplicationActivationManager, AO_NOERRORUI};
+    unsafe {
+        let _ = CoInitializeEx(None, COINIT_MULTITHREADED);
+        let Ok(mgr) = CoCreateInstance::<_, IApplicationActivationManager>(&ApplicationActivationManager, None, CLSCTX_LOCAL_SERVER) else {
+            return false;
+        };
+        mgr.ActivateApplication(&HSTRING::from(aumid), &HSTRING::from("--background"), AO_NOERRORUI).is_ok()
+    }
+}
+
 fn launch_app() {
     if let Ok(exe) = std::env::current_exe() {
+        // Store 版のアプリが書いた app-id.txt（このホストの横にある）があれば、その ID で起動する
+        if let Ok(id) = std::fs::read_to_string(exe.with_file_name("app-id.txt")) {
+            if !id.trim().is_empty() && launch_packaged(id.trim()) {
+                return;
+            }
+        }
         let app = exe.with_file_name("TKRForm.exe");
         let _ = std::process::Command::new(app).arg("--background").creation_flags(DETACHED_PROCESS | CREATE_NO_WINDOW).spawn();
     }

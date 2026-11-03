@@ -52,7 +52,8 @@ function render() {
   const st = $('#status');
   if (!state.connected) {
     show('off');
-    $('#off-msg').textContent = t('Ext_NotConnected') + ' ' + (state.error || '');
+    // 接続役がアプリを起動している間は「起動しています」。つながれば、状態の通知で、通常の表示に切り替わる
+    $('#off-msg').textContent = state.starting ? t('Ext_Starting') : t('Ext_NotConnected') + ' ' + (state.error || '');
     st.textContent = '';
     return;
   }

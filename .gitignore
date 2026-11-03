@@ -8,3 +8,8 @@ node_modules/
 
 # E2E の出力ログ
 *.out
+
+# MSIX（Microsoft Store 版）の作業用の出力と、証明書（秘密鍵は置かない）
+/installer/msix/out/
+*.pfx
+*.cer
