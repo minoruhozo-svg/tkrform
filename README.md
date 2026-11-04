@@ -68,6 +68,10 @@ cargo build --release
 
 リリースビルドのあと、`powershell -File installer\msix\build-msix.ps1` で `.msix` を作ります（手元で試すテスト用の自己署名は `-SelfSign`）。くわしくは [仕様書.md](仕様書.md) の「Microsoft Store 版（MSIX）」を参照してください。
 
+### ブラウザ拡張のストア用の zip
+
+`node tools/pack-extension.mjs` で、`dist/tkrform-extension-<版>.zip` を作ります（`manifest.json` の `key` を外します）。審査の文面の下書きは [docs/extension-store-draft.md](docs/extension-store-draft.md) にあります。ストアで割り当てられた拡張 ID は、`crates/tkrform-ipc/src/proto.rs` の `ALLOWED_EXTENSION_IDS` に足します。
+
 ## テスト
 
 ```bash
@@ -87,7 +91,7 @@ node tools/e2e/ext.mjs        # 本物の Chrome に拡張を読み込み、自�
 
 ## プライバシー
 
-TKRForm は、利用者の情報を、利用者が求めたとき以外は、他のネットワーク上のシステムへ送りません。外部と通信するのは、次の場合だけです。くわしくは [CODE_SIGNING_POLICY.md](CODE_SIGNING_POLICY.md) を参照してください。
+TKRForm は、利用者の情報を、利用者が求めたとき以外は、他のネットワーク上のシステムへ送りません。外部と通信するのは、次の場合だけです。くわしくは [プライバシーポリシー（PRIVACY.md）](PRIVACY.md) を参照してください。
 
 - 利用者が設定した同期サーバとの同期（暗号化済みのデータだけを送ります）。
 - 更新の確認（`latest.json` の取得。**初期設定はオフ**で、設定でオンにしたときだけ。「今すぐ更新を確認」を押したときも取得します）。

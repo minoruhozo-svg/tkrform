@@ -442,17 +442,48 @@ pub fn force_foreground(hwnd: HWND) -> String {
 
 /// 指定クラス名の可視トップレベルウィンドウを探し、最前面に出す。見つけたら "class=... title=..." を返す。
 /// （Windows Hello の確認画面が他のウィンドウの裏に出るのを防ぐ。）
-pub fn bring_dialog_to_front(class: &str) -> Option<String> {
-    use windows::core::PCWSTR;
-    use windows::Win32::UI::WindowsAndMessaging::{
-        FindWindowW, GetClassNameW, GetWindowTextW, IsIconic, IsWindowVisible, SetWindowPos, ShowWindow, HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE, SWP_SHOWWINDOW, SW_RESTORE,
-    };
-    let wide: Vec<u16> = class.encode_utf16().chain(std::iter::once(0)).collect();
-    unsafe {
-        let h = FindWindowW(PCWSTR(wide.as_ptr()), PCWSTR::null()).ok()?;
-        if !IsWindowVisible(h).as_bool() {
-            return None;
+/// 指定のクラス名の、可視のトップレベルウィンドウを探す。同じクラスの不可視のウィンドウ（古いホストなど）が先に見つかっても、
+/// 可視のものを返す（FindWindow は最初の 1 つしか返さないため、使わない）。
+pub fn find_visible_by_class(class: &str) -> Option<HWND> {
+    use windows::core::BOOL;
+    use windows::Win32::UI::WindowsAndMessaging::{EnumWindows, GetClassNameW, IsWindowVisible};
+    struct Ctx {
+        class: Vec<u16>,
+        found: Option<HWND>,
+    }
+    unsafe extern "system" fn cb(h: HWND, l: windows::Win32::Foundation::LPARAM) -> BOOL {
+        unsafe {
+            let ctx = &mut *(l.0 as *mut Ctx);
+            if !IsWindowVisible(h).as_bool() {
+                return true.into();
+            }
+            let mut cn = [0u16; 128];
+            let n = GetClassNameW(h, &mut cn).max(0) as usize;
+            if cn[..n] == ctx.class[..] {
+                ctx.found = Some(h);
+                return false.into();
+            }
+            true.into()
         }
+    }
+    let mut ctx = Ctx { class: class.encode_utf16().collect(), found: None };
+    unsafe {
+        let _ = EnumWindows(Some(cb), windows::Win32::Foundation::LPARAM(&mut ctx as *mut Ctx as isize));
+    }
+    ctx.found
+}
+
+/// そのウィンドウが、いま前面か。
+pub fn is_foreground(h: HWND) -> bool {
+    unsafe { GetForegroundWindow() == h }
+}
+
+pub fn bring_dialog_to_front(class: &str) -> Option<String> {
+    use windows::Win32::UI::WindowsAndMessaging::{
+        GetClassNameW, GetWindowTextW, IsIconic, SetWindowPos, ShowWindow, HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE, SWP_SHOWWINDOW, SW_RESTORE,
+    };
+    unsafe {
+        let h = find_visible_by_class(class)?;
         if IsIconic(h).as_bool() {
             let _ = ShowWindow(h, SW_RESTORE);
         }

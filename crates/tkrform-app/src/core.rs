@@ -414,13 +414,31 @@ impl Core {
         }
     }
 
+    /// Windows Hello の署名を取る。確認画面の見張りの記録（見つけた・見つからない）は、確認が終わるのを待たず、すぐログに書く
+    /// （利用者が確認を待たせている間も、原因を調べられるように）。
+    fn hello_sign(self: &Arc<Self>) -> Result<Vec<u8>, SvcError> {
+        let done = Arc::new(std::sync::atomic::AtomicBool::new(false));
+        let d2 = done.clone();
+        let me = self.clone();
+        let drain = std::thread::spawn(move || {
+            while !d2.load(std::sync::atomic::Ordering::Relaxed) {
+                me.log_hello_notes();
+                std::thread::sleep(std::time::Duration::from_millis(200));
+            }
+        });
+        let r = crate::hello::sign(ACCOUNT_ID);
+        done.store(true, std::sync::atomic::Ordering::Relaxed);
+        let _ = drain.join();
+        r.inspect(|_| self.log_hello_notes()).inspect_err(|e| self.log_hello_fail(e))
+    }
+
     /// Windows Hello の確認を通して KEK を取り出し、解除する（時間がかかるので UI のスレッドで呼ばない）。
     pub fn hello_unlock(self: &Arc<Self>) -> Result<(), SvcError> {
         if !self.is_locked() {
             return Ok(());
         }
         let wrapped = std::fs::read(self.dir.join("hello.key")).map_err(|_| SvcError::internal("Windows Hello が登録されていません"))?;
-        let sig = crate::hello::sign(ACCOUNT_ID).inspect(|_| self.log_hello_notes()).inspect_err(|e| self.log_hello_fail(e))?;
+        let sig = self.hello_sign()?;
         let kek = tkrform_core::crypto::hello_unwrap_kek(&wrapped, &sig)?;
         let v = Vault::open_with_kek(&self.dir, &kek)?;
         self.finish_unlock(v, kek);
@@ -446,7 +464,7 @@ impl Core {
             g.kek.as_ref().map(|k| **k).ok_or_else(SvcError::locked)?
         };
         let wrapped = std::fs::read(self.dir.join("hello.key")).map_err(|_| SvcError::internal("Windows Hello が登録されていません"))?;
-        let sig = crate::hello::sign(ACCOUNT_ID).inspect(|_| self.log_hello_notes()).inspect_err(|e| self.log_hello_fail(e))?;
+        let sig = self.hello_sign()?;
         let back = tkrform_core::crypto::hello_unwrap_kek(&wrapped, &sig)?;
         if *back != kek {
             return Err(SvcError::internal("登録済みの Windows Hello がこの保管庫と一致しません。登録し直してください"));

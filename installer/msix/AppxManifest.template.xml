@@ -24,29 +24,21 @@
     <PublisherDisplayName>{{PUBLISHER_DISPLAY_NAME}}</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
 
-    <!-- Windows 10（1903 以降）向け: 仮想化を止める範囲を限定できないので、HKCU と AppData の書き込みの仮想化を、まとめて止める。 -->
-    <desktop6:RegistryWriteVirtualization>disabled</desktop6:RegistryWriteVirtualization>
-    <desktop6:FileSystemWriteVirtualization>disabled</desktop6:FileSystemWriteVirtualization>
-
-    <!-- Windows 11 以降: 仮想化を止める場所を、必要なものだけに限る（こちらが優先される）。 -->
+    <!-- ファイルは、仮想化を止める場所を必要なものだけに限る（Windows 11 以降の指定。AppData 全体を止める広い指定は使わない）。 -->
     <virtualization:FileSystemWriteVirtualization>
       <virtualization:ExcludedDirectories>
         <!-- 保管庫・設定・NM ホストのコピー・拡張のコピー（インストーラ版と同じ保管庫を使うため、仮想化しない） -->
         <virtualization:ExcludedDirectory>$(KnownFolder:LocalAppData)\tkrform</virtualization:ExcludedDirectory>
       </virtualization:ExcludedDirectories>
     </virtualization:FileSystemWriteVirtualization>
-    <virtualization:RegistryWriteVirtualization>
-      <virtualization:ExcludedKeys>
-        <!-- Chrome / Edge が読む、Native Messaging ホストの登録 -->
-        <virtualization:ExcludedKey>HKEY_CURRENT_USER\Software\Google\Chrome\NativeMessagingHosts\jp.tkrs.tkrform</virtualization:ExcludedKey>
-        <virtualization:ExcludedKey>HKEY_CURRENT_USER\Software\Microsoft\Edge\NativeMessagingHosts\jp.tkrs.tkrform</virtualization:ExcludedKey>
-      </virtualization:ExcludedKeys>
-    </virtualization:RegistryWriteVirtualization>
+    <!-- レジストリは、virtualization:ExcludedKeys が Windows 11 の実機（Build 26300）で効かなかったため、HKCU 全体の仮想化を止める旧式の指定にする。
+         Chrome / Edge が読む NM ホストの登録（HKCU\Software\{Google\Chrome,Microsoft\Edge}\NativeMessagingHosts\jp.tkrs.tkrform）を、パッケージの外に見せるため。 -->
+    <desktop6:RegistryWriteVirtualization>disabled</desktop6:RegistryWriteVirtualization>
   </Properties>
 
   <Dependencies>
-    <!-- unvirtualizedResources が使えるのは Windows 10 1903（10.0.18362）以降 -->
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.18362.0" MaxVersionTested="10.0.26100.0" />
+    <!-- virtualization: の除外の指定が使えるのは Windows 11（10.0.22000）以降。このため、対象を Windows 11 以降にする -->
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.22000.0" MaxVersionTested="10.0.26100.0" />
   </Dependencies>
 
   <Resources>

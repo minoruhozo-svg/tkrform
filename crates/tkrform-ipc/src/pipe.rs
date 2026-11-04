@@ -250,13 +250,27 @@ fn make_sa(sd: &SecurityDescriptor) -> SECURITY_ATTRIBUTES {
     SECURITY_ATTRIBUTES { nLength: std::mem::size_of::<SECURITY_ATTRIBUTES>() as u32, lpSecurityDescriptor: sd.0 .0, bInheritHandle: false.into() }
 }
 
-fn serve_conn(conn: &Conn, handler: &Arc<Handler>) {
+/// 利用者の操作を待つ（長くかかる）要求。1 本のパイプで、後ろの要求（状態の確認など）を待たせないよう、別のスレッドで処理する。
+const SLOW_CMDS: &[&str] = &["helloUnlock", "passkeyCreate", "passkeyGet"];
+
+fn serve_conn(conn: &Arc<Conn>, handler: &Arc<Handler>) {
     loop {
         let bytes = match conn.read_frame(PIPE_MAX_MESSAGE) {
             Ok(Some(b)) => b,
             _ => return,
         };
         let resp = match serde_json::from_slice::<Request>(&bytes) {
+            Ok(req) if SLOW_CMDS.contains(&req.cmd.as_str()) => {
+                let (conn, h, id) = (conn.clone(), handler.clone(), req.id);
+                let _ = thread::Builder::new().name("tkrform-pipe-slow".into()).spawn(move || {
+                    let resp = std::panic::catch_unwind(std::panic::AssertUnwindSafe(move || h(req)))
+                        .unwrap_or_else(|_| Response::err(id, crate::proto::code::INTERNAL, "内部エラー"));
+                    if let Ok(out) = serde_json::to_vec(&resp) {
+                        let _ = conn.write_frame(&out);
+                    }
+                });
+                continue;
+            }
             Ok(req) => {
                 let id = req.id;
                 let h = handler.clone();
@@ -283,6 +297,9 @@ mod tests {
         let handler: Arc<Handler> = Arc::new(|r: Request| {
             if r.cmd == "echo" {
                 Response::ok(r.id, r.args)
+            } else if r.cmd == "helloUnlock" {
+                thread::sleep(Duration::from_millis(1500)); // 利用者の操作待ち
+                Response::ok(r.id, serde_json::json!({}))
             } else {
                 Response::err(r.id, "NOT_FOUND", "no")
             }
@@ -310,6 +327,17 @@ mod tests {
         server.broadcast(&Event::new("lockState", serde_json::json!({"locked": true})));
         let ev: Event = serde_json::from_slice(&c.read_frame(1 << 20).unwrap().unwrap()).unwrap();
         assert_eq!(ev.event, "lockState");
+        // 長い要求（Hello の確認待ち）の途中でも、あとの要求にすぐ答える（popup の状態確認が時間切れにならない）
+        let slow = serde_json::to_vec(&Request { id: 20, cmd: "helloUnlock".into(), args: serde_json::json!({}) }).unwrap();
+        c.write_frame(&slow).unwrap();
+        let quick = serde_json::to_vec(&Request { id: 21, cmd: "echo".into(), args: serde_json::json!({}) }).unwrap();
+        c.write_frame(&quick).unwrap();
+        let t = std::time::Instant::now();
+        let r1: Response = serde_json::from_slice(&c.read_frame(1 << 20).unwrap().unwrap()).unwrap();
+        assert_eq!(r1.id, 21, "echo は、helloUnlock を待たずに返る");
+        assert!(t.elapsed() < Duration::from_millis(1000));
+        let r2: Response = serde_json::from_slice(&c.read_frame(1 << 20).unwrap().unwrap()).unwrap();
+        assert_eq!(r2.id, 20);
         // 切断
         drop(c);
         let t = std::time::Instant::now();

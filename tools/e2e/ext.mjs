@@ -72,6 +72,28 @@ function makePng(w, h, bg, fg) {
 // ---------------------------------------------------------------- テスト用の Web サーバ
 
 const pages = {
+  // ストア用のスクリーンショット（STORE_SHOTS_DIR）に使う、見た目のあるページ（架空のサイト）
+  '/shop-welcome.html': `<!doctype html><meta charset="utf-8"><title>Example Shop</title><body style="margin:0;font-family:'Segoe UI','Yu Gothic UI',sans-serif;background:#f4f6f9;color:#1f2933"><header style="background:#fff;border-bottom:1px solid #e3e8ed;padding:16px 40px;font-weight:700;font-size:22px;color:#e8590c">Example Shop</header><main style="padding:60px 40px"><h1>ようこそ</h1><p>ログインしました。</p></main>`,
+  '/blank.html': `<!doctype html><title>blank</title><body></body>`,
+  '/shop-login.html': `<!doctype html><meta charset="utf-8"><title>Example Shop</title>
+    <style>body{margin:0;font-family:'Segoe UI','Yu Gothic UI',sans-serif;background:#f4f6f9;color:#1f2933}header{background:#fff;border-bottom:1px solid #e3e8ed;padding:16px 40px;font-weight:700;font-size:22px;color:#e8590c}
+    main{display:flex;justify-content:center;padding:70px 20px}form{background:#fff;border:1px solid #e3e8ed;border-radius:12px;padding:34px 40px;width:360px;box-shadow:0 8px 30px rgba(20,40,60,.08)}
+    h1{margin:0 0 20px;font-size:22px}label{display:block;font-size:13px;color:#5b6773;margin:14px 0 4px}input{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #cdd5dc;border-radius:6px;font-size:15px}
+    button{margin-top:24px;width:100%;padding:12px;border:0;border-radius:6px;background:#e8590c;color:#fff;font-size:16px;font-weight:600}</style>
+    <header>Example Shop</header><main><form id="f" method="post" action="/shop-welcome.html"><h1>ログイン</h1>
+    <label for="email">メールアドレス</label><input id="email" name="email" type="email" autocomplete="username">
+    <label for="pw">パスワード</label><input id="pw" name="password" type="password" autocomplete="current-password">
+    <button id="go" type="submit">ログイン</button></form></main>`,
+  '/shop-signup.html': `<!doctype html><meta charset="utf-8"><title>Example Shop</title>
+    <style>body{margin:0;font-family:'Segoe UI','Yu Gothic UI',sans-serif;background:#f4f6f9;color:#1f2933}header{background:#fff;border-bottom:1px solid #e3e8ed;padding:16px 40px;font-weight:700;font-size:22px;color:#e8590c}
+    main{display:flex;justify-content:center;padding:50px 20px}form{background:#fff;border:1px solid #e3e8ed;border-radius:12px;padding:30px 40px;width:380px;box-shadow:0 8px 30px rgba(20,40,60,.08)}
+    h1{margin:0 0 14px;font-size:22px}label{display:block;font-size:13px;color:#5b6773;margin:12px 0 4px}input{width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #cdd5dc;border-radius:6px;font-size:15px}
+    button{margin-top:22px;width:100%;padding:12px;border:0;border-radius:6px;background:#e8590c;color:#fff;font-size:16px;font-weight:600}</style>
+    <header>Example Shop</header><main><form id="f" method="post" action="/welcome"><h1>新規登録</h1>
+    <label for="user">メールアドレス</label><input id="user" name="user" type="email" autocomplete="username">
+    <label for="pw1">パスワード</label><input id="pw1" name="pw1" type="password" autocomplete="new-password">
+    <label for="pw2">パスワード（確認）</label><input id="pw2" name="pw2" type="password" autocomplete="new-password">
+    <button id="go" type="submit">登録する</button></form></main>`,
   // 新規登録のようなフォーム（パスワード欄が縦に 2 つ）。生成パネルの位置のテスト用。-low は、フォームが画面の下端に来る
   '/signup.html': `<!doctype html><title>signup</title><body style="margin:0;font:14px sans-serif"><h1>Sign up</h1>
     <form id="f" method="post" action="/welcome"><div><input id="user" name="user" type="text" autocomplete="username" style="width:260px"></div>
@@ -268,6 +290,115 @@ try {
     await rh.screenshot(process.env.HOME_REAL_SHOT);
     const cache = await swc.eval(`chrome.storage.local.get(null).then((a) => Object.entries(a).filter(([k]) => k.startsWith('icon:')).map(([k, v]) => ({ origin: k.slice(5), ok: !v.fail, w: v.w || 0, h: v.h || 0, bg: v.bg || '', why: v.why || '' })))`);
     for (const c of cache) console.log(`${c.ok ? 'OK  ' : 'NONE'} ${c.origin} ${c.ok ? c.w + 'x' + c.h : ''} bg=${c.bg} :: ${c.why}`);
+    clearTimeout(watchdog);
+    cleanup();
+    process.exit(0);
+  }
+
+  // ------------------------------------------------------ 確認用（STORE_SHOTS_DIR=保存先のフォルダ）: ストアに出すスクリーンショット（1366×768）を、架空のデータで撮る。通常の実行では動かない
+  if (process.env.STORE_SHOTS_DIR) {
+    const dir = process.env.STORE_SHOTS_DIR;
+    fs.mkdirSync(dir, { recursive: true });
+    const [W, H] = (process.env.STORE_SHOTS_SIZE || '1366x768').split('x').map(Number); // Store は 1366×768、拡張のストアは 1280×800
+    const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
+    const old = new Date(Date.now() - 500 * 864e5).toISOString().replace(/\.\d+Z$/, 'Z');
+    const mk = (name, url, user, pw, extra = {}) => pipe.ok('saveItem', { mode: 'new', item: { type: 1, name, folder: extra.folder || '/', url, favorite: !!extra.favorite, useCount: extra.uses || 0, useScore: extra.uses || 0, scoreAt: extra.uses ? now : undefined, lastUsed: extra.uses ? now : undefined, created: extra.created, totpKey: extra.totp || '', fields: [{ name: 'user', id: 'user', value: user, kind: 'text', role: 'user' }, { name: 'pw', id: 'pw', value: pw, kind: 'password', role: 'password' }] } });
+    await mk('Example Mail', 'https://mail.example.com/login', 'taro.example@example.com', 'Kq7#vN2$mXp9-wLr4', { favorite: true, uses: 9, totp: 'JBSWY3DPEHPK3PXP' });
+    await mk('Sample Shop', 'https://shop.example.net/signin', 'taro.example@example.com', 'Zt5!hD8&cYb3-nQe6', { favorite: true, uses: 7 });
+    await mk('Demo Bank', 'https://bank.example.org/login', 'demo-user-01', 'Rw9$jF4#kLs2-pVx7', { uses: 5, folder: '/金融' });
+    await mk('Test Cloud', 'https://cloud.example.com/', 'taro@example.com', 'Bn6@gT3!zHc8-mUy1', { uses: 4, folder: '/仕事' });
+    await mk('Example News', 'https://news.example.net/account', 'taro-news', 'Xe2#qM7$vKd5-oJa9', { uses: 3 });
+    await mk('Sample Travel', 'https://travel.example.org/login', 'taro_travel', 'Lp8!wC1&yRf4-sGn6', { uses: 2, folder: '/買い物' });
+    await mk('Demo Forum', 'https://forum.example.com/login', 'taro', 'password1', { uses: 1 });
+    await mk('Old Blog', 'https://blog.example.net/wp-login', 'taro', 'Reused-Pass-Example-7!', { created: old });
+    await mk('Reused Site', 'https://wiki.example.org/login', 'taro', 'Reused-Pass-Example-7!');
+    await mk('Example Game', 'https://game.example.com/login', 'taro-game', 'Reused-Pass-Example-7!');
+    await mk('Sample Shop (サブ)', 'https://shop.example.net/signin', 'taro.example@example.com', 'Vd4$kP9!bNz2-xTq5');
+    await swc.eval(`chrome.storage.local.set({ 'tkrform.home.icons': false, 'tkrform.home.iconsNoteClosed': true })`);
+    const light = (c) => c.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-color-scheme', value: 'light' }] }).catch(() => {});
+    const size = (c, w, h) => c.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: false });
+    const shot = async (c, name) => { await c.screenshot(path.join(dir, name)); console.log('撮影: ' + name); };
+    const ids = (await pipe.ok('search', { q: '', types: [1], limit: 50 })).map((e) => e.id);
+
+    // 1. エディタ（ログインの詳細）
+    await ui.eval(`rpc('openWindow', { name: 'editor' })`);
+    const edT = await waitTarget(APP_PORT, (x) => x.url.includes('editor.html'), 30000);
+    const ed = await Cdp.connect(edT.webSocketDebuggerUrl);
+    await size(ed, W, H); await light(ed);
+    await waitFor(() => ed.eval(`document.querySelectorAll('.rowitem').length >= 8`), 15000, 'エディタの一覧');
+    await ed.eval(`[...document.querySelectorAll('.rowitem')].find((r) => r.querySelector('.name').textContent === 'Example Mail').click()`);
+    await waitFor(() => ed.eval(`!!document.querySelector('#f-name') && document.querySelector('#f-name').value === 'Example Mail'`), 8000, 'ログインの詳細');
+    await sleep(1000);
+    await shot(ed, '01-editor-login.png');
+
+    // 2. セキュリティセンター
+    await ui.eval(`rpc('openWindow', { name: 'security' })`);
+    const seT = await waitTarget(APP_PORT, (x) => x.url.includes('security.html'), 30000);
+    const se = await Cdp.connect(seT.webSocketDebuggerUrl);
+    await size(se, W, H); await light(se);
+    await waitFor(() => se.eval(`document.querySelectorAll('#tabs [role=tab]').length === 5 && !!document.querySelector('#panel-weak .body').firstChild`), 15000, 'セキュリティセンター');
+    await se.eval(`document.querySelector('#tab-reused').click()`);
+    await sleep(800);
+    await shot(se, '02-security-center.png');
+
+    // 3. ホーム（タイル）
+    const home = await openTab(`chrome-extension://${EXT_ID}/start.html`);
+    await size(home, W, H); await light(home);
+    await waitFor(() => home.eval(`document.querySelectorAll('.tile').length >= 8`), 15000, 'ホーム');
+    await sleep(800);
+    await shot(home, '03-home.png');
+    await closeTab(home);
+
+    // 4. 拡張のポップアップ（よく使う）。小さい画面なので、1366×768 の背景の中央に置く
+    const pop = await openTab(`chrome-extension://${EXT_ID}/popup.html`);
+    await size(pop, 380, 560); await light(pop);
+    await waitFor(() => pop.eval(`document.querySelectorAll('#list li').length >= 5`), 15000, 'ポップアップの一覧');
+    await sleep(800);
+    const popPng = path.join(dir, '.popup-raw.png');
+    await pop.screenshot(popPng);
+    await closeTab(pop);
+
+    // 5. 自動保存のダイアログと、パスワード生成のパネル（ページの上に出る）。一致するログインの候補を出すため、このページ用の項目をここで作る
+    await mk('Example Shop', `${BASE}/shop-login.html`, 'taro.example@example.com', 'Hj3$mQ8!vZc5-rWd2', { uses: 6 });
+    const page = await openTab(`${BASE}/shop-login.html`);
+    await size(page, W, H); await light(page);
+    await sleep(600);
+    // 入力欄にフォーカスすると、一致するログインの候補が出る
+    await page.click('#email');
+    await sleep(1500);
+    await shot(page, '07-inline-menu.png');
+    await page.type('#email', 'new.account@example.com');
+    await page.type('#pw', 'Hj3$mQ8!vZc5-rWd2');
+    await page.press('Escape', 'Escape', 27); // 候補のメニューが送信ボタンに重なるので、閉じてから押す
+    await sleep(300);
+    await page.click('#go');
+    const sv = await waitFor(async () => (await chromeTargets()).find((t) => t.url.includes(`${EXT_ID}/save.html`)), 15000, '保存ダイアログ');
+    const svc = await Cdp.connect(sv.webSocketDebuggerUrl);
+    await waitFor(() => svc.eval(`!document.querySelector('#form').classList.contains('hidden')`), 8000, '保存フォーム');
+    await svc.eval(`document.querySelector('#name').value = 'Example Shop'; document.querySelector('#who').textContent = 'new.account@example.com @ shop.example.net'`);
+    await sleep(1200);
+    await shot(page, '04-autosave-dialog.png');
+    svc.close();
+    const page2 = await openTab(`${BASE}/shop-signup.html`);
+    await size(page2, W, H); await light(page2);
+    await sleep(600);
+    await page2.eval(`document.querySelector('#pw1').focus()`);
+    await sleep(1200);
+    await page2.press('Escape', 'Escape', 27); // 候補のメニューを閉じる
+    await sleep(300);
+    await swc.eval(`(async () => { const [tab] = await chrome.tabs.query({ url: '${BASE}/shop-signup.html' }); await chrome.tabs.sendMessage(tab.id, { t: 'cmd', name: 'generate' }); })()`);
+    await sleep(2000);
+    await shot(page2, '05-password-generator.png');
+
+    // ポップアップを、背景の上に置いた画像にする
+    const comp = await openTab(`${BASE}/blank.html`);
+    await size(comp, W, H); await light(comp);
+    const b64 = fs.readFileSync(popPng).toString('base64');
+    await comp.eval(`document.body.style.cssText = 'margin:0;width:${W}px;height:${H}px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#dbeafe,#e6f4ee)'; document.body.innerHTML = '<img src="data:image/png;base64,${b64}" style="box-shadow:0 18px 60px rgba(20,40,60,.35);border-radius:10px;height:660px">';`);
+    await sleep(500);
+    await shot(comp, '06-extension-popup.png');
+    for (const p of [ed, se, comp, page, page2]) { try { p.close(); } catch (_) { /* 無視 */ } }
+    fs.rmSync(popPng, { force: true });
     clearTimeout(watchdog);
     cleanup();
     process.exit(0);

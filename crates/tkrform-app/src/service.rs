@@ -121,7 +121,7 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
             Ok(json!({}))
         }
         // ---- パスキー（§8.7）
-        "passkeyAvail" | "passkeyList" | "passkeyCreate" | "passkeyGet" | "passkeyDelete" => crate::passkey::run(core, cmd, a, src),
+        "passkeyAvail" | "passkeyList" | "passkeyCreate" | "passkeyGet" | "passkeyDelete" => crate::passkey::run(core, cmd, a),
         // ---- Windows アプリへの記入（§10.4）
         "captureApp" => {
             let hwnd = match arg_opt(a, "windowTitle") {
@@ -180,20 +180,9 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
             Ok(json!({}))
         }
         "helloUnlock" => {
-            // 拡張（ブラウザが前面）から呼ばれたときは、確認ダイアログが裏に隠れないよう、先に小さなウィンドウを前面に出す
-            let from_ext = src == Source::Pipe;
-            if from_ext {
-                if let Some(app) = core.app.get() {
-                    wins::open_hello_wait(app, core);
-                }
-            }
-            let r = core.hello_unlock();
-            if from_ext {
-                if let Some(app) = core.app.get() {
-                    wins::close_hello_wait(app);
-                }
-            }
-            r?;
+            // 解除済みなら、何もせず成功を返す。確認画面は、Hello を呼ぶとすぐ出る。窓を作って前面化を待つと、Hello が遅れる
+            // ので作らない（隠れたら、hello::DialogWatch が前面に戻す）
+            core.hello_unlock()?;
             Ok(json!({"ok": true}))
         }
         // ---- 自動更新（§10.5）

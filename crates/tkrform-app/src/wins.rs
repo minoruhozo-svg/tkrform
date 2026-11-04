@@ -178,7 +178,7 @@ fn show(app: &AppHandle, s: Spec) {
             probe_page(&w, label.clone(), t0_epoch, 15);
             // 読み込みが終わったら、あらためてフォーカスを渡す。強制的な前面化（ALT 空打ち・AttachThreadInput）は、
             // 前面が他のプロセスのとき（拡張から開いたときなど）だけ行う。トレイ・ホットキーからなら、この時点で前面は自分にある
-            if !crate::sys::quiet() && w.label() != "hellowait" {
+            if !crate::sys::quiet() {
                 let _ = w.set_focus();
                 let fg = crate::sys::foreground_desc();
                 if (diag_force_fg() || !fg.starts_with("fg_self=true")) && !fg.starts_with("fg=none") {
@@ -310,22 +310,6 @@ pub fn open_security(app: &AppHandle, core: &Arc<Core>) {
         return;
     }
     show(app, Spec { label: "security", url: "security.html".into(), title: t(&lang(core), "Security_Title"), size: (820.0, 680.0), resizable: true, on_top: false });
-}
-
-/// 拡張から Windows Hello を求められたときの、待機用の小さなウィンドウ。ブラウザの手前に出して、Hello の確認ダイアログの親にする。
-pub fn open_hello_wait(app: &AppHandle, core: &Arc<Core>) {
-    show(app, Spec { label: "hellowait", url: "hello-wait.html".into(), title: t(&lang(core), "Hello_Title"), size: (380.0, 150.0), resizable: false, on_top: true });
-    if let Some(w) = app.get_webview_window("hellowait") {
-        if let Ok(h) = w.hwnd() {
-            crate::sys::force_foreground(windows::Win32::Foundation::HWND(h.0));
-        }
-    }
-}
-
-pub fn close_hello_wait(app: &AppHandle) {
-    if let Some(w) = app.get_webview_window("hellowait") {
-        let _ = w.destroy();
-    }
 }
 
 pub fn open_about(app: &AppHandle, core: &Arc<Core>) {

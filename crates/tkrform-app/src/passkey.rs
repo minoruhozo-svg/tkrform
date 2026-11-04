@@ -13,8 +13,6 @@ use tkrform_core::urlmatch;
 use tkrform_ipc::proto::code;
 
 use crate::core::{Core, SvcError};
-use crate::service::Source;
-use crate::wins;
 
 type R = Result<Value, SvcError>;
 
@@ -52,7 +50,7 @@ fn hello_ready(core: &Core) -> bool {
 /// 利用者の確認（UV）。userVerification が discouraged なら確認しない（UV=0）。
 /// それ以外は、Windows Hello が使えれば Hello で確認する。使えないとき、required ならマスターパスワードの再入力で確認し、
 /// preferred なら確認なし（UV=0）で進める（毎回パスワードを求めないため）。
-fn verify_user(core: &Arc<Core>, a: &Value, src: Source) -> Result<bool, SvcError> {
+fn verify_user(core: &Arc<Core>, a: &Value) -> Result<bool, SvcError> {
     let pref = a.get("uv").and_then(Value::as_str).unwrap_or("preferred");
     if pref == "discouraged" {
         return Ok(false);
@@ -62,19 +60,8 @@ fn verify_user(core: &Arc<Core>, a: &Value, src: Source) -> Result<bool, SvcErro
         return if core.with_vault(|v, _| Ok(v.verify_password(pw)))? { Ok(true) } else { Err(SvcError::new(code::BAD_PASSWORD, "マスターパスワードが違います")) };
     }
     if hello_ready(core) {
-        let from_ext = src == Source::Pipe;
-        if from_ext {
-            if let Some(app) = core.app.get() {
-                wins::open_hello_wait(app, core);
-            }
-        }
-        let r = core.hello_verify();
-        if from_ext {
-            if let Some(app) = core.app.get() {
-                wins::close_hello_wait(app);
-            }
-        }
-        return match r {
+        // 確認画面は、Hello を呼ぶとすぐ出る（隠れたら、hello::DialogWatch が前面に戻す）
+        return match core.hello_verify() {
             Ok(()) => Ok(true),
             // Hello に失敗・キャンセルしたときは、マスターパスワードの入力に切り替えられるようにする
             Err(e) => Err(SvcError::new(UV_FAILED, e.message)),
@@ -92,7 +79,7 @@ fn check_origin(a: &Value) -> Result<(String, String), SvcError> {
     Ok((origin, rp))
 }
 
-pub fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
+pub fn run(core: &Arc<Core>, cmd: &str, a: &Value) -> R {
     match cmd {
         // パスキーを tkrform で扱ってよいか（設定がオンで、除外サイトでなく、ロック解除済み）。ロック中は LOCKED
         "passkeyAvail" => {
@@ -124,8 +111,8 @@ pub fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
                 Ok(json!({"passkeys": out}))
             })
         }
-        "passkeyCreate" => create(core, a, src),
-        "passkeyGet" => get(core, a, src),
+        "passkeyCreate" => create(core, a),
+        "passkeyGet" => get(core, a),
         // 削除（UI 専用。確認ダイアログは画面側）
         "passkeyDelete" => {
             let (item_id, cred) = (s(a, "itemId")?, s(a, "credentialId")?);
@@ -147,7 +134,7 @@ pub fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
     }
 }
 
-fn create(core: &Arc<Core>, a: &Value, src: Source) -> R {
+fn create(core: &Arc<Core>, a: &Value) -> R {
     let (origin, rp) = check_origin(a)?;
     if !core.prefs().autofill.passkeys || excluded(&core.prefs().autofill.passkey_exclude, &origin) {
         return Err(SvcError::new(code::POLICY_DENIED, "このサイトでは TKRForm にパスキーを保存しません"));
@@ -180,7 +167,7 @@ fn create(core: &Arc<Core>, a: &Value, src: Source) -> R {
         return Err(SvcError::new(PK_EXCLUDED, "このパスキーは既に登録されています"));
     }
 
-    let uv = verify_user(core, a, src)?;
+    let uv = verify_user(core, a)?;
     let made = pk::create(&rp, &user_id, &user_name, &display, uv).map_err(SvcError::internal)?;
     let cdj = pk::client_data_json("webauthn.create", challenge, &origin, a.get("crossOrigin").and_then(Value::as_bool).unwrap_or(false));
 
@@ -218,7 +205,7 @@ fn create(core: &Arc<Core>, a: &Value, src: Source) -> R {
     }))
 }
 
-fn get(core: &Arc<Core>, a: &Value, src: Source) -> R {
+fn get(core: &Arc<Core>, a: &Value) -> R {
     let (origin, rp) = check_origin(a)?;
     if !core.prefs().autofill.passkeys || excluded(&core.prefs().autofill.passkey_exclude, &origin) {
         return Err(SvcError::new(code::POLICY_DENIED, "このサイトでは TKRForm のパスキーを使いません"));
@@ -234,7 +221,7 @@ fn get(core: &Arc<Core>, a: &Value, src: Source) -> R {
         it.passkeys.iter().find(|k| k.credential_id == cred && k.rp_id == rp).cloned().ok_or_else(|| SvcError::new(code::NOT_FOUND, "パスキーが見つかりません"))
     })?;
 
-    let uv = verify_user(core, a, src)?;
+    let uv = verify_user(core, a)?;
     let cdj = pk::client_data_json("webauthn.get", challenge, &origin, a.get("crossOrigin").and_then(Value::as_bool).unwrap_or(false));
     let (auth_data, sig) = pk::assert(&found, &cdj, uv).map_err(SvcError::internal)?;
 

@@ -35,17 +35,33 @@ async function refresh() {
 // ロック中に開いたら、ボタンを押さなくても Windows Hello で解除を始める（ポップアップごとに 1 回だけ。
 // キャンセル・失敗の直後の再開始は bg.js が止める）。確認画面にフォーカスが移るとポップアップは閉じるが、要求はアプリと bg.js で続く。
 let helloAutoTried = false;
+// Windows Hello の確認を待っている間（利用者の操作待ち）は、ボタンを押せなくし、見出しの下に「確認を待っています」を出し続ける。
+// 済んだら一覧に、キャンセル・失敗なら、エラーとマスターパスワードの入力欄を出す
+let helloWaiting = false;
+function setHelloWaiting(on) {
+  helloWaiting = on;
+  $('#hello-btn').disabled = on;
+  if (on) $('#unlock-err').classList.add('hidden');
+  $('#status').textContent = on ? t('Ext_Hello_Waiting') : (state.locked ? t('Ext_Locked') : '');
+}
+async function runHello(fn) {
+  if (helloWaiting) return;
+  setHelloWaiting(true);
+  try { await fn(); await refresh(); }
+  catch (e) { $('#unlock-err').textContent = errText(e); $('#unlock-err').classList.remove('hidden'); $('#mp').focus(); }
+  setHelloWaiting(false);
+}
 async function autoHello() {
-  if (helloAutoTried || !state.helloAvailable) return;
+  if (helloAutoTried || !state.helloAvailable || helloWaiting) return;
   helloAutoTried = true;
+  setHelloWaiting(true); // helloAuto は、始めたときは確認が終わるまで返らない。始めなかったときは、すぐ返る
   let r;
-  try { r = await bg({ t: 'helloAuto' }); } catch (_) { return; }
+  try { r = await bg({ t: 'helloAuto' }); } catch (_) { setHelloWaiting(false); return; }
+  if (r && r.busy) { setHelloWaiting(false); await runHello(() => bg({ t: 'helloUnlock' })); return; } // 開き直した: 進行中の結果を待つ
+  setHelloWaiting(false);
   if (!r || !r.started) return;
-  $('#hello-btn').disabled = true;
-  flash(t('Ext_Hello_Waiting'));
   if (r.error) { $('#unlock-err').textContent = r.error; $('#unlock-err').classList.remove('hidden'); $('#mp').focus(); }
   else await refresh();
-  $('#hello-btn').disabled = false;
 }
 
 function render() {
@@ -59,7 +75,7 @@ function render() {
   }
   if (state.locked) {
     show('locked');
-    st.textContent = t('Ext_Locked');
+    st.textContent = helloWaiting ? t('Ext_Hello_Waiting') : t('Ext_Locked');
     $('#hello-btn').classList.toggle('hidden', !state.helloAvailable);
     $('#hello-or').classList.toggle('hidden', !state.helloAvailable);
     setTimeout(() => $('#mp').focus(), 30);
@@ -349,12 +365,7 @@ function showAbout() {
   $('#unlock').addEventListener('click', doUnlock);
   // Windows Hello で解除。失敗・キャンセルのときはエラーを出し、マスターパスワードの入力もそのまま使える
   $('#hello-btn').addEventListener('click', async () => {
-    $('#hello-btn').disabled = true;
-    $('#unlock-err').classList.add('hidden');
-    flash(t('Ext_Hello_Waiting'));
-    try { await bg({ t: 'helloUnlock' }); await refresh(); }
-    catch (e) { $('#unlock-err').textContent = errText(e); $('#unlock-err').classList.remove('hidden'); $('#mp').focus(); }
-    $('#hello-btn').disabled = false;
+    await runHello(() => bg({ t: 'helloUnlock' }));
   });
   $('#mp').addEventListener('keydown', (e) => { if (e.key === 'Enter') doUnlock(); });
   // ポップアップの中では右クリックメニューを出さない（検索欄・マスターパスワード欄など、入力欄ではコピー・貼り付けのために出す）

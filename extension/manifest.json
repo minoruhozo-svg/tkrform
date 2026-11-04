@@ -14,7 +14,7 @@
   },
   "options_page": "options.html",
   "background": { "service_worker": "bg.js", "type": "module" },
-  "permissions": ["tabs", "scripting", "storage", "unlimitedStorage", "favicon", "webNavigation", "webRequest", "webRequestAuthProvider", "contextMenus", "nativeMessaging", "idle"],
+  "permissions": ["tabs", "storage", "unlimitedStorage", "favicon", "webNavigation", "webRequest", "webRequestAuthProvider", "contextMenus", "nativeMessaging"],
   "host_permissions": ["<all_urls>"],
   "content_scripts": [
     {

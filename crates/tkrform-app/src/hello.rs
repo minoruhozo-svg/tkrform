@@ -91,7 +91,8 @@ pub struct DialogWatch {
 
 impl DialogWatch {
     pub fn start() -> Self {
-        Self::start_class(DIALOG_CLASS, 10_000)
+        // 利用者の操作を待つ間（最長 2 分）、確認画面が裏に回ったら前面に戻し続ける
+        Self::start_class(DIALOG_CLASS, 120_000)
     }
 
     pub fn start_class(class: &'static str, max_ms: u64) -> Self {
@@ -99,14 +100,22 @@ impl DialogWatch {
         let st = stop.clone();
         let th = std::thread::spawn(move || {
             let t0 = std::time::Instant::now();
+            let mut found = false;
             while !st.load(std::sync::atomic::Ordering::Relaxed) && t0.elapsed().as_millis() < max_ms as u128 {
-                if let Some(info) = crate::sys::bring_dialog_to_front(class) {
-                    note(format!("hello.dialog.found {info} after={}ms", t0.elapsed().as_millis()));
-                    return;
+                if !found {
+                    if let Some(info) = crate::sys::bring_dialog_to_front(class) {
+                        note(format!("hello.dialog.found {info} after={}ms", t0.elapsed().as_millis()));
+                        found = true;
+                    }
+                } else if let Some(h) = crate::sys::find_visible_by_class(class) {
+                    // 見つけたあとも、ほかのウィンドウ（ブラウザなど）に隠れたら、前面に戻す
+                    if !crate::sys::is_foreground(h) {
+                        let _ = crate::sys::bring_dialog_to_front(class);
+                    }
                 }
-                std::thread::sleep(std::time::Duration::from_millis(100));
+                std::thread::sleep(std::time::Duration::from_millis(if found { 400 } else { 50 }));
             }
-            if !st.load(std::sync::atomic::Ordering::Relaxed) {
+            if !found && !st.load(std::sync::atomic::Ordering::Relaxed) {
                 note(format!("hello.dialog.notfound class={class}"));
             }
         });
