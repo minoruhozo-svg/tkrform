@@ -17,6 +17,8 @@
 #define NmHostName "jp.tkrs.tkrform"
 ; 拡張 ID は extension/manifest.json の key から決まる固定値（tools/ext-id.txt）
 #define ExtId "peloncdiaianimbhoficpdcpiooldofd"
+; Chrome ウェブストアで割り当てられた ID（crates/tkrform-ipc/src/proto.rs の ALLOWED_EXTENSION_IDS と同じにする。アプリも起動時に書き直す）
+#define ExtIdStore "fkhigfffleejckieoikjboabidigggee"
 
 [Setup]
 AppId={{6F1B7A52-3C0D-4E8B-9B7A-5D2E8C41A7F3}
@@ -94,7 +96,7 @@ begin
     '  "description": "tkrform Native Messaging Host",' + #13#10 +
     '  "path": "' + HostPath + '",' + #13#10 +
     '  "type": "stdio",' + #13#10 +
-    '  "allowed_origins": ["chrome-extension://{#ExtId}/"]' + #13#10 +
+    '  "allowed_origins": ["chrome-extension://{#ExtId}/", "chrome-extension://{#ExtIdStore}/"]' + #13#10 +
     '}' + #13#10;
   SaveStringToFile(Dir + '\{#NmHostName}.json', Json, False);
 end;

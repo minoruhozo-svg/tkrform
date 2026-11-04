@@ -13,7 +13,7 @@ pub const HOST_NAME: &str = "jp.tkrs.tkrform";
 /// ストア（Chrome ウェブストア・Microsoft Edge アドオン）で割り当てられた拡張 ID が決まったら、下に 1 行足す（ストアごとに別の ID になる）。
 pub const ALLOWED_EXTENSION_IDS: &[&str] = &[
     "peloncdiaianimbhoficpdcpiooldofd", // 開発用・直接配布用（extension/manifest.json の key で固定した ID）
-    // "<Chrome ウェブストアで割り当てられた ID>",
+    "fkhigfffleejckieoikjboabidigggee", // Chrome ウェブストア
     // "<Microsoft Edge アドオンで割り当てられた ID>",
 ];
 
@@ -96,6 +96,7 @@ mod id_tests {
             assert!(id.len() == 32 && id.chars().all(|c| ('a'..='p').contains(&c)), "拡張 ID の形式が不正です: {id}");
             assert!(origin_allowed(&format!("chrome-extension://{id}/")));
         }
+        assert!(origin_allowed("chrome-extension://fkhigfffleejckieoikjboabidigggee/"), "Chrome ウェブストアの ID");
         assert!(!origin_allowed("chrome-extension://aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/"));
     }
 }
