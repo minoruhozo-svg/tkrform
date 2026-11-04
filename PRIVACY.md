@@ -17,14 +17,14 @@ TKRForm の開発者は、利用者の情報を一切集めません。TKRForm �
 
 ### 2. 保存する情報と、その場所
 
-- 利用者が保存したログイン（ユーザー ID・パスワードなど）、プロフィール（氏名・住所など）、メモ、パスキー、2 段階認証のキーは、**利用者の PC の中**（`%LOCALAPPDATA%\tkrform`）に、マスターパスワードから作った鍵で暗号化して保存します（AES-256-GCM、PBKDF2-HMAC-SHA256）。
+- 利用者が保存したログイン（ユーザー ID・パスワードなど）、プロフィール（氏名・住所・電話番号・メールアドレス、勤務先、クレジットカードなどのカードの情報（カード番号・名義・有効期限・セキュリティコード・暗証番号など）を含む）、メモ、パスキー、2 段階認証のキーは、**利用者の PC の中**（`%LOCALAPPDATA%\tkrform`）に、マスターパスワードから作った鍵で暗号化して保存します（AES-256-GCM、PBKDF2-HMAC-SHA256）。
 - マスターパスワードそのものは保存しません。開発者を含め、利用者以外は保管庫を開けません。
 - Windows Hello を有効にした場合、その鍵は Windows の仕組み（Windows Hello）で保護して、同じ PC の中に保存します。
 - バックアップは、暗号化したまま、利用者が選んだフォルダに保存します。
 
 ### 3. ブラウザ拡張が扱う情報
 
-ブラウザ拡張は、利用者が開いた Web ページで、ログインの記入・保存と、パスワードの生成を行います。そのために、ページのログインの入力欄の内容を読み取り、利用者が保存を選んだときだけ、同じ PC の TKRForm アプリ（Native Messaging）へ渡します。拡張が、ページの内容や閲覧の履歴を、開発者やほかの第三者へ送ることはありません。
+ブラウザ拡張は、利用者が開いた Web ページで、ログインやプロフィール（住所・カードの情報など）の記入・保存と、パスワードの生成を行います。そのために、ページの入力欄の内容を読み取り、利用者が保存を選んだときだけ、同じ PC の TKRForm アプリ（Native Messaging）へ渡します。拡張が、ページの内容や閲覧の履歴を、開発者やほかの第三者へ送ることはありません。
 
 ### 4. 外部と通信する機能（すべて初期設定はオフ）
 
@@ -66,14 +66,14 @@ The developer of TKRForm does not collect any information about you. TKRForm has
 
 ### 2. Information stored, and where
 
-- Logins (user IDs, passwords, etc.), identities (name, address, etc.), notes, passkeys and two-factor (TOTP) keys that you save are stored **on your PC** (`%LOCALAPPDATA%\tkrform`), encrypted with a key derived from your master password (AES-256-GCM, PBKDF2-HMAC-SHA256).
+- Logins (user IDs, passwords, etc.), identities (name, address, phone number, email address, company, and payment card information such as card number, cardholder name, expiry date, security code and PIN), notes, passkeys and two-factor (TOTP) keys that you save are stored **on your PC** (`%LOCALAPPDATA%\tkrform`), encrypted with a key derived from your master password (AES-256-GCM, PBKDF2-HMAC-SHA256).
 - Your master password itself is never stored. No one other than you, including the developer, can open your vault.
 - If you enable Windows Hello, the key is protected by Windows Hello and stored on the same PC.
 - Backups are stored, still encrypted, in a folder you choose.
 
 ### 3. Information handled by the browser extension
 
-The browser extension fills and saves logins and generates passwords on web pages you open. To do so, it reads the login fields on the page and, only when you choose to save, passes them to the TKRForm app on the same PC (via Native Messaging). The extension never sends page content or browsing history to the developer or any other third party.
+The browser extension fills and saves logins and identities (such as addresses and payment card information) and generates passwords on web pages you open. To do so, it reads the form fields on the page and, only when you choose to save, passes them to the TKRForm app on the same PC (via Native Messaging). The extension never sends page content or browsing history to the developer or any other third party.
 
 ### 4. Features that communicate over the network (all off by default)
 
