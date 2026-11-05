@@ -193,8 +193,9 @@ pub fn register_native_host(data_root: &Path) -> Result<PathBuf, String> {
         }
         host = copy;
         // ホストが、アプリを起動するための ID（パッケージのアプリは、実行ファイルのパスでは起動できない）
+        // 裏で起動する入口の ID（接続役が起動するときに、画面や Windows Hello を出させないため）
         if let Some(id) = crate::msix::app_user_model_id() {
-            let _ = std::fs::write(dir.join("app-id.txt"), id);
+            let _ = std::fs::write(dir.join("app-id.txt"), crate::msix::background_aumid(&id));
         }
         if let Some(ext) = exe.parent().map(|p| p.join("extension")).filter(|p| p.is_dir()) {
             let _ = crate::msix::copy_dir_if_changed(&ext, &data_root.join("extension"));

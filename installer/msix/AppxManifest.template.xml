@@ -54,6 +54,18 @@
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png" />
+    </Application>
+    <!-- 裏で起動するための、一覧に出ない入口（同じ実行ファイル）。ブラウザの拡張・接続役からの起動と、Windows ログオン時の自動起動は、
+         この入口を使う。アプリは、自分のアプリ ID がこれであることで、「裏で起動された」と確実に分かる（起動時の引数や、
+         StartupTask の判定に頼らない）。裏で起動されたら、画面も Windows Hello も出さず、ロックしたままトレイで待つ。 -->
+    <Application Id="TKRFormBackground" Executable="TKRForm.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        AppListEntry="none"
+        DisplayName="{{DISPLAY_NAME}}"
+        Description="Password manager and form filler for Windows"
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png" />
       <Extensions>
         <!-- 自動起動。設定の「Windows の起動時に起動する」と連動する（StartupTask API）。既定はオフ -->
         <desktop:Extension Category="windows.startupTask" Executable="TKRForm.exe" EntryPoint="Windows.FullTrustApplication">
