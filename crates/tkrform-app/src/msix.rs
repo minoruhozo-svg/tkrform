@@ -47,8 +47,13 @@ pub fn app_user_model_id() -> Option<String> {
     }
 }
 
+/// 置き換えのときに、使用中のファイルを退避した名前に付ける印（`<名前>.old-<pid>-<時刻>`）。
+const OLD_MARK: &str = ".old-";
+
 /// `src` の内容を `dst` へコピーする。`dst` がなければ作り、内容が同じなら何もしない。書き込みは、一時ファイルに書いてから置き換える。
-/// 使用中（Chrome が NM ホストを動かしているなど）で置き換えられないときは、エラーを返す（呼び出し側は、前のものを使い続ける）。
+/// 使用中（Chrome が NM ホストを動かしているなど）で置き換えられないときは、既存の `dst` を同じフォルダの別名（`.old-…`）に
+/// 改名してから書く（Windows では、実行中の exe も、名前は変えられる）。旧版を動かしている接続は、そのまま動き続ける。
+/// 退避したファイルは、あとで `remove_old_copies` が消す。改名もできなければ、エラーを返す（呼び出し側は、前のものを使い続ける）。
 pub fn copy_if_changed(src: &Path, dst: &Path) -> io::Result<bool> {
     let bytes = std::fs::read(src)?;
     if std::fs::read(dst).ok().as_deref() == Some(bytes.as_slice()) {
@@ -57,8 +62,31 @@ pub fn copy_if_changed(src: &Path, dst: &Path) -> io::Result<bool> {
     if let Some(p) = dst.parent() {
         std::fs::create_dir_all(p)?;
     }
-    fsutil::write_atomic(dst, &bytes)?;
+    if fsutil::write_atomic(dst, &bytes).is_ok() {
+        return Ok(true);
+    }
+    let mut old = dst.as_os_str().to_owned();
+    let ms = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_millis()).unwrap_or(0);
+    old.push(format!("{OLD_MARK}{}-{ms}", std::process::id()));
+    std::fs::rename(dst, &old)?;
+    if let Err(e) = fsutil::write_atomic(dst, &bytes) {
+        let _ = std::fs::rename(&old, dst); // 書けなければ、元に戻す
+        return Err(e);
+    }
     Ok(true)
+}
+
+/// `dir`（サブフォルダも）にある、`copy_if_changed` が退避した古いファイル（`*.old-*`）を消す。使用中で消せないものは、そのままにする。
+pub fn remove_old_copies(dir: &Path) {
+    let Ok(rd) = std::fs::read_dir(dir) else { return };
+    for e in rd.flatten() {
+        let path = e.path();
+        if e.file_type().map(|t| t.is_dir()).unwrap_or(false) {
+            remove_old_copies(&path);
+        } else if e.file_name().to_string_lossy().contains(OLD_MARK) {
+            let _ = std::fs::remove_file(&path);
+        }
+    }
 }
 
 /// フォルダの中身を、`dst` へ（サブフォルダも）コピーする。内容が同じファイルは書き直さない。コピーまたは更新したファイルの数を返す。
@@ -115,6 +143,30 @@ mod tests {
         std::fs::write(&src, b"v2-new").unwrap();
         assert!(copy_if_changed(&src, &dst).unwrap(), "版が変わったら上書きする");
         assert_eq!(std::fs::read(&dst).unwrap(), b"v2-new");
+    }
+
+    /// 実行中の exe（ping.exe のコピー）でも、置き換えられる。旧版は動き続け、退避した古いファイルは、終わったあとで消せる。
+    #[test]
+    fn copy_if_changed_replaces_running_exe() {
+        let tmp = tempfile::tempdir().unwrap();
+        let ping = std::path::Path::new(&std::env::var("SystemRoot").unwrap_or_else(|_| "C:/Windows".into())).join("System32").join("PING.EXE");
+        let dst = tmp.path().join("nm").join("tkrform-nmhost.exe");
+        std::fs::create_dir_all(dst.parent().unwrap()).unwrap();
+        std::fs::copy(&ping, &dst).unwrap();
+        let mut child = std::process::Command::new(&dst).args(["-n", "8", "127.0.0.1"]).stdout(std::process::Stdio::null()).spawn().unwrap();
+        std::thread::sleep(std::time::Duration::from_millis(500));
+        let src = tmp.path().join("new.exe");
+        std::fs::write(&src, b"new host").unwrap();
+        assert!(copy_if_changed(&src, &dst).unwrap(), "使用中でも、置き換えられる");
+        assert_eq!(std::fs::read(&dst).unwrap(), b"new host");
+        let olds = |d: &Path| std::fs::read_dir(d).unwrap().flatten().filter(|e| e.file_name().to_string_lossy().contains(OLD_MARK)).count();
+        assert_eq!(olds(dst.parent().unwrap()), 1, "旧版は、別名で残る");
+        remove_old_copies(tmp.path());
+        assert_eq!(olds(dst.parent().unwrap()), 1, "使用中のものは、消せないのでそのまま");
+        let _ = child.kill();
+        let _ = child.wait();
+        remove_old_copies(tmp.path());
+        assert_eq!(olds(dst.parent().unwrap()), 0, "使い終わったら、消える");
     }
 
     #[test]

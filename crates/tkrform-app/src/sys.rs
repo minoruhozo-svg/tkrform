@@ -189,6 +189,9 @@ pub fn register_native_host(data_root: &Path) -> Result<PathBuf, String> {
         // Store 版: インストール先は、Chrome が実行も読み取りもできない。NM ホストと拡張のフォルダを、パッケージの外へコピーして使う
         // （使用中で置き換えられなければ、前のコピーを使い続ける）
         let copy = dir.join("tkrform-nmhost.exe");
+        // 前回、使用中で置き換えるときに退避した古いコピーを消す（使用中のものは、そのまま）
+        crate::msix::remove_old_copies(&dir);
+        crate::msix::remove_old_copies(&data_root.join("extension"));
         if let Err(e) = crate::msix::copy_if_changed(&host, &copy) {
             if !copy.is_file() {
                 return Err(format!("NM ホストをコピーできません: {e}"));
