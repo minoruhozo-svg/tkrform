@@ -115,9 +115,12 @@ fn find_browser_exe(browser: &str) -> Option<PathBuf> {
     None
 }
 
-/// 拡張機能ページ（chrome://extensions、edge://extensions）を開く。シェルを経由せず、引数も限定する。
+/// Chrome ウェブストアの TKRForm 拡張のページ（ストアが割り当てた ID。proto.rs の ALLOWED_EXTENSION_IDS と同じ）。
+pub const EXTENSION_STORE_URL: &str = "https://chromewebstore.google.com/detail/fkhigfffleejckieoikjboabidigggee";
+
+/// 拡張機能ページ（chrome://extensions、edge://extensions）と、ストアの拡張のページを開く。シェルを経由せず、引数も限定する。
 pub fn open_browser_page(browser: &str, page: &str) {
-    if page != "chrome://extensions" && page != "edge://extensions" {
+    if page != "chrome://extensions" && page != "edge://extensions" && page != EXTENSION_STORE_URL {
         return;
     }
     if let Some(exe) = find_browser_exe(browser) {

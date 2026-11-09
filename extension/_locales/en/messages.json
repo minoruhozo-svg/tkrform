@@ -278,6 +278,12 @@
     "Setup_Ext_Title":  {
                             "message":  "Install the browser extension"
                         },
+    "Setup_Ext_OpenStore":  {
+                                "message":  "Get it from the Chrome Web Store"
+                            },
+    "Setup_Ext_StoreNote":  {
+                                "message":  "Works in Chrome and Edge. To install without the store, follow the steps below."
+                            },
     "Setup_Ext_Step1":  {
                             "message":  "Open the extensions page in Chrome or Edge and turn on \"Developer mode\"."
                         },

@@ -82,6 +82,8 @@
   "Setup_CreateButton": "保管庫を作成",
   "Setup_Created": "保管庫を作成しました。",
   "Setup_Ext_Title": "ブラウザ拡張の導入",
+  "Setup_Ext_OpenStore": "Chrome ウェブストアで入れる",
+  "Setup_Ext_StoreNote": "Chrome と Edge で使えます。ストアを使わずに入れる場合は、次の手順です。",
   "Setup_Ext_Step1": "Chrome または Edge で拡張機能のページを開き、「デベロッパー モード」をオンにします。",
   "Setup_Ext_Step2": "「パッケージ化されていない拡張機能を読み込む」を押し、下のフォルダを選びます。",
   "Setup_Ext_Step3": "ツールバーの TKRForm のアイコンを押して、ロック解除できることを確認します。",

@@ -82,6 +82,8 @@
   "Setup_CreateButton": "Create vault",
   "Setup_Created": "Your vault has been created.",
   "Setup_Ext_Title": "Install the browser extension",
+  "Setup_Ext_OpenStore": "Get it from the Chrome Web Store",
+  "Setup_Ext_StoreNote": "Works in Chrome and Edge. To install without the store, follow the steps below.",
   "Setup_Ext_Step1": "Open the extensions page in Chrome or Edge and turn on \"Developer mode\".",
   "Setup_Ext_Step2": "Click \"Load unpacked\" and choose the folder shown below.",
   "Setup_Ext_Step3": "Click the TKRForm icon in the toolbar and check that you can unlock.",

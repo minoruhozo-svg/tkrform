@@ -278,6 +278,12 @@
     "Setup_Ext_Title":  {
                             "message":  "ブラウザ拡張の導入"
                         },
+    "Setup_Ext_OpenStore":  {
+                                "message":  "Chrome ウェブストアで入れる"
+                            },
+    "Setup_Ext_StoreNote":  {
+                                "message":  "Chrome と Edge で使えます。ストアを使わずに入れる場合は、次の手順です。"
+                            },
     "Setup_Ext_Step1":  {
                             "message":  "Chrome または Edge で拡張機能のページを開き、「デベロッパー モード」をオンにします。"
                         },

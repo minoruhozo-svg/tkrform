@@ -215,30 +215,38 @@
 <div class="warn"><b>マスターパスワードは忘れないでください</b>マスターパスワードは TKRForm にも保存されないため、忘れると保管庫を開く方法はありません（タカラシスコムでも復元できません）。長く、他で使っていない文字列にし、紙に書いて安全な場所に保管するなどしてください。</div>
 
 <h3>2.3 ブラウザ拡張の導入</h3>
-<p>セットアップの最後に、ブラウザ拡張の導入方法が表示されます。</p>
-<figure class="w70"><img src="img/annot/03-setup-ext.png"><figcaption>図 2-8　ブラウザ拡張の導入の案内</figcaption><ol class="legend"><li>Chrome の拡張機能ページを開きます。</li><li>Edge を使う場合はこちらを押します。</li><li>拡張のフォルダ。読み込むときにこのフォルダを選びます。</li></ol></figure>
+<p>ブラウザ拡張は、<b>Chrome ウェブストア</b>から入れます。Chrome と Microsoft Edge のどちらでも使えます。</p>
+<figure class="w70"><img src="img/annot/03-setup-ext.png"><figcaption>図 2-8　ブラウザ拡張の導入の案内（セットアップの最後）</figcaption><ol class="legend"><li>「Chrome ウェブストアで入れる」。ストアの TKRForm のページが開きます。</li><li>Chrome の拡張機能ページ（ストアを使わない場合）</li><li>Edge の拡張機能ページ（ストアを使わない場合）</li><li>拡張のフォルダ（ストアを使わない場合に読み込むフォルダ）</li></ol></figure>
 <ol>
-  <li>「Chrome の拡張機能ページ」（図 2-8 ①。Edge の場合は ②）を押します。</li>
-  <li>右上の<b>「デベロッパー モード」</b>をオンにします（図 2-9 ①）。</li>
-  <li><b>「パッケージ化されていない拡張機能を読み込む」</b>を押し（図 2-9 ②）、画面に表示されている「拡張のフォルダ」（図 2-8 ③。インストール先の <code>extension</code> フォルダ）を選びます。</li>
-  <li>一覧に<b>「TKRForm パスワードマネージャ」</b>が表示され、右下のスイッチがオンになっていることを確かめます（図 2-9 ③）。</li>
+  <li>セットアップの最後の画面で、<b>「Chrome ウェブストアで入れる」</b>を押します（図 2-8 ①）。Chrome で、Chrome ウェブストアの TKRForm のページが開きます。あとから入れる場合は、Chrome で <code>https://chromewebstore.google.com/detail/fkhigfffleejckieoikjboabidigggee</code> を開くか、ストアで「TKRForm」を検索します。</li>
+  <li><b>「Chrome に追加」</b>を押し（図 2-9 ①）、確認の画面で<b>「拡張機能を追加」</b>を押します。</li>
   <li>ツールバーのパズルの形のアイコンを押し（図 2-10 ①）、一覧の TKRForm の横のピンを押して（②）、ツールバーに固定します。固定すると、ピンが青緑色になり、ツールバーに TKRForm のアイコンが表示されます（③）。</li>
-  <li>ツールバーの TKRForm のアイコンを押し、マスターパスワードでロックを解除できれば完了です。</li>
+  <li>ツールバーの TKRForm のアイコンを押し、マスターパスワード（または Windows Hello）でロックを解除できれば完了です。</li>
 </ol>
-<figure class="w80"><img src="img/annot/chrome-extensions.png"><figcaption>図 2-9　Chrome の拡張機能ページ</figcaption><ol class="legend"><li>「デベロッパー モード」をオンにします。</li><li>「パッケージ化されていない拡張機能を読み込む」を押し、拡張のフォルダを選びます。</li><li>読み込まれた TKRForm。スイッチがオンになっていれば使えます。</li></ol></figure>
+<figure class="w80"><img src="img/annot/cws-page.png"><figcaption>図 2-9　Chrome ウェブストアの TKRForm のページ</figcaption><ol class="legend"><li>「Chrome に追加」を押します。</li></ol></figure>
 <figure class="w60"><img src="img/annot/chrome-pin.png" style="max-width:80mm"><figcaption>図 2-10　ツールバーへの固定</figcaption><ol class="legend"><li>パズルの形のアイコン（拡張機能）</li><li>ピン。押すとツールバーに固定します。</li><li>ツールバーに固定された TKRForm のアイコン</li></ol></figure>
-<div class="note"><b>ブラウザの再起動は不要です</b>TKRForm アプリとブラウザ拡張の接続は、インストール時に自動で設定されます。</div>
+<div class="note"><b>Microsoft Edge で使う場合</b>Edge で上のストアのページを開くと、ページの上に「他のストアからの拡張機能を許可する」と表示されます。<b>「拡張機能を許可する」</b>を押してから、<b>「Chrome に追加」</b>（Edge では「入手」と表示されることもあります）を押してください。許可の操作は最初の 1 回だけです。</div>
+<div class="note"><b>ブラウザの再起動は不要です</b>TKRForm アプリとブラウザ拡張の接続は、インストール時に自動で設定されます。拡張の更新も、ストアから自動で届きます。</div>
+<h4>ストアを使わずに入れる場合</h4>
+<p>社内のネットワークの決まりなどで Chrome ウェブストアを使えない場合は、TKRForm に同梱の拡張を、直接読み込むこともできます。この方法では、拡張の更新は自動では届きません。</p>
+<ol>
+  <li>「Chrome の拡張機能ページ」（図 2-8 ②。Edge の場合は ③）を押します。</li>
+  <li>右上の<b>「デベロッパー モード」</b>をオンにします（図 2-11 ①）。</li>
+  <li><b>「パッケージ化されていない拡張機能を読み込む」</b>を押し（図 2-11 ②）、「拡張のフォルダ」（図 2-8 ④。インストール先の <code>extension</code> フォルダ）を選びます。</li>
+  <li>一覧に<b>「TKRForm パスワードマネージャ」</b>が表示され、右下のスイッチがオンになっていることを確かめます（図 2-11 ③）。そのあと、上の手順 3 から進めます。</li>
+</ol>
+<figure class="w80"><img src="img/annot/chrome-extensions.png"><figcaption>図 2-11　Chrome の拡張機能ページ（ストアを使わない場合）</figcaption><ol class="legend"><li>「デベロッパー モード」をオンにします。</li><li>「パッケージ化されていない拡張機能を読み込む」を押し、拡張のフォルダを選びます。</li><li>読み込まれた TKRForm。スイッチがオンになっていれば使えます。</li></ol></figure>
 
 <h3>2.4 他のソフトからの移行（インポート）</h3>
 <p>他のパスワード管理ソフトやブラウザに保存しているパスワードは、CSV ファイルを経由して取り込めます。</p>
 <ol>
   <li>移行元のソフトで、パスワードを CSV 形式で書き出します（エクスポート）。</li>
   <li>TKRForm のエディタを開き、右上の<b>「その他 ▼」→「インポート...」</b>を選びます。</li>
-  <li>書き出した CSV ファイルを選びます。形式（Chrome / Edge / Firefox / RoboForm / 1Password / LastPass / Bitwarden など）は自動で判定されます（図 2-11 ②）。</li>
-  <li>「列の対応付け」で、CSV の列が正しい項目（名前・URL・ユーザー ID・パスワードなど）に対応しているかを確かめます（図 2-11 ③）。下へスクロールすると取り込む内容の見本が表示されるので、確認して<b>「取り込む」</b>を押します。</li>
+  <li>書き出した CSV ファイルを選びます。形式（Chrome / Edge / Firefox / RoboForm / 1Password / LastPass / Bitwarden など）は自動で判定されます（図 2-12 ②）。</li>
+  <li>「列の対応付け」で、CSV の列が正しい項目（名前・URL・ユーザー ID・パスワードなど）に対応しているかを確かめます（図 2-12 ③）。下へスクロールすると取り込む内容の見本が表示されるので、確認して<b>「取り込む」</b>を押します。</li>
   <li>取り込んだログインは「インポート 年-月-日」のフォルダに入ります。</li>
 </ol>
-<figure class="w80"><img src="img/annot/app-import.png"><figcaption>図 2-11　インポート</figcaption><ol class="legend"><li>取り込み元。通常は「自動判定」のままで構いません。</li><li>判定した形式と件数</li><li>列の対応付け。CSV の列と TKRForm の項目の組み合わせです。</li></ol></figure>
+<figure class="w80"><img src="img/annot/app-import.png"><figcaption>図 2-12　インポート</figcaption><ol class="legend"><li>取り込み元。通常は「自動判定」のままで構いません。</li><li>判定した形式と件数</li><li>列の対応付け。CSV の列と TKRForm の項目の組み合わせです。</li></ol></figure>
 <div class="warn"><b>書き出した CSV は必ず削除してください</b>CSV ファイルにはパスワードが暗号化されずに入っています。取り込みが済んだら、ごみ箱からも削除してください。</div>
 <p class="note"><b>パスキーは移せません</b>他のソフトに保存したパスキーは、仕組み上書き出せません。各サイトで TKRForm のパスキーを作り直してください（6 章）。</p>
 
@@ -466,7 +474,7 @@
 <h2>10. 困ったときは</h2>
 <table class="small">
   <tr><th style="width:36%">症状</th><th>対処</th></tr>
-  <tr><td>ポップアップに「TKRForm アプリに接続できません」と出る</td><td>TKRForm アプリが起動しているか、トレイのアイコンを確認してください。起動していなければ、スタートメニューから TKRForm を起動します。それでも直らない場合は、<code>chrome://extensions</code> で TKRForm の拡張を再読み込み（↻）してください。</td></tr>
+  <tr><td>ポップアップに「TKRForm アプリに接続できません」と出る</td><td>TKRForm アプリが起動しているか、トレイのアイコンを確認してください。起動していなければ、スタートメニューから TKRForm を起動します。それでも直らない場合は、<code>chrome://extensions</code>（Edge は <code>edge://extensions</code>）で TKRForm の拡張のスイッチをいったんオフにしてからオンに戻すか、ブラウザを再起動してください（ストアを使わずに読み込んだ場合は、再読み込み（↻）でも構いません）。</td></tr>
   <tr><td>保存ダイアログや候補メニューが出ない</td><td>ロックを解除しているか確認してください。そのサイトで「このサイトでは今後しない」を選んでいないか、設定の「自動保存」の「保存しないサイト」を確認してください。ページを再読み込みすると出る場合もあります。</td></tr>
   <tr><td>記入されない欄がある</td><td>ポップアップの「フォームの入力内容を保存」で、すべての欄を保存し直してください。エディタのフィールドの一覧で、欄の名前や値を直すこともできます。</td></tr>
   <tr><td>Windows Hello の確認が出ない</td><td>設定の「セキュリティ」で Windows Hello が有効になっているか確認してください。Windows の「サインイン オプション」で PIN などを設定していない PC では使えません。</td></tr>

@@ -77,6 +77,7 @@
   $('#back').addEventListener('click', () => show(step - 1));
 
   $('#open-ext-folder').addEventListener('click', () => rpc('openExtensionFolder').catch(showError));
+  $('#open-store').addEventListener('click', () => rpc('openBrowserPage', { browser: 'chrome', page: 'https://chromewebstore.google.com/detail/fkhigfffleejckieoikjboabidigggee' }).catch(showError));
   $('#open-chrome').addEventListener('click', () => rpc('openBrowserPage', { browser: 'chrome', page: 'chrome://extensions' }).catch(showError));
   $('#open-edge').addEventListener('click', () => rpc('openBrowserPage', { browser: 'edge', page: 'edge://extensions' }).catch(showError));
 

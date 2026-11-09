@@ -47,6 +47,8 @@ try {
   await setup.click('#next'); // 作成
   await waitFor(() => setup.eval(`document.querySelector('.step.active')?.dataset.step === '5'`), 20000, '拡張の導入案内');
   ok(fs.existsSync(path.join(dataDir, 'main', 'vault.hdr')), 'vault.hdr が作られた');
+  // マニュアル用の画像: 開発中のパスを、インストール先の例に差し替える（見た目だけ）
+  await setup.eval(`document.querySelector('#ext-path').textContent = '拡張のフォルダ: C:¥Users¥（ユーザー名）¥AppData¥Local¥Programs¥tkrform¥extension'`);
   await setup.screenshot(path.join(shots, '03-setup-ext.png'));
   await setup.click('#next'); // → 6
   await setup.click('#next'); // 完了 → エディタ

@@ -104,6 +104,8 @@ add(
   ['Setup_CreateButton', '保管庫を作成', 'Create vault'],
   ['Setup_Created', '保管庫を作成しました。', 'Your vault has been created.'],
   ['Setup_Ext_Title', 'ブラウザ拡張の導入', 'Install the browser extension'],
+  ['Setup_Ext_OpenStore', 'Chrome ウェブストアで入れる', 'Get it from the Chrome Web Store'],
+  ['Setup_Ext_StoreNote', 'Chrome と Edge で使えます。ストアを使わずに入れる場合は、次の手順です。', 'Works in Chrome and Edge. To install without the store, follow the steps below.'],
   ['Setup_Ext_Step1', 'Chrome または Edge で拡張機能のページを開き、「デベロッパー モード」をオンにします。', 'Open the extensions page in Chrome or Edge and turn on "Developer mode".'],
   ['Setup_Ext_Step2', '「パッケージ化されていない拡張機能を読み込む」を押し、下のフォルダを選びます。', 'Click "Load unpacked" and choose the folder shown below.'],
   ['Setup_Ext_Step3', 'ツールバーの TKRForm のアイコンを押して、ロック解除できることを確認します。', 'Click the TKRForm icon in the toolbar and check that you can unlock.'],
