@@ -53,9 +53,8 @@ fn start_pipe(core: &Arc<Core>) {
 fn main() {
     wins::mark_main_thread();
     // --background、または Store 版の自動起動（windows.startupTask）による起動なら、画面を出さずに常駐だけする
-    // Store 版は、裏で起動する専用の入口（アプリ ID TKRFormBackground）からも起動される。引数が届かなくても、これで確実に分かる
-    let background = std::env::args().any(|a| a == "--background") || msix::started_as_background_app() || msix::started_by_startup_task();
-    // 裏で起動されたのに、すでに動いているなら、何もせず終わる（2 つ目の起動を既存の画面に伝えない。伝わると、ログイン画面やエディタが開く）
+    let background = std::env::args().any(|a| a == "--background") || msix::started_by_startup_task();
+    // 裏で起動されたのに、すでに動いているなら、何もせず終わる（2 つ目の起動を既存の画面に伝えない）
     if background && !sys::testing() && tkrform_ipc::pipe::connect().is_ok() {
         return;
     }

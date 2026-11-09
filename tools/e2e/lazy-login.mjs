@@ -165,15 +165,6 @@ try {
   await sleep(2000);
   ok((await pages(9353).catch(() => [])).length === 0 && pb.events[0]?.data.locked === true, '--background の起動も、ウィンドウなしでロック中のまま');
   pb.close();
-  killTree(app.child);
-  await sleep(1500);
-
-  // Store 版: 裏で起動する入口（アプリ ID TKRFormBackground）から、引数なしで起動された場合も、同じ
-  app = startApp({ dataDir, cdpPort: 9354, env: { TKRFORM_PIPE_SUFFIX: SUFFIX, TKRFORM_FORCE_PACKAGED: '1', TKRFORM_FAKE_AUMID: 'TakaraSyscom.TKRForm_test!TKRFormBackground', TKRFORM_HELLO_STUB_FILE: helloStub } });
-  const pk = await PipeClient.connect();
-  await sleep(2500);
-  ok((await pages(9354).catch(() => [])).length === 0 && pk.events[0]?.data.locked === true, '裏で起動する入口（引数なし）から起動しても、ウィンドウなしでロック中のまま');
-  pk.close();
 } catch (e) {
   failed++;
   console.log('ERROR', e.stack || e);

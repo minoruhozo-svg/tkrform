@@ -28,35 +28,8 @@ fn real_packaged() -> bool {
     unsafe { GetCurrentPackageFullName(&mut len, None) != APPMODEL_ERROR_NO_PACKAGE }
 }
 
-/// 裏で起動するための入口（AppxManifest.xml の 2 つ目の Application の Id）。一覧には出ない。
-pub const BACKGROUND_APP_ID: &str = "TKRFormBackground";
-
-/// アプリケーションユーザーモデル ID（`<パッケージファミリー名>!<アプリ ID>`）が、裏で起動する入口のものか。
-pub fn is_background_aumid(aumid: &str) -> bool {
-    aumid.rsplit_once('!').map(|(_, id)| id == BACKGROUND_APP_ID).unwrap_or(false)
-}
-
-/// 裏で起動する入口の ID（NM ホストが、アプリを起動するのに使う）。自分の ID のアプリ ID の部分を置き換える。
-pub fn background_aumid(aumid: &str) -> String {
-    match aumid.rsplit_once('!') {
-        Some((pfn, _)) => format!("{pfn}!{BACKGROUND_APP_ID}"),
-        None => aumid.to_string(),
-    }
-}
-
-/// 裏で起動する入口から起動されたか（拡張・接続役からの起動、Windows ログオン時の自動起動）。そうなら、画面を出さずに常駐だけする。
-pub fn started_as_background_app() -> bool {
-    is_packaged() && app_user_model_id().map(|id| is_background_aumid(&id)).unwrap_or(false)
-}
-
 /// このアプリのアプリケーションユーザーモデル ID（`<パッケージファミリー名>!<アプリ ID>`）。NM ホストが、アプリを起動するのに使う。
 pub fn app_user_model_id() -> Option<String> {
-    // 自動テスト専用の差し替え（TKRFORM_TEST のときだけ）
-    if crate::sys::testing() {
-        if let Ok(v) = std::env::var("TKRFORM_FAKE_AUMID") {
-            return Some(v);
-        }
-    }
     use windows::core::PWSTR;
     use windows::Win32::Storage::Packaging::Appx::GetCurrentApplicationUserModelId;
     unsafe {
@@ -129,15 +102,6 @@ pub fn started_by_startup_task() -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn background_aumid_helpers() {
-        assert!(is_background_aumid("TakaraSyscom.TKRForm_abc!TKRFormBackground"));
-        assert!(!is_background_aumid("TakaraSyscom.TKRForm_abc!TKRForm"));
-        assert!(!is_background_aumid("TKRFormBackground"));
-        assert_eq!(background_aumid("TakaraSyscom.TKRForm_abc!TKRForm"), "TakaraSyscom.TKRForm_abc!TKRFormBackground");
-        assert_eq!(background_aumid("TakaraSyscom.TKRForm_abc!TKRFormBackground"), "TakaraSyscom.TKRForm_abc!TKRFormBackground");
-    }
 
     #[test]
     fn copy_if_changed_copies_updates_and_skips_same() {
