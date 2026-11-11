@@ -570,6 +570,22 @@ try {
   ok(tabLabels === 'ログイン|プロフィール|メモ', `タブの並びは「ログイン | プロフィール | メモ」（${tabLabels}）。「このサイト」は、いちばん上の枠`);
   ok(await fresh.eval(`document.querySelector('#tabs button').getAttribute('aria-selected') === 'true'`), '開いたときの既定のタブは「ログイン」');
   ok(await fresh.eval(`document.activeElement && document.activeElement.id === 'q'`), '開いた直後に検索欄へフォーカスする');
+  // 行のダブルクリック／Enter で記入（0.2 と同じ動き）。ボタン上のダブルクリックでは動かない。doFill を差し替えて、呼ばれたかだけを見る
+  {
+    await fresh.eval(`window.__calls = []; window.__origFill = doFill; doFill = async (e, s, o) => { window.__calls.push([e.type, e.name, s, o]); };`);
+    await fresh.eval(`window.__li = [...document.querySelectorAll('#list li')].find((x) => x.querySelectorAll('.actions button').length >= 4); true`);
+    const first = '(window.__li)';
+    const n0 = await fresh.eval(`window.__calls.length`);
+    await fresh.eval(`${first}.querySelector('.actions button').dispatchEvent(new MouseEvent('dblclick', { bubbles: true }))`);
+    await fresh.eval(`${first}.querySelector('.actions button').dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))`);
+    ok((await fresh.eval(`window.__calls.length`)) === n0, '操作のボタンの上のダブルクリック・Enter では、行の記入が動かない');
+    await fresh.eval(`${first}.querySelector('.name').dispatchEvent(new MouseEvent('dblclick', { bubbles: true }))`);
+    const c1 = JSON.parse(await fresh.eval(`JSON.stringify(window.__calls)`));
+    ok(c1.length === n0 + 1 && c1[n0][0] === 1 && c1[n0][2] === null && c1[n0][3] === false, `行（名前の部分）のダブルクリックで、ログインの記入が動く（${JSON.stringify(c1[n0])}）`);
+    await fresh.eval(`${first}.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))`);
+    ok((await fresh.eval(`window.__calls.length`)) === n0 + 2, '行で Enter キーを押しても、同じ記入が動く');
+    await fresh.eval(`doFill = window.__origFill; true`);
+  }
   // 長い名前・ID・URL（数百文字）でも、ポップアップとホームの行・タイルがはみ出さず、操作が見える
   {
     const longName = 'LongName-' + 'n'.repeat(120), longUser = 'user-' + 'u'.repeat(150) + '@example.com', longUrl = 'https://login.example.com/sso?redirect=' + 'a'.repeat(400);

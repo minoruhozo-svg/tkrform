@@ -100,7 +100,7 @@ function flash(text) {
   flashTimer = setTimeout(() => f.classList.add('hidden'), 3000);
 }
 
-function rowFor(e, onSite, showFolder, primary) {
+function rowFor(e, onSite, showFolder, withFill) {
   const isLogin = e.type === 1;
   let sub = isLogin ? [e.user, hostOf(e.url)].filter(Boolean).join('  ') : e.type === 2 ? e.url : '';
   if (showFolder && e.folder && e.folder !== '/') sub = [sub, e.folder.replace(/^\//, '')].filter(Boolean).join('  ');
@@ -120,12 +120,12 @@ function rowFor(e, onSite, showFolder, primary) {
     acts.append(actionBtn('edit', t('Ext_Act_Fill'), async () => { await bg({ t: 'fillIdentityTab', id: e.id }); window.close(); }));
   }
   acts.append(actionBtn('set', t('Ext_Act_Edit'), async () => { await rpc('openEditor', { id: e.id }); window.close(); }));
-  const li = el('li', { tabIndex: 0, ondblclick: () => primary(e, onSite) },
+  const li = el('li', { tabIndex: 0, ondblclick: (ev) => { if (!ev.target.closest('button, .actions')) primary(e, onSite); } },
     avatar(e.name, e.type, 'sm'),
     el('div', { class: 'grow' }, el('div', { class: 'name', text: e.name }), el('div', { class: 'meta', text: sub })),
-    primary ? el('button', { type: 'button', class: 'primary sm fillbtn', text: t('Ext_Act_Fill'), onclick: async (ev) => { ev.stopPropagation(); try { await fillHere(e); } catch (er) { flash(errText(er)); } } }) : null,
+    withFill ? el('button', { type: 'button', class: 'primary sm fillbtn', text: t('Ext_Act_Fill'), onclick: async (ev) => { ev.stopPropagation(); try { await fillHere(e); } catch (er) { flash(errText(er)); } } }) : null,
     acts);
-  li.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') primary(e, onSite); });
+  li.addEventListener('keydown', (ev) => { if (ev.key === 'Enter' && !ev.target.closest('button')) primary(e, onSite); });
   return li;
 }
 
