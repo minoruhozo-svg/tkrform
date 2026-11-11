@@ -107,6 +107,20 @@ try {
   ok(geo.bs.length === 2 && geo.bs.every((x) => x <= geo.w) && geo.liRight <= geo.w && geo.scroll <= geo.w, `長い URL（数百文字）でも、ボタン 2 つが画面の中に見え、行がはみ出さない（ボタンの右端 ${geo.bs.join(',')} / 画面 ${geo.w}）`);
   ok(geo.text.includes('login.example.com') && !geo.text.includes('redirect=') && geo.title.includes('redirect='), 'サイトはホスト名だけで、URL 全体は title に入る');
   ok(geo.h < 90, `行の高さは、URL の長さで伸びない（${Math.round(geo.h)}px）`);
+  // 「パスワードを変える」の右端が、同じ一覧の全部の行（短い行も長い URL の行も）で、1px 以内にそろう。使い回しは、グループをまたいでもそろう
+  const rights = (panel) => sec.eval(`JSON.stringify([...document.querySelectorAll('#${panel} .rows li button.primary')].map((b) => Math.round(b.getBoundingClientRect().right * 10) / 10))`).then(JSON.parse);
+  const aligned = (a) => a.length >= 2 && Math.max(...a) - Math.min(...a) <= 1;
+  const wr = await rights('panel-weak');
+  ok(aligned(wr), `弱いタブ: 短い行と長い URL の行で、ボタンの右端がそろう（${wr.join(', ')}）`);
+  const gpw = 'Group-Same-Pw-Example-9!';
+  const g1 = await must('saveItem', { mode: 'new', item: { type: 1, name: 'G1', url: 'https://g1.example.com/', folder: '/', fields: [{ name: 'u', value: 'a', kind: 'text', role: 'user' }, { name: 'p', value: gpw, kind: 'password', role: 'password' }] } });
+  const g2 = await must('saveItem', { mode: 'new', item: { type: 1, name: 'G2 long', url: longUrl + '&g=2', folder: '/', fields: [{ name: 'u', value: 'b', kind: 'text', role: 'user' }, { name: 'p', value: gpw, kind: 'password', role: 'password' }] } });
+  await sec.click('#rescan');
+  await sec.click('#tab-reused');
+  await waitFor(() => sec.eval(`document.querySelectorAll('#panel-reused .grp-wrap').length >= 2`), 8000, '使い回しのグループ');
+  const rr = await rights('panel-reused');
+  const gw = JSON.parse(await sec.eval(`JSON.stringify([...document.querySelectorAll('#panel-reused .grp-wrap > .grp')].map((g) => Math.round(g.getBoundingClientRect().width)))`));
+  ok(aligned(rr) && Math.max(...gw) - Math.min(...gw) <= 1, `使い回しのタブ: グループをまたいで、ボタンの右端がそろい、グループの枠の幅もそろう（右端 ${rr.join(', ')} / 枠の幅 ${gw.join(', ')}）`);
   ok((await text('#panel-old .sub')).includes('365 日'), '古いタブの先頭に、条件（365 日以上）の説明文がある');
   await sec.click('#tab-weak');
   ok((await text('#panel-weak .sub')).includes('50 ビット未満'), '弱いタブの先頭に、条件（50 ビット未満）の説明文がある');

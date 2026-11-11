@@ -25,7 +25,10 @@
   ul.rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
   ul.rows li { display: flex; gap: 12px; align-items: center; padding: 8px; border-radius: var(--radius); }
   /* 行: 左の文字の部分は縮められ、ボタンは右端に固定。どんなに長い URL でも、ボタンが見える */
-  ul.rows li > .grow { min-width: 0; }
+  /* 文字の部分が残りの幅を全部取り、ボタンは行の右端にそろう。グループの枠も、カードの幅いっぱい（中身の幅で縮まない） */
+  ul.rows li > .grow { flex: 1 1 auto; min-width: 0; }
+  ul.rows li.grp-wrap { display: block; padding: 0; }
+  ul.rows li.grp-wrap > .grp { width: 100%; }
   ul.rows li .line { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .grp, .grp-wrap, section.card, ul.rows { min-width: 0; }
   ul.rows li .reasons { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
