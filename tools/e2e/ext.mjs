@@ -340,6 +340,20 @@ try {
     await se.eval(`document.querySelector('#tab-reused').click()`);
     await sleep(800);
     await shot(se, '02-security-center.png');
+    // 2a. 長い URL の行（改良案の確認用。掲載用の画像には出さない）
+    if (/gui-proposal/.test(dir)) {
+      const longUrl = 'https://login.account.example.com/sso/start?client_id=sample-client&redirect_uri=' + 'https%3A%2F%2Fapp.example.com%2Fcallback%2F'.repeat(12) + '&state=abc123';
+      const lu = await pipe.ok('saveItem', { mode: 'new', item: { type: 1, name: 'Long SSO Example', folder: '/', url: longUrl, fields: [{ name: 'u', value: 'taro.sample@example.com', kind: 'text', role: 'user' }, { name: 'p', value: 'password1', kind: 'password', role: 'password' }] } });
+      await se.eval(`document.querySelector('#rescan').click()`);
+      await se.eval(`document.querySelector('#tab-weak').click()`);
+      await waitFor(() => se.eval(`[...document.querySelectorAll('#panel-weak .rows li')].some((li) => li.textContent.includes('Long SSO Example'))`), 8000, '長い URL の行');
+      await sleep(500);
+      await shot(se, '02c-security-long-url.png');
+      await pipe.ok('deleteItem', { id: lu.id });
+      await se.eval(`document.querySelector('#rescan').click()`);
+      await se.eval(`document.querySelector('#tab-reused').click()`);
+      await sleep(500);
+    }
     // 2b. 設定
     await ui.eval(`rpc('openWindow', { name: 'settings' })`);
     const stT = await waitTarget(APP_PORT, (x) => x.url.includes('settings.html'), 30000);
@@ -556,6 +570,23 @@ try {
   ok(tabLabels === 'ログイン|プロフィール|メモ', `タブの並びは「ログイン | プロフィール | メモ」（${tabLabels}）。「このサイト」は、いちばん上の枠`);
   ok(await fresh.eval(`document.querySelector('#tabs button').getAttribute('aria-selected') === 'true'`), '開いたときの既定のタブは「ログイン」');
   ok(await fresh.eval(`document.activeElement && document.activeElement.id === 'q'`), '開いた直後に検索欄へフォーカスする');
+  // 長い名前・ID・URL（数百文字）でも、ポップアップとホームの行・タイルがはみ出さず、操作が見える
+  {
+    const longName = 'LongName-' + 'n'.repeat(120), longUser = 'user-' + 'u'.repeat(150) + '@example.com', longUrl = 'https://login.example.com/sso?redirect=' + 'a'.repeat(400);
+    const li = await pipe.ok('saveItem', { mode: 'new', item: { type: 1, name: longName, url: longUrl, folder: '/', fields: [{ name: 'u', value: longUser, kind: 'text', role: 'user' }, { name: 'p', value: 'Zq7#mK2$vLp9-xx', kind: 'password', role: 'password' }] } });
+    await fresh.eval(`(() => { const q = document.querySelector('#q'); q.value = 'LongName-'; q.dispatchEvent(new Event('input', { bubbles: true })); })()`);
+    await waitFor(() => fresh.eval(`[...document.querySelectorAll('#list li .name')].some((n) => n.textContent.startsWith('LongName-'))`), 8000, '長い名前の行');
+    await fresh.eval(`(() => { const s = document.createElement('style'); s.id = 'forcehover'; s.textContent = '#list li .actions { display: flex !important; }'; document.head.append(s); })()`);
+    const pg = JSON.parse(await fresh.eval(`JSON.stringify((() => { const li = [...document.querySelectorAll('#list li')].find((x) => x.textContent.includes('LongName-')); const w = document.documentElement.clientWidth; return { w, scroll: document.documentElement.scrollWidth, liRight: li.getBoundingClientRect().right, bs: [...li.querySelectorAll('.actions button')].map((b) => b.getBoundingClientRect().right) }; })())`));
+    ok(pg.scroll <= pg.w && pg.liRight <= pg.w && pg.bs.length > 0 && pg.bs.every((x) => x <= pg.w), `ポップアップの行は、長い名前・ID・URL でもはみ出さず、操作のボタンが見える（${JSON.stringify(pg)}）`);
+    await fresh.eval(`document.querySelector('#forcehover').remove(); (() => { const q = document.querySelector('#q'); q.value = ''; q.dispatchEvent(new Event('input', { bubbles: true })); })()`);
+    const hm = await openTab(`chrome-extension://${EXT_ID}/start.html`);
+    await waitFor(() => hm.eval(`[...document.querySelectorAll('.tile b')].some((b) => b.textContent.startsWith('LongName-'))`), 15000, 'ホームの長い名前のタイル');
+    const hg = JSON.parse(await hm.eval(`JSON.stringify((() => { const t = [...document.querySelectorAll('.tile')].find((x) => x.textContent.includes('LongName-')); const w = document.documentElement.clientWidth; return { w, scroll: document.documentElement.scrollWidth, right: t.getBoundingClientRect().right, h: Math.round(t.getBoundingClientRect().height) }; })())`));
+    ok(hg.scroll <= hg.w && hg.right <= hg.w && hg.h <= 170, `ホームのタイルは、長い名前でもはみ出さず、高さが伸びない（${JSON.stringify(hg)}）`);
+    await closeTab(hm);
+    await pipe.ok('deleteItem', { id: li.id });
+  }
   // E2E ではポップアップ自体がアクティブなタブ（chrome-extension://）なので、ボタンは出ない。http(s) のページがアクティブなら出ることは、下で確認する
   const barHidden = () => fresh.eval(`document.querySelector('#site-bar').classList.contains('hidden')`);
   ok(await barHidden(), '「フォームの入力内容を保存」は、アクティブなタブが http(s) でなければ出ない（ログインタブ）');

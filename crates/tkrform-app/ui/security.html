@@ -24,6 +24,10 @@
   section.card[role=tabpanel].hidden { display: none; }
   ul.rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
   ul.rows li { display: flex; gap: 12px; align-items: center; padding: 8px; border-radius: var(--radius); }
+  /* 行: 左の文字の部分は縮められ、ボタンは右端に固定。どんなに長い URL でも、ボタンが見える */
+  ul.rows li > .grow { min-width: 0; }
+  ul.rows li .line { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .grp, .grp-wrap, section.card, ul.rows { min-width: 0; }
   ul.rows li .reasons { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
   ul.rows li button { display: inline-flex; align-items: center; gap: 4px; flex: none; }
   ul.rows li:hover { background: var(--hover); }

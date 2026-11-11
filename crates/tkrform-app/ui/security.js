@@ -25,10 +25,17 @@ function drawRing(score) {
 }
 
 /** 行: 項目の頭文字、名前、ID とサイト、理由の chip、「サイトを開く」、色つきの「パスワードを変える」（保管庫の画面で、その項目を編集の状態で開く）。 */
+/** サイトの表示は、URL 全体ではなく、ホスト名だけ（保管庫の一覧・ポップアップと同じ）。 */
+function hostOf(u) {
+  try { return new URL(/^[a-z]+:\/\//i.test(u) ? u : 'https://' + u).host; } catch (_) { return u || ''; }
+}
+
 function rowEl(r, extra, reasons) {
+  const who = [r.user, hostOf(r.url)].filter(Boolean).join('  ');
   return el('li', null, avatar(r.name, 1, 'sm'),
     el('span', { class: 'grow' },
-      el('div', null, el('b', { text: r.name }), ' ', el('span', { class: 'sub', text: [r.user, r.url].filter(Boolean).join('  ') })),
+      // 名前・ID・サイトは 1 行。あふれた分は「…」で切る（URL 全体は、乗せたときの表示に入れる）
+      el('div', { class: 'line', title: [r.name, r.user, r.url].filter(Boolean).join('  ') }, el('b', { text: r.name }), ' ', el('span', { class: 'sub', text: who })),
       reasons && reasons.length ? el('div', { class: 'reasons' }, ...reasons.map((x) => el('span', { class: 'pill warn', text: x }))) : null),
     extra ? el('span', { class: 'sub', text: extra }) : null,
     r.url ? el('button', { type: 'button', class: 'sm', icon: 'open', onclick: () => rpc('openUrl', { url: /^https?:/i.test(r.url) ? r.url : 'https://' + r.url }).catch(showError) }, t('Sec_OpenSite')) : null,

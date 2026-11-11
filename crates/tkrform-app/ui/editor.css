@@ -118,7 +118,8 @@ html, body { overflow: hidden; }
 /* ログインの表示画面 */
 .view { gap: 16px; }
 .vhead { display: flex; align-items: center; gap: 16px; }
-.vname { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 18px; line-height: 1.3; }
+.vhead > .grow { min-width: 0; }
+.vname { overflow-wrap: anywhere; display: flex; align-items: center; gap: 8px; margin: 0; font-size: 18px; line-height: 1.3; }
 .vname .star { color: var(--amber); display: inline-flex; }
 .vname .star .ic { width: 16px; height: 16px; fill: currentColor; }
 .vhead .sub { display: flex; align-items: center; gap: 4px; }

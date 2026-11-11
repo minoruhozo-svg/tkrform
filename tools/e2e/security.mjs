@@ -97,6 +97,16 @@ try {
   ok(oldRow.includes('古い') && /変更: \d{4}-\d{2}-\d{2}/.test(oldRow), '古いタブには、パスワードを変更した日が出る');
   ok(await sec.eval(`!!document.querySelector('#panel-old .rows li .av') && [...document.querySelectorAll('#panel-old .rows li button.primary')].every((b) => b.textContent === 'パスワードを変える') && !!document.querySelector('#panel-old .rows li .pill')`), '行に、頭文字・理由の chip・色つきの「パスワードを変える」がある');
   ok(/あと \d+ 件/.test(await text('#score-hint')), '点数の横に、あと何件変えると 100 点になるかが出る');
+  // 数百文字の URL を持つログイン: 行の幅を押し広げず、右端のボタン 2 つが画面の中に見える。サイトはホスト名だけで、URL 全体は title に入る
+  const longUrl = 'https://login.example.com/sso/start?' + 'redirect=' + 'a'.repeat(400);
+  await must('saveItem', { mode: 'new', item: { type: 1, name: '長い URL のログイン', url: longUrl, folder: '/', fields: [{ name: 'u', value: 'taro', kind: 'text', role: 'user' }, { name: 'p', value: 'abc', kind: 'password', role: 'password' }] } });
+  await sec.click('#rescan');
+  await sec.click('#tab-weak');
+  await waitFor(() => sec.eval(`[...document.querySelectorAll('#panel-weak .rows li')].some((li) => li.textContent.includes('長い URL のログイン'))`), 8000, '長い URL の行');
+  const geo = JSON.parse(await sec.eval(`JSON.stringify((() => { const li = [...document.querySelectorAll('#panel-weak .rows li')].find((x) => x.textContent.includes('長い URL のログイン')); const bs = [...li.querySelectorAll('button')].map((b) => b.getBoundingClientRect().right); const r = li.getBoundingClientRect(); const line = li.querySelector('.line'); return { w: innerWidth, bs, liRight: r.right, h: r.height, text: li.textContent, title: line.title, scroll: document.documentElement.scrollWidth }; })())`));
+  ok(geo.bs.length === 2 && geo.bs.every((x) => x <= geo.w) && geo.liRight <= geo.w && geo.scroll <= geo.w, `長い URL（数百文字）でも、ボタン 2 つが画面の中に見え、行がはみ出さない（ボタンの右端 ${geo.bs.join(',')} / 画面 ${geo.w}）`);
+  ok(geo.text.includes('login.example.com') && !geo.text.includes('redirect=') && geo.title.includes('redirect='), 'サイトはホスト名だけで、URL 全体は title に入る');
+  ok(geo.h < 90, `行の高さは、URL の長さで伸びない（${Math.round(geo.h)}px）`);
   ok((await text('#panel-old .sub')).includes('365 日'), '古いタブの先頭に、条件（365 日以上）の説明文がある');
   await sec.click('#tab-weak');
   ok((await text('#panel-weak .sub')).includes('50 ビット未満'), '弱いタブの先頭に、条件（50 ビット未満）の説明文がある');
