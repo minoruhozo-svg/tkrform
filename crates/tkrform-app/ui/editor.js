@@ -124,7 +124,7 @@ function renderTree() {
         else if (S.dragIds) moveItems([...S.dragIds], path);
         S.dragIds = null; S.dragFolder = null;
       },
-    }, el('span', { text: '📁' }), el('span', { text: name }), el('span', { class: 'count', text: n }));
+    }, icon('folder'), el('span', { text: name }), el('span', { class: 'count', text: n }));
     ul.append(li);
   }
   if (!S.folders.length) ul.append(el('li', { class: 'sub', text: t('Editor_NoFolders') }));
@@ -176,11 +176,11 @@ function paintRows() {
         S.dragIds = new Set(S.sel); ev.dataTransfer.setData('text/plain', 'tkrform'); ev.dataTransfer.effectAllowed = 'move'; },
       ondragend: () => { S.dragIds = null; },
     },
-      el('span', { class: 'badge t' + e.type + (e.corrupt ? ' bad' : ''), text: e.corrupt ? '!' : t('Badge_' + e.type) }),
+      avatar(e.name, e.type),
       el('div', { class: 'grow' }, el('div', { class: 'name', text: e.name }), el('div', { class: 'meta', text: sub })),
-      e.corrupt ? el('span', { class: 'tag-bad', text: t('Item_Corrupt') }) : null,
-      e.hasPasskey ? el('span', { class: 'star', text: '🔑', title: t('Pk_Badge'), 'aria-label': t('Pk_Badge') }) : null,
-      e.favorite ? el('span', { class: 'star', text: '★', 'aria-label': t('Item_Favorite') }) : null);
+      e.corrupt ? el('span', { class: 'pill bad', text: t('Item_Corrupt') }) : null,
+      e.hasPasskey ? el('span', { class: 'star', icon: 'key', title: t('Pk_Badge'), 'aria-label': t('Pk_Badge') }) : null,
+      e.favorite ? el('span', { class: 'star', icon: 'star', 'aria-label': t('Item_Favorite') }) : null);
     frag.append(row);
   }
   Array.from(sp.children).forEach((c) => c.remove());
@@ -204,6 +204,7 @@ async function clickRow(ev, i) {
 }
 
 async function selectionChanged() {
+  if (!S.cur || S.sel.size !== 1 || S.cur.id !== [...S.sel][0]) S.editing = false;
   if (S.sel.size === 1) await loadItem([...S.sel][0]);
   else if (S.sel.size > 1) showMulti();
   else showEmpty();
@@ -286,7 +287,8 @@ async function loadItem(id) {
   try {
     const item = await rpc('getItem', { id });
     S.cur = item; S.orig = JSON.stringify(item); S.isNew = false; S.dirty = false; S.savedTotpKey = item.totpKey || '';
-    await showForm();
+    // ログインは、まず見るだけの画面で出す（「編集」を押すと、編集のフォーム）
+    if (item.type === TYPE_LOGIN && !S.editing) showLoginView(item, e); else await showForm();
   } catch (er) {
     if (/破損|corrupt/i.test(er.message)) { e.corrupt = true; renderList(); showCorrupt(e); } else showError(er);
   }
@@ -300,6 +302,16 @@ function showTrashDetail(e) {
     el('div', { class: 'row' },
       el('button', { type: 'button', class: 'primary', text: t('Trash_Restore'), onclick: () => restoreItems([e.id]) }),
       el('button', { type: 'button', class: 'danger', text: t('Trash_Purge'), onclick: () => purgeItems([e.id]) }))));
+}
+
+function showLoginView(item, e) {
+  S.editing = false;
+  renderLoginView($('#detail'), item, {
+    meta: e,
+    onEdit: () => { S.editing = true; showForm(); },
+    onLogin: () => fillLogin([item.id], 'tab', 'item'),
+    onGoFill: () => fillLogin([item.id], 'go'),
+  });
 }
 
 async function showForm() {
@@ -362,6 +374,7 @@ async function saveCur() {
     S.anchor = idx;
     scrollToIndex(idx);
     paintRows();
+    S.editing = false; // 保存したら、表示の画面に戻る
     await loadItem(id);
     toast(t('Editor_Saved'));
   } catch (e) { showError(e); }
@@ -717,6 +730,8 @@ document.addEventListener('keydown', async (e) => {
 
 (async () => {
   await initI18n();
+  mountRail('vault');
+  window.beforeLeave = confirmDiscard; // 編集中の変更があれば、捨ててよいか確かめてから別の画面へ
   await LockGuard.init(async () => { await reload(); });
   // 自動バックアップが失敗していたら（保存先に書けないなど）知らせる。黙って既定の場所に切り替えることはしない
   rpc('backupStatus').then((st) => { if (st && st.lastError) toast(t('Backup_LastError', st.lastError), 'error'); }).catch(() => {});
@@ -781,8 +796,12 @@ document.addEventListener('keydown', async (e) => {
   const st = await rpc('status');
   if (!st.locked) {
     await reload();
-    const id = new URLSearchParams(location.search).get('id');
-    if (id) await selectById(id);
+    const q = new URLSearchParams(location.search);
+    const id = q.get('id');
+    if (id) {
+      S.editing = q.get('edit') === '1'; // セキュリティセンターの「パスワードを変える」から: 編集の状態で開く
+      await selectById(id);
+    }
   }
 })();
 

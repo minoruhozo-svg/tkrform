@@ -48,6 +48,7 @@ cargo build --release        # target/release/TKRForm.exe と tkrform-nmhost.exe
 ```bash
 node tools/locales-src.mjs                                  # locales/ja.json, en.json を生成
 node tools/check-locales.mjs                                # コードが参照するキーの不足を検査
+node tools/check-uikit.mjs                                  # UI 部品（CSS・アイコン・頭文字）が、アプリと拡張で同じ内容かを検査
 powershell -File tools/gen-locales.ps1                      # extension/_locales/ を生成
 ```
 

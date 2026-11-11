@@ -73,11 +73,11 @@ try {
   await must('openWindow', { name: 'settings' });
   const sp = await waitTarget(PORT, (x) => x.url.includes('settings.html'));
   const sc = await Cdp.connect(sp.webSocketDebuggerUrl);
-  await waitFor(() => sc.eval(`!!document.querySelector('#save') && !!document.querySelector('#bk-dir')`), 10000, '設定画面');
+  await waitFor(() => sc.eval(`typeof saveNow === 'function' && !!document.querySelector('#bk-dir')`), 10000, '設定画面');
   await waitFor(() => sc.eval(`document.querySelector('#bk-dir').value !== ''`), 5000, '保存先の表示');
   ok((await sc.eval(`document.querySelector('#bk-dir').value`)) === target, '設定の「バックアップ」タブに、今の保存先が表示される');
   await must('backupSetDir', { dir: target2 }); // 設定画面が古い値を持ったまま、保存先が変わる
-  await sc.click('#save');
+  await sc.eval(`saveNow()`); // 設定は、変更のたびにその場で保存される（保存ボタンはない）。同じ処理を呼ぶ
   await sleep(800);
   ok((await must('backupStatus')).dir === target2, '設定画面で「保存」しても、保存先は古い値に戻らない');
   // フォルダ選択（テスト時は差し替え）で変更

@@ -16,7 +16,6 @@
   --panel: #ffffff;
   --hover: #eaf1f8;
   --shadow: 0 6px 24px rgba(20, 40, 60, 0.18);
-  --radius: 6px;
   --font: "Segoe UI", "Yu Gothic UI", "Meiryo UI", sans-serif;
   --mono: "Cascadia Mono", Consolas, "BIZ UDGothic", monospace;
 }
@@ -43,6 +42,89 @@
   }
 }
 
+/* ---- 部品の決まり（アプリの common.css と拡張の ext.css で、この区間は同じ内容にする。tools/check-uikit.mjs が一致を検査する）----
+   角: ボタン・入力欄・一覧の行・トースト 8px / カード・ダイアログ・メニュー 12px / 状態の印 丸。余白は 4 の倍数、文字は 12 / 13 / 14 / 18。 */
+:root {
+  --radius: 8px;
+  --radius-lg: 12px;
+  --av1: #3a7bd5;
+  --av2: #2f9e7a;
+  --av3: #c7653b;
+  --av4: #7a5fd0;
+  --av5: #b8892a;
+  --av6: #c2507e;
+}
+button, .btn {
+  font: inherit;
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
+button:hover:not(:disabled) { background: var(--hover); }
+button:disabled { opacity: 0.5; cursor: default; }
+button.primary { background: var(--sky); border-color: var(--sky); color: #fff; }
+button.primary:hover:not(:disabled) { background: var(--sky-dark); border-color: var(--sky-dark); }
+button.danger { color: var(--coral-dark); border-color: var(--coral); }
+button.danger:hover:not(:disabled) { background: var(--coral-light); }
+button.flat { border-color: transparent; background: transparent; }
+button.flat:hover:not(:disabled) { background: var(--hover); }
+button.icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; padding: 0; }
+button.icon.sm { width: 28px; min-height: 28px; height: 28px; }
+:focus-visible { outline: 2px solid var(--sky); outline-offset: 1px; }
+.ic { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
+button.sm .ic, button.icon.sm .ic { width: 16px; height: 16px; }
+.ic-star-on { fill: currentColor; }
+
+input[type=text], input[type=password], input[type=search], input[type=number], input[type=url], input[type=email], select, textarea {
+  font: inherit;
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--ink);
+  width: 100%;
+  min-width: 0;
+}
+input[type=text]:focus-visible, input[type=password]:focus-visible, input[type=search]:focus-visible, input[type=number]:focus-visible,
+input[type=url]:focus-visible, input[type=email]:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: none;
+  border-color: var(--sky);
+  box-shadow: 0 0 0 3px var(--sky-light);
+}
+
+/* 項目の頭文字の四角（名前から決まる 6 色）。線のアイコンのときも同じ四角 */
+.av { width: 32px; height: 32px; border-radius: var(--radius); display: inline-flex; align-items: center; justify-content: center; flex: none; font-weight: 700; font-size: 14px; line-height: 1; color: #fff; background: var(--av1); }
+.av.c1 { background: var(--av1); } .av.c2 { background: var(--av2); } .av.c3 { background: var(--av3); }
+.av.c4 { background: var(--av4); } .av.c5 { background: var(--av5); } .av.c6 { background: var(--av6); }
+.av.sm { width: 28px; height: 28px; font-size: 13px; }
+.av.lg { width: 48px; height: 48px; border-radius: var(--radius-lg); font-size: 20px; }
+.av.xl { width: 64px; height: 64px; border-radius: var(--radius-lg); font-size: 28px; }
+.av .ic { width: 18px; height: 18px; stroke: #fff; }
+.av.sm .ic { width: 16px; height: 16px; }
+.av.lg .ic { width: 24px; height: 24px; }
+.av.xl .ic { width: 28px; height: 28px; }
+.av.neutral { background: transparent; color: var(--ink-sub); }
+.av.neutral .ic { stroke: currentColor; }
+
+/* 状態の印（強い / 弱い / 使い回し など）。丸い chip */
+.pill { display: inline-flex; align-items: center; gap: 4px; padding: 0 8px; border-radius: 999px; font-size: 12px; font-weight: 600; line-height: 20px; white-space: nowrap; background: var(--hover); color: var(--ink-sub); }
+.pill.ok { background: var(--mint-light); color: var(--mint); }
+.pill.warn { background: var(--amber-light); color: var(--amber); }
+.pill.bad { background: var(--coral-light); color: var(--coral-dark); }
+.pill.info { background: var(--sky-light); color: var(--sky-dark); }
+/* スイッチ（オン・オフ） */
+input[type=checkbox].tg { -webkit-appearance: none; appearance: none; width: 36px; height: 20px; margin: 0; border-radius: 999px; background: var(--line); position: relative; flex: none; cursor: pointer; transition: background 0.12s; }
+input[type=checkbox].tg::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--panel); transition: left 0.12s; }
+input[type=checkbox].tg:checked { background: var(--sky); }
+input[type=checkbox].tg:checked::after { left: 18px; }
+input[type=checkbox].tg:disabled { opacity: 0.5; cursor: default; }
+/* ---- 部品の決まりここまで ---- */
+
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
 body {
@@ -53,8 +135,8 @@ body {
   user-select: none;
 }
 input, textarea, select, .selectable { -webkit-user-select: text; user-select: text; }
-h1 { font-size: 20px; margin: 0 0 8px; }
-h2 { font-size: 16px; margin: 16px 0 8px; }
+h1 { font-size: 18px; margin: 0 0 8px; }
+h2 { font-size: 14px; margin: 16px 0 8px; }
 .sub { color: var(--ink-sub); font-size: 13px; }
 .hidden { display: none !important; }
 .mono { font-family: var(--mono); }
@@ -62,44 +144,14 @@ h2 { font-size: 16px; margin: 16px 0 8px; }
 .row { display: flex; gap: 8px; align-items: center; }
 .col { display: flex; flex-direction: column; gap: 8px; }
 
-button, .btn {
-  font: inherit;
-  padding: 5px 14px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--panel);
-  color: var(--ink);
-  cursor: pointer;
-}
-button:hover:not(:disabled) { background: var(--hover); }
-button:disabled { opacity: 0.5; cursor: default; }
-button.primary { background: var(--sky); border-color: var(--sky); color: #fff; }
-button.primary:hover:not(:disabled) { background: var(--sky-dark); }
-button.danger { color: var(--coral-dark); border-color: var(--coral); }
-button.danger:hover:not(:disabled) { background: var(--coral-light); }
-button.icon { padding: 3px 8px; }
-button.flat { border-color: transparent; background: transparent; }
-button.flat:hover:not(:disabled) { background: var(--hover); }
-:focus-visible { outline: 2px solid var(--sky); outline-offset: 1px; }
-
-input[type=text], input[type=password], input[type=search], input[type=number], input[type=url], input[type=email], select, textarea {
-  font: inherit;
-  padding: 5px 8px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--panel);
-  color: var(--ink);
-  width: 100%;
-  min-width: 0;
-}
-textarea { resize: vertical; }
+textarea { resize: vertical; min-height: 64px; }
 input[type=checkbox], input[type=radio] { margin: 0 6px 0 0; }
 label.check { display: flex; align-items: center; }
 label.field { display: flex; flex-direction: column; gap: 3px; font-size: 13px; color: var(--ink-sub); }
 label.field > input, label.field > select, label.field > textarea { color: var(--ink); font-size: 14px; }
 
-.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
-.msg { padding: 8px 10px; border-radius: var(--radius); font-size: 13px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px; }
+.msg { padding: 8px 12px; border-radius: var(--radius); font-size: 13px; }
 .msg.error { background: var(--coral-light); color: var(--coral-dark); }
 .msg.warn { background: var(--amber-light); color: var(--amber); }
 .msg.ok { background: var(--mint-light); color: var(--mint); }
@@ -113,7 +165,7 @@ label.field > input, label.field > select, label.field > textarea { color: var(-
 /* ダイアログ（<dialog>） */
 dialog.tk {
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   padding: 0;
   background: var(--panel);
   color: var(--ink);
@@ -123,14 +175,14 @@ dialog.tk {
 }
 dialog.tk.wide { max-width: min(760px, 94vw); }
 dialog.tk::backdrop { background: rgba(10, 20, 30, 0.45); }
-dialog.tk form { margin: 0; padding: 18px 20px 14px; display: flex; flex-direction: column; gap: 12px; }
-dialog.tk .title { font-size: 16px; font-weight: 600; }
+dialog.tk form { margin: 0; padding: 20px 24px 16px; display: flex; flex-direction: column; gap: 12px; }
+dialog.tk .title { font-size: 18px; font-weight: 600; }
 dialog.tk .body { white-space: pre-wrap; word-break: break-word; }
 dialog.tk .actions { display: flex; justify-content: flex-end; gap: 8px; }
 
 /* トースト */
 #toasts { position: fixed; right: 16px; bottom: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 9999; }
-.toast { background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: var(--radius); box-shadow: var(--shadow); max-width: 360px; }
+.toast { background: var(--ink); color: var(--bg); padding: 8px 16px; border-radius: var(--radius); font-weight: 600; box-shadow: var(--shadow); max-width: 360px; }
 .toast.error { background: var(--coral-dark); color: #fff; }
 
 /* ロック画面のオーバーレイ */
@@ -143,8 +195,17 @@ dialog.tk .actions { display: flex; justify-content: flex-end; gap: 8px; }
 .brand img { width: 32px; height: 32px; }
 
 .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); }
-.tabs button { border: none; border-bottom: 3px solid transparent; border-radius: 0; background: transparent; padding: 7px 14px; }
+.tabs button { border: none; border-bottom: 3px solid transparent; border-radius: 0; background: transparent; padding: 8px 16px; }
 .tabs button[aria-selected=true] { border-bottom-color: var(--sky); color: var(--sky-dark); font-weight: 600; }
 table.grid { border-collapse: collapse; width: 100%; }
-table.grid th, table.grid td { border-bottom: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: middle; }
+table.grid th, table.grid td { border-bottom: 1px solid var(--line); padding: 4px 8px; text-align: left; vertical-align: middle; }
 table.grid th { font-size: 12px; color: var(--ink-sub); font-weight: 600; }
+
+/* 左端の切り替え（mountRail） */
+body.has-rail { padding-left: 72px; }
+#rail { position: fixed; left: 0; top: 0; bottom: 0; width: 72px; z-index: 50; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 0; background: var(--panel); border-right: 1px solid var(--line); }
+#rail .raillogo { width: 32px; height: 32px; border-radius: var(--radius); background: var(--sky); color: #fff; display: grid; place-items: center; margin-bottom: 12px; }
+#rail .railsp { flex: 1; }
+#rail .railbtn { width: 60px; min-height: 52px; padding: 8px 0 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; border-radius: var(--radius); font-size: 11px; color: var(--ink-sub); }
+#rail .railbtn.on { background: var(--sky-light); color: var(--sky-dark); font-weight: 600; }
+#rail .railbtn:hover:not(:disabled):not(.on) { color: var(--ink); }

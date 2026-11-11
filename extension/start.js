@@ -15,13 +15,6 @@ const iconObserver = new IntersectionObserver((entries) => {
   }
 }, { rootMargin: '200px' });
 
-/** ドメインから決めた色（頭文字の丸の色）。 */
-function domainColor(h) {
-  let n = 0;
-  for (const c of h) n = (n * 31 + c.charCodeAt(0)) >>> 0;
-  return `hsl(${n % 360} 48% 40%)`;
-}
-
 /** 背景色（#rrggbb）に合わせた文字色: 明るければ黒、暗ければ白。 */
 function textOn(hex) {
   const v = parseInt(hex.slice(1), 16);
@@ -39,15 +32,16 @@ function loadIcon(btn) {
 
 function tile(e) {
   const h = host(e.url);
-  const letter = ([...(e.name || h)][0] || '?').toUpperCase();
+  const av = avatar(e.name || h, e.type, 'xl');
+  av.classList.add('initial'); // 画像がないときの頭文字（画像が取れると、.ico の中身ごと画像に替わる）
   const btn = el('button', {
     class: 'tile', type: 'button', title: e.type === 1 ? [e.user, h].filter(Boolean).join('  ') : h,
     onclick: async () => {
       const url = /^https?:/i.test(e.url) ? e.url : 'https://' + e.url;
       if (e.type === 1) await bg({ t: 'goFill', id: e.id, url, submit: null }); else chrome.tabs.create({ url });
     },
-  }, e.favorite ? el('span', { class: 'fav', text: '★', 'aria-label': t('Item_Favorite') }) : null,
-  el('span', { class: 'ico' }, el('span', { class: 'initial', text: letter, style: 'background:' + domainColor(h) })),
+  }, e.favorite ? el('span', { class: 'fav', icon: 'star', 'aria-label': t('Item_Favorite') }) : null,
+  el('span', { class: 'ico' }, av),
   el('b', { text: e.name }));
   btn.dataset.url = e.url;
   iconObserver.observe(btn);

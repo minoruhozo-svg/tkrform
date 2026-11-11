@@ -1,9 +1,8 @@
 'use strict';
 // ツールバーのポップアップ（§8.5）。
 
-const TABS = [['login', 'Ext_Tab_Logins'], ['site', 'Ext_Tab_Site'], ['identity', 'Ext_Tab_Identities'], ['note', 'Ext_Tab_Notes']];
+const TABS = [['login', 'Ext_Tab_Logins'], ['identity', 'Ext_Tab_Identities'], ['note', 'Ext_Tab_Notes']];
 const TYPES = { login: [1], identity: [5, 6], note: [7] };
-const BADGE = { 1: 'L', 2: 'B', 5: 'ID', 6: 'C', 7: 'N' };
 
 let tab = 'login';
 let state = { connected: false, locked: true };
@@ -87,8 +86,8 @@ function render() {
   loadList();
 }
 
-function actionBtn(text, title, fn) {
-  return el('button', { type: 'button', class: 'icon', text, title, 'aria-label': title, onclick: async (e) => { e.stopPropagation(); try { await fn(); } catch (er) { flash(errText(er)); } } });
+function actionBtn(iconName, title, fn) {
+  return el('button', { type: 'button', class: 'icon sm flat', icon: iconName, title, 'aria-label': title, onclick: async (e) => { e.stopPropagation(); try { await fn(); } catch (er) { flash(errText(er)); } } });
 }
 
 /** 一時メッセージ（「コピーしました」など）。見出しの下の細い帯に、3 秒間出す。 */
@@ -101,29 +100,30 @@ function flash(text) {
   flashTimer = setTimeout(() => f.classList.add('hidden'), 3000);
 }
 
-function rowFor(e, onSite, showFolder) {
+function rowFor(e, onSite, showFolder, primary) {
   const isLogin = e.type === 1;
   let sub = isLogin ? [e.user, hostOf(e.url)].filter(Boolean).join('  ') : e.type === 2 ? e.url : '';
-  if (showFolder && e.folder && e.folder !== '/') sub = [sub, '📁 ' + e.folder.replace(/^\//, '')].filter(Boolean).join('  ');
+  if (showFolder && e.folder && e.folder !== '/') sub = [sub, e.folder.replace(/^\//, '')].filter(Boolean).join('  ');
   const acts = el('div', { class: 'actions' });
   if (isLogin) {
     acts.append(
-      actionBtn('▶', t('Ext_Act_Login'), async () => { await doFill(e, null, onSite); }), // null: 項目の「記入後に送信する」に従う（チェックなしなら、記入だけ）
+      actionBtn('fill', t('Ext_Act_Login'), async () => { await doFill(e, null, onSite); }), // null: 項目の「記入後に送信する」に従う（チェックなしなら、記入だけ）
       // 「このサイト」でも「ログイン」でも、今開いているページに記入する（送信しない）。一致しないページには記入しない
-      actionBtn('✎', onSite ? t('Ext_Act_Fill') : t('Ext_Act_FillMatch'), async () => { await fillHere(e); }),
-      actionBtn('👤', t('Ext_Act_CopyUser'), async () => { await rpc('copyItem', { id: e.id, field: 'user' }); flash(t('Common_Copied', '')); }),
-      actionBtn('🔑', t('Ext_Act_CopyPassword'), async () => { await rpc('copyItem', { id: e.id, field: 'password' }); flash(t('Common_Copied', '')); }),
+      actionBtn('edit', onSite ? t('Ext_Act_Fill') : t('Ext_Act_FillMatch'), async () => { await fillHere(e); }),
+      actionBtn('user', t('Ext_Act_CopyUser'), async () => { await rpc('copyItem', { id: e.id, field: 'user' }); flash(t('Common_Copied', '')); }),
+      actionBtn('key', t('Ext_Act_CopyPassword'), async () => { await rpc('copyItem', { id: e.id, field: 'password' }); flash(t('Common_Copied', '')); }),
     );
-    if (e.hasTotp) acts.append(actionBtn('⏱', t('Ext_Act_CopyTotp'), async () => { await rpc('copyItem', { id: e.id, field: 'totp' }); flash(t('Common_Copied', '')); }));
+    if (e.hasTotp) acts.append(actionBtn('clock', t('Ext_Act_CopyTotp'), async () => { await rpc('copyItem', { id: e.id, field: 'totp' }); flash(t('Common_Copied', '')); }));
   } else if (e.type === 2) {
-    acts.append(actionBtn('↗', t('Ext_Act_Open'), async () => { chrome.tabs.create({ url: /^https?:/i.test(e.url) ? e.url : 'https://' + e.url }); window.close(); }));
+    acts.append(actionBtn('open', t('Ext_Act_Open'), async () => { chrome.tabs.create({ url: /^https?:/i.test(e.url) ? e.url : 'https://' + e.url }); window.close(); }));
   } else if (e.type === 5 || e.type === 6) {
-    acts.append(actionBtn('✎', t('Ext_Act_Fill'), async () => { await bg({ t: 'fillIdentityTab', id: e.id }); window.close(); }));
+    acts.append(actionBtn('edit', t('Ext_Act_Fill'), async () => { await bg({ t: 'fillIdentityTab', id: e.id }); window.close(); }));
   }
-  acts.append(actionBtn('⚙', t('Ext_Act_Edit'), async () => { await rpc('openEditor', { id: e.id }); window.close(); }));
+  acts.append(actionBtn('set', t('Ext_Act_Edit'), async () => { await rpc('openEditor', { id: e.id }); window.close(); }));
   const li = el('li', { tabIndex: 0, ondblclick: () => primary(e, onSite) },
-    el('span', { class: 'badge b' + e.type, text: BADGE[e.type] || 'L' }),
+    avatar(e.name, e.type, 'sm'),
     el('div', { class: 'grow' }, el('div', { class: 'name', text: e.name }), el('div', { class: 'meta', text: sub })),
+    primary ? el('button', { type: 'button', class: 'primary sm fillbtn', text: t('Ext_Act_Fill'), onclick: async (ev) => { ev.stopPropagation(); try { await fillHere(e); } catch (er) { flash(errText(er)); } } }) : null,
     acts);
   li.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') primary(e, onSite); });
   return li;
@@ -173,10 +173,10 @@ function openFolder(path) {
 
 function folderRow(path, count, up) {
   const li = el('li', { class: 'folder' + (up ? ' up' : ''), tabIndex: 0, onclick: () => openFolder(path) },
-    el('span', { class: 'badge bf', text: up ? '↑' : '📁' }),
+    el('span', { class: 'av sm neutral ic-av' }, icon(up ? 'up' : 'folder')),
     el('div', { class: 'grow' },
       el('div', { class: 'name', text: up ? t('Ext_Folder_Up') : baseName(path) }),
-      up ? el('div', { class: 'meta', text: '📁 ' + up.replace(/^\//, '') }) : null),
+      up ? el('div', { class: 'meta', text: up.replace(/^\//, '') }) : null),
     up ? null : el('span', { class: 'count', text: String(count) }));
   li.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') openFolder(path); });
   return li;
@@ -235,49 +235,46 @@ async function loadList() {
   const ul = $('#list');
   // 「パスワード生成」の画面を出している間は、一覧・検索・タブを隠す
   $('#gen-view').classList.toggle('hidden', !genOpen);
-  for (const sel of ['#list-wrap', '#tabs']) $(sel).classList.toggle('hidden', genOpen);
+  for (const sel of ['#list-wrap', '#tabs', '.tabrow', '#dock']) $(sel).classList.toggle('hidden', genOpen);
   $('#q').parentElement.classList.toggle('hidden', genOpen);
   if (genOpen) {
     $('#site-bar').classList.add('hidden');
+    $('#here').classList.add('hidden');
     if (!genMounted) { mountGenerator($('#gen')); genMounted = true; }
     return;
   }
   try {
     let rows = [];
-    let onSite = false;
-    // 「フォームの入力内容を保存」は、「ログイン」と「このサイト」のタブで、アクティブなタブが http(s) のページのときだけ出す
+    // 「ページを保存」（下の操作のバー）は、「ログイン」のタブで、アクティブなタブが http(s) のページのときだけ出す
     $('#site-bar').classList.add('hidden');
-    if (tab === 'login' || tab === 'site') {
+    if (tab === 'login') {
       if (!activeTab) [activeTab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
       if (my !== seq) return;
       $('#site-bar').classList.toggle('hidden', !(activeTab && /^https?:/i.test(activeTab.url || '')));
     }
-    if (tab === 'site') {
-      onSite = true;
-      const url = activeTab && activeTab.url;
-      if (url && /^https?:/i.test(url)) {
-        const m = await rpc('match', { url });
-        rows = [...m.logins.map((l) => ({ ...l, type: 1, url })), ...m.identities];
-        if (q) rows = rows.filter((r) => (r.name + ' ' + (r.user || '')).toLowerCase().includes(q.toLowerCase()));
-      }
-    } else {
-      rows = await searchAll(q, TYPES[tab]);
+    // 「このサイト」の枠: ログインのタブで、検索語がなく、今のページに合うログインがあれば、いちばん上に出す（なければ、枠ごと出さない）
+    let hereRows = [];
+    if (tab === 'login' && !q.trim() && activeTab && /^https?:/i.test(activeTab.url || '')) {
+      try { hereRows = (await rpc('match', { url: activeTab.url })).logins.slice(0, 2).map((l) => ({ ...l, type: 1, url: activeTab.url })); } catch (_) { hereRows = []; }
       if (my !== seq) return;
-      // 検索語がなければフォルダ階層で、あれば全フォルダから一覧で（フォルダ名を添える）
-      if (!q.trim()) {
-        if (tab === 'login') {
-          const hot = hotRows(rows);
-          if (loginView === null) loginView = hot.length ? 'frequent' : 'abc'; // 初回（保存した選択なし）
-          syncSeg();
-          if (loginView === 'frequent') { ul.replaceChildren(...frequentView(hot)); return; }
-        }
-        ul.replaceChildren(...folderView(rows)); // ABC: 上のフォルダへ → サブフォルダ（名前順）→ ログイン（名前順）。フォルダが上
-        return;
-      }
-      if (tab === 'login') syncSeg();
     }
+    $('#here-list').replaceChildren(...hereRows.map((r) => rowFor(r, true, false, true)));
+    $('#here').classList.toggle('hidden', !hereRows.length);
+    rows = await searchAll(q, TYPES[tab]);
     if (my !== seq) return;
-    ul.replaceChildren(...(rows.length ? rows.map((r) => rowFor(r, onSite, !onSite)) : [el('li', { class: 'empty', text: tab === 'site' ? t('Ext_NoMatches') : t('Ext_NoItems') })]));
+    // 検索語がなければフォルダ階層で、あれば全フォルダから一覧で（フォルダ名を添える）
+    if (!q.trim()) {
+      if (tab === 'login') {
+        const hot = hotRows(rows);
+        if (loginView === null) loginView = hot.length ? 'frequent' : 'abc'; // 初回（保存した選択なし）
+        syncSeg();
+        if (loginView === 'frequent') { ul.replaceChildren(...frequentView(hot)); return; }
+      }
+      ul.replaceChildren(...folderView(rows)); // ABC: 上のフォルダへ → サブフォルダ（名前順）→ ログイン（名前順）。フォルダが上
+      return;
+    }
+    if (tab === 'login') syncSeg();
+    ul.replaceChildren(...(rows.length ? rows.map((r) => rowFor(r, false, true)) : [el('li', { class: 'empty', text: t('Ext_NoItems') })]));
   } catch (e) {
     if (e.code === 'LOCKED') { state.locked = true; render(); return; }
     ul.replaceChildren(el('li', { class: 'empty', text: errText(e) }));
@@ -382,6 +379,9 @@ function showAbout() {
     } catch (e) { flash(errText(e)); }
   });
   setupMenu();
+  $('#d-gen').addEventListener('click', () => { genOpen = true; loadList(); });
+  $('#d-lock').addEventListener('click', async () => { await rpc('lock').catch(() => {}); await refresh(); });
+  $('#d-options').addEventListener('click', () => { chrome.runtime.openOptionsPage(); window.close(); });
   $('#gen-back').addEventListener('click', () => { genOpen = false; loadList(); });
   for (const [id, view] of [['seg-frequent', 'frequent'], ['seg-abc', 'abc']]) {
     $('#' + id).addEventListener('click', () => {

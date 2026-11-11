@@ -576,6 +576,144 @@
     "Cmd_Print":  {
                       "message":  "印刷"
                   },
+    "Cmd_Edit":  {
+                     "message":  "編集"
+                 },
+    "Cmd_CopyUser":  {
+                         "message":  "ユーザー ID をコピー"
+                     },
+    "View_Modified":  {
+                          "message":  "更新: $1$",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "View_UseCount":  {
+                          "message":  "使用 $1$ 回",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Pref_AutoSaveNote":  {
+                              "message":  "変更は、その場で保存されます。"
+                          },
+    "Rail_Label":  {
+                       "message":  "画面の切り替え"
+                   },
+    "Rail_Vault":  {
+                       "message":  "保管庫"
+                   },
+    "Rail_Security":  {
+                          "message":  "安全性"
+                      },
+    "Rail_Generator":  {
+                           "message":  "生成"
+                       },
+    "Rail_Settings":  {
+                          "message":  "設定"
+                      },
+    "Rail_Lock":  {
+                      "message":  "ロック"
+                  },
+    "Sec_OpenSite":  {
+                         "message":  "サイトを開く"
+                     },
+    "Sec_ChangePw":  {
+                         "message":  "パスワードを変える"
+                     },
+    "Sec_FixHint":  {
+                        "message":  "あと $1$ 件のパスワードを変えると、100 点になります。",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Sec_Reason_Weak":  {
+                            "message":  "強度 $1$ ビット",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_Reason_Same":  {
+                            "message":  "$1$ と同じ",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_Reason_SameMany":  {
+                                "message":  "$1$ ほか $2$ 件と同じ",
+                                "placeholders":  {
+                                                     "1":  {
+                                                               "content":  "$1"
+                                                           },
+                                                     "2":  {
+                                                               "content":  "$2"
+                                                           }
+                                                 }
+                            },
+    "Sec_Reason_Old":  {
+                           "message":  "$1$ 年前から変更なし",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Sec_Reason_Dup":  {
+                           "message":  "同じサイト・同じ ID が、ほかに $1$ 件",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Pref_Group_Display":  {
+                               "message":  "起動と表示"
+                           },
+    "Pref_Group_Update":  {
+                              "message":  "更新"
+                          },
+    "Pref_Group_Fill":  {
+                            "message":  "候補の出し方"
+                        },
+    "Pref_Group_Pages":  {
+                             "message":  "ページ上の表示"
+                         },
+    "Pref_Group_Passkeys":  {
+                                "message":  "パスキー"
+                            },
+    "Pref_Group_Save":  {
+                            "message":  "保存の仕方"
+                        },
+    "Pref_Group_ExcludeSave":  {
+                                   "message":  "保存しないサイト"
+                               },
+    "Pref_Group_Lock":  {
+                            "message":  "自動ロック"
+                        },
+    "Pref_Group_Protect":  {
+                               "message":  "パスワードの保護"
+                           },
+    "Upd_Version":  {
+                        "message":  "バージョン $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Upd_CheckShort":  {
+                           "message":  "今すぐ確認"
+                       },
     "Cmd_Undo":  {
                      "message":  "元に戻す (Ctrl+Z)"
                  },
@@ -1890,6 +2028,9 @@
     "Ext_Err_FormEmpty":  {
                               "message":  "パスワードが入力されていません。フォームに入力してから保存してください"
                           },
+    "Ext_Dock_Save":  {
+                          "message":  "ページを保存"
+                      },
     "Ext_Popup_SaveForm":  {
                                "message":  "フォームの入力内容を保存"
                            },

@@ -72,8 +72,8 @@ try {
   await sleep(200);
 
   // フィールドの表: 生成ボタンがない・名前と ID は狭く、値は広い・長いパスワードが欄に収まる・最小幅でも横にはみ出さない
-  ok(await ed.eval(`![...document.querySelectorAll('.fields-table button')].some((b) => b.textContent === '⚙')`), 'フィールドの表のパスワード行に、⚙（パスワードを生成）ボタンがない');
-  ok(await ed.eval(`[...document.querySelectorAll('.fields-table tbody tr')[1].querySelectorAll('.pwcell button')].map((b) => b.textContent).join('') === '👁⧉'`), '表示（👁）とコピー（⧉）のボタンは残っている');
+  ok(await ed.eval(`!document.querySelector('.fields-table .ic-gen, .fields-table .ic-set')`), 'フィールドの表のパスワード行に、パスワードを生成するボタン（旧 ⚙）がない');
+  ok(await ed.eval(`[...document.querySelectorAll('.fields-table tbody tr')[1].querySelectorAll('.pwcell button')].map((b) => b.querySelector('svg')?.getAttribute('class')).join(',') === 'ic ic-eye,ic ic-copy'`), '表示（目）とコピーのボタンは残っている');
   const widths = () => ed.eval(`(() => { const r = document.querySelectorAll('.fields-table tbody tr')[1]; const w = (e) => e.getBoundingClientRect().width; return { name: w(r.querySelectorAll('input')[0]), id: w(r.querySelectorAll('input')[1]), value: w(r.querySelector('input.mono')) }; })()`);
   const roomy = async (label) => { const w = await widths(); ok(w.value > w.name && w.value > w.id && w.name <= 130 && w.id <= 130, `名前・ID は狭い固定幅（130px 以下）で、値の欄のほうが広い（${label}: 名前 ${Math.round(w.name)} / ID ${Math.round(w.id)} / 値 ${Math.round(w.value)}）`); };
   await roomy('通常の幅');
@@ -258,6 +258,11 @@ try {
   ok(rate, '5 回続けて失敗すると RATE_LIMITED（待ち時間）になる');
   const r = await ed.eval(`rpc('unlock', {password: ${JSON.stringify(MP)}}).then(() => 'ok', e => e.code)`);
   ok(r === 'RATE_LIMITED', '待ち時間中は正しい MP でも拒否される');
+  // 左端の切り替え: 「設定」を押すと、同じウィンドウが設定の画面に替わる（編集中の変更がなければ、確認なし）
+  ok(await ed.eval(`document.querySelectorAll('#rail .railbtn').length === 5 && document.querySelector('#rail-vault').getAttribute('aria-current') === 'page'`), '左端に切り替え（保管庫・安全性・生成・設定・ロック）があり、今の画面が示される');
+  await ed.eval(`document.querySelector('#rail-settings').click()`);
+  await waitFor(() => ed.eval(`location.pathname.endsWith('settings.html') && !!document.querySelector('#rail-settings')`).catch(() => false), 10000, '設定へ切り替え');
+  ok(await ed.eval(`document.querySelector('#rail-settings').getAttribute('aria-current') === 'page'`), '切り替えで、同じウィンドウが設定の画面になる');
   ed.close(); setup.close();
 } catch (e) {
   failed++;

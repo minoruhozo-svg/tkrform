@@ -296,8 +296,8 @@ try {
   }
 
   // ------------------------------------------------------ 確認用（STORE_SHOTS_DIR=保存先のフォルダ）: ストアに出すスクリーンショット（1366×768）を、架空のデータで撮る。通常の実行では動かない
-  if (process.env.STORE_SHOTS_DIR) {
-    const dir = process.env.STORE_SHOTS_DIR;
+  if (process.env.STORE_SHOTS_DIR || process.env.MANUAL_SHOTS_DIR) {
+    const dir = process.env.STORE_SHOTS_DIR || path.join(process.env.TEMP || '.', 'store-shots-tmp'); // MANUAL_SHOTS_DIR だけのときは、ストア用の画像は、使い捨ての場所へ
     fs.mkdirSync(dir, { recursive: true });
     const [W, H] = (process.env.STORE_SHOTS_SIZE || '1366x768').split('x').map(Number); // Store は 1366×768、拡張のストアは 1280×800
     const now = new Date().toISOString().replace(/\.\d+Z$/, 'Z');
@@ -327,7 +327,7 @@ try {
     await size(ed, W, H); await light(ed);
     await waitFor(() => ed.eval(`document.querySelectorAll('.rowitem').length >= 8`), 15000, 'エディタの一覧');
     await ed.eval(`[...document.querySelectorAll('.rowitem')].find((r) => r.querySelector('.name').textContent === 'Example Mail').click()`);
-    await waitFor(() => ed.eval(`!!document.querySelector('#f-name') && document.querySelector('#f-name').value === 'Example Mail'`), 8000, 'ログインの詳細');
+    await waitFor(() => ed.eval(`!!document.querySelector('.view .vname') && document.querySelector('.view .vname').textContent === 'Example Mail'`), 8000, 'ログインの詳細（表示の画面）');
     await sleep(1000);
     await shot(ed, '01-editor-login.png');
 
@@ -340,6 +340,13 @@ try {
     await se.eval(`document.querySelector('#tab-reused').click()`);
     await sleep(800);
     await shot(se, '02-security-center.png');
+    // 2b. 設定
+    await ui.eval(`rpc('openWindow', { name: 'settings' })`);
+    const stT = await waitTarget(APP_PORT, (x) => x.url.includes('settings.html'), 30000);
+    const stg = await Cdp.connect(stT.webSocketDebuggerUrl);
+    await size(stg, W, H); await light(stg);
+    await sleep(1000);
+    await shot(stg, '02b-settings.png');
 
     // 3. ホーム（タイル）
     const home = await openTab(`chrome-extension://${EXT_ID}/start.html`);
@@ -351,8 +358,11 @@ try {
 
     // 4. 拡張のポップアップ（よく使う）。小さい画面なので、1366×768 の背景の中央に置く
     const pop = await openTab(`chrome-extension://${EXT_ID}/popup.html`);
-    await size(pop, 380, 560); await light(pop);
+    await size(pop, 380, 600); await light(pop);
     await waitFor(() => pop.eval(`document.querySelectorAll('#list li').length >= 5`), 15000, 'ポップアップの一覧');
+    // ポップアップは、ふつうは開いているページに合うログインを「このサイト」に出す。撮影では、今のページを、保存したサイトのものにする（見た目だけ）
+    await pop.eval(`activeTab = { id: 0, url: 'https://mail.example.com/login' }; loadList();`);
+    await waitFor(() => pop.eval(`!document.querySelector('#here').classList.contains('hidden')`), 8000, '「このサイト」の枠');
     await sleep(800);
     const popPng = path.join(dir, '.popup-raw.png');
     await pop.screenshot(popPng);
@@ -394,9 +404,14 @@ try {
     const comp = await openTab(`${BASE}/blank.html`);
     await size(comp, W, H); await light(comp);
     const b64 = fs.readFileSync(popPng).toString('base64');
-    await comp.eval(`document.body.style.cssText = 'margin:0;width:${W}px;height:${H}px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#dbeafe,#e6f4ee)'; document.body.innerHTML = '<img src="data:image/png;base64,${b64}" style="box-shadow:0 18px 60px rgba(20,40,60,.35);border-radius:10px;height:660px">';`);
+    await comp.eval(`document.body.style.cssText = 'margin:0;width:${W}px;height:${H}px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#dbeafe,#e6f4ee)'; document.body.innerHTML = '<img src="data:image/png;base64,${b64}" style="box-shadow:0 18px 60px rgba(20,40,60,.35);border-radius:10px;height:680px">';`);
     await sleep(500);
     await shot(comp, '06-extension-popup.png');
+    // マニュアルの画像（画面の要素から、番号つきの枠の位置も出す）
+    if (process.env.MANUAL_SHOTS_DIR) {
+      const { run } = await import('./manual-shots.mjs');
+      await run({ pipe, ui, APP_PORT, waitTarget, Cdp, openTab, closeTab, EXT_ID, swc, sleep, waitFor, fs, path, outDir: path.resolve(process.env.MANUAL_SHOTS_DIR), ed, se, stg });
+    }
     for (const p of [ed, se, comp, page, page2]) { try { p.close(); } catch (_) { /* 無視 */ } }
     fs.rmSync(popPng, { force: true });
     clearTimeout(watchdog);
@@ -538,7 +553,7 @@ try {
   const fresh = await openTab(`chrome-extension://${EXT_ID}/popup.html`);
   await waitFor(() => fresh.eval(`!document.querySelector('#v-main').classList.contains('hidden') && document.querySelectorAll('#list li').length > 0`), 8000, '新しいポップアップ');
   const tabLabels = await fresh.eval(`[...document.querySelectorAll('#tabs button')].map((b) => b.textContent).join('|')`);
-  ok(tabLabels === 'ログイン|このサイト|プロフィール|メモ', `タブの並びは「ログイン | このサイト | プロフィール | メモ」（${tabLabels}）`);
+  ok(tabLabels === 'ログイン|プロフィール|メモ', `タブの並びは「ログイン | プロフィール | メモ」（${tabLabels}）。「このサイト」は、いちばん上の枠`);
   ok(await fresh.eval(`document.querySelector('#tabs button').getAttribute('aria-selected') === 'true'`), '開いたときの既定のタブは「ログイン」');
   ok(await fresh.eval(`document.activeElement && document.activeElement.id === 'q'`), '開いた直後に検索欄へフォーカスする');
   // E2E ではポップアップ自体がアクティブなタブ（chrome-extension://）なので、ボタンは出ない。http(s) のページがアクティブなら出ることは、下で確認する
@@ -549,7 +564,7 @@ try {
   await waitFor(async () => !(await barHidden()), 3000, 'ログインタブでボタン表示');
   ok(true, '「ログイン」タブでも「フォームの入力内容を保存」が出る（アクティブなタブが http(s) のとき）');
   const tabBar = async (i) => { await fresh.eval(`document.querySelectorAll('#tabs button')[${i}].click()`); await sleep(400); return !(await barHidden()); };
-  ok((await tabBar(1)) && !(await tabBar(2)) && !(await tabBar(3)) && (await tabBar(0)), '「このサイト」では出て、プロフィール・メモでは出ない');
+  ok(!(await tabBar(1)) && !(await tabBar(2)) && (await tabBar(0)), '「ログイン」では出て、プロフィール・メモでは出ない');
   await fresh.eval(`activeTab = null; loadList();`);
   await sleep(400);
   const listNames = () => fresh.eval(`[...document.querySelectorAll('#list li')].map((li) => (li.classList.contains('empty') ? '!' + li.textContent : li.querySelector('.name').textContent + (li.querySelector('.count') ? '(' + li.querySelector('.count').textContent + ')' : ''))).join('|')`);

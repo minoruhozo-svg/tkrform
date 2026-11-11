@@ -273,7 +273,7 @@ pub fn open_editor(app: &AppHandle, core: &Arc<Core>, id: Option<&str>) {
         Some(id) => format!("editor.html?id={id}"),
         None => "editor.html".to_string(),
     };
-    show(app, Spec { label: "editor", url, title: t(&lang(core), "Editor_Title"), size: (1120.0, 720.0), resizable: true, on_top: false });
+    show(app, Spec { label: "editor", url, title: t(&lang(core), "Editor_Title"), size: (1200.0, 720.0), resizable: true, on_top: false });
 }
 
 pub fn open_passgen(app: &AppHandle) {
@@ -290,7 +290,7 @@ pub fn open_settings(app: &AppHandle, core: &Arc<Core>) {
         open_login(app, core, Some("settings"));
         return;
     }
-    show(app, Spec { label: "settings", url: "settings.html".into(), title: t(&lang(core), "Settings_Title"), size: (760.0, 640.0), resizable: true, on_top: false });
+    show(app, Spec { label: "settings", url: "settings.html".into(), title: t(&lang(core), "Settings_Title"), size: (960.0, 640.0), resizable: true, on_top: false });
 }
 
 pub fn open_ext_help(app: &AppHandle, core: &Arc<Core>) {
@@ -309,7 +309,7 @@ pub fn open_security(app: &AppHandle, core: &Arc<Core>) {
         open_login(app, core, Some("security"));
         return;
     }
-    show(app, Spec { label: "security", url: "security.html".into(), title: t(&lang(core), "Security_Title"), size: (820.0, 680.0), resizable: true, on_top: false });
+    show(app, Spec { label: "security", url: "security.html".into(), title: t(&lang(core), "Security_Title"), size: (900.0, 680.0), resizable: true, on_top: false });
 }
 
 pub fn open_about(app: &AppHandle, core: &Arc<Core>) {

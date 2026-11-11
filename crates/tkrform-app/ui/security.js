@@ -24,10 +24,32 @@ function drawRing(score) {
   ring.setAttribute('aria-label', t('Sec_Score') + ' ' + score);
 }
 
-function rowEl(r, extra) {
-  return el('li', null, el('span', { class: 'grow' }, el('b', { text: r.name }), ' ', el('span', { class: 'sub', text: [r.user, r.url].filter(Boolean).join('  ') })),
+/** 行: 項目の頭文字、名前、ID とサイト、理由の chip、「サイトを開く」、色つきの「パスワードを変える」（保管庫の画面で、その項目を編集の状態で開く）。 */
+function rowEl(r, extra, reasons) {
+  return el('li', null, avatar(r.name, 1, 'sm'),
+    el('span', { class: 'grow' },
+      el('div', null, el('b', { text: r.name }), ' ', el('span', { class: 'sub', text: [r.user, r.url].filter(Boolean).join('  ') })),
+      reasons && reasons.length ? el('div', { class: 'reasons' }, ...reasons.map((x) => el('span', { class: 'pill warn', text: x }))) : null),
     extra ? el('span', { class: 'sub', text: extra }) : null,
-    el('button', { type: 'button', class: 'flat', text: t('Sec_Open'), onclick: () => rpc('openEditor', { id: r.id }).catch(showError) }));
+    r.url ? el('button', { type: 'button', class: 'sm', icon: 'open', onclick: () => rpc('openUrl', { url: /^https?:/i.test(r.url) ? r.url : 'https://' + r.url }).catch(showError) }, t('Sec_OpenSite')) : null,
+    el('button', { type: 'button', class: 'primary sm', onclick: () => { location.href = 'editor.html?id=' + encodeURIComponent(r.id) + '&edit=1'; } }, t('Sec_ChangePw')));
+}
+
+/** 変更から何年たったか（1 年未満は 0）。 */
+function yearsSince(ymd) {
+  const d = new Date(ymd);
+  if (isNaN(d)) return 0;
+  return Math.floor((Date.now() - d.getTime()) / (365 * 864e5));
+}
+
+/** あと何件のパスワードを変えれば、スコアが 100 になるか。弱い・古いログインは、すべて変える。使い回しは、各グループで 1 件だけ残して、あとを変える。 */
+function fixesTo100(r) {
+  const fix = new Set([...r.weak, ...r.old].map((x) => x.id));
+  for (const g of r.reused) {
+    const rest = g.filter((x) => !fix.has(x.id));
+    for (const x of rest.slice(1)) fix.add(x.id);
+  }
+  return fix.size;
 }
 
 /** タブごとの件数（使い回し・重複は、該当するログインの数）。漏洩は、オフなら null、未確認なら -1。 */
@@ -43,7 +65,9 @@ function renderTabs() {
     const b = $('#tab-' + id);
     const n = c[id];
     const label = n === null ? t('Sec_Tab_Off') : n < 0 ? '–' : String(n);
-    b.replaceChildren(t(TAB_KEY[id]), el('span', { class: 'cnt' + (n === null ? ' off' : n === 0 ? ' ok' : ''), text: `(${label})` }));
+    // 件数の箱。かっこは、画面には出さない（読み上げ・検査用の文字としては残す）
+    b.replaceChildren(el('span', { class: 'lbl', text: t(TAB_KEY[id]) }),
+      el('span', { class: 'cnt' + (n === null ? ' off' : n === 0 ? ' ok' : '') }, el('span', { class: 'par', text: '(' }), el('b', { text: label }), el('span', { class: 'par', text: ')' })));
     const sel = id === current;
     b.setAttribute('aria-selected', String(sel));
     b.tabIndex = sel ? 0 : -1;
@@ -71,12 +95,12 @@ function buildTabs() {
 }
 
 /** パネルの中身。0 件なら「問題は見つかりませんでした」。 */
-function fillPanel(id, rows, grouped, extraOf, groupKey) {
+function fillPanel(id, rows, grouped, extraOf, groupKey, reasonsOf) {
   const body = $('#panel-' + id + ' .body');
   if (!rows.length) { body.replaceChildren(el('div', { class: 'msg ok', text: t('Sec_NoIssues') })); return; }
   const list = el('ul', { class: 'rows' });
-  if (grouped) rows.forEach((g) => list.append(el('li', { class: 'grp-wrap' }, el('div', { class: 'grp' }, el('div', { class: 'grp-title', text: t(groupKey, g.length) }), el('ul', { class: 'rows' }, ...g.map((r) => rowEl(r)))))));
-  else rows.forEach((r) => list.append(rowEl(r, extraOf ? extraOf(r) : null)));
+  if (grouped) rows.forEach((g) => list.append(el('li', { class: 'grp-wrap' }, el('div', { class: 'grp' }, el('div', { class: 'grp-title', text: t(groupKey, g.length) }), el('ul', { class: 'rows' }, ...g.map((r) => rowEl(r, null, reasonsOf ? reasonsOf(r, g) : null)))))));
+  else rows.forEach((r) => list.append(rowEl(r, extraOf ? extraOf(r) : null, reasonsOf ? reasonsOf(r) : null)));
   body.replaceChildren(list);
 }
 
@@ -88,10 +112,15 @@ async function scan() {
     $('#score-body').textContent = t('Sec_ScoreBody', r.total);
     $('#corrupt').classList.toggle('hidden', !r.corrupt);
     $('#corrupt').textContent = t('Sec_Corrupt', r.corrupt);
-    fillPanel('weak', r.weak, false);
-    fillPanel('reused', r.reused, true, null, 'Sec_GroupReused');
-    fillPanel('old', r.old, false, (x) => (x.changed ? t('Sec_Changed', x.changed) : null));
-    fillPanel('dups', r.duplicates, true, null, 'Sec_GroupDup');
+    const n = fixesTo100(r);
+    $('#score-hint').textContent = r.score < 100 && n > 0 ? t('Sec_FixHint', n) : '';
+    fillPanel('weak', r.weak, false, null, null, (x) => [t('Sec_Reason_Weak', x.bits)]);
+    fillPanel('reused', r.reused, true, null, 'Sec_GroupReused', (x, g) => {
+      const others = g.filter((y) => y.id !== x.id);
+      return [others.length > 1 ? t('Sec_Reason_SameMany', others[0].name, others.length - 1) : t('Sec_Reason_Same', others[0].name)];
+    });
+    fillPanel('old', r.old, false, (x) => (x.changed ? t('Sec_Changed', x.changed) : null), null, (x) => { const y = yearsSince(x.changed); return y >= 1 ? [t('Sec_Reason_Old', y)] : []; });
+    fillPanel('dups', r.duplicates, true, null, 'Sec_GroupDup', (x, g) => [t('Sec_Reason_Dup', g.length - 1)]);
     if (current === null) {
       const c = counts();
       current = TABS.find((id) => c[id] > 0) || 'weak'; // 最初に開くタブ: 件数が 1 以上の最初のタブ。すべて 0 件なら「弱い」
@@ -137,6 +166,7 @@ async function breachUi() {
 
 (async () => {
   await initI18n();
+  mountRail('security');
   buildTabs();
   await LockGuard.init(() => { scan(); });
   $('#rescan').addEventListener('click', scan);

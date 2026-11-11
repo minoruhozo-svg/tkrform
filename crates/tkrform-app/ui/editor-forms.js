@@ -37,9 +37,9 @@ function folderSelect(item, ctx) {
 function passwordCell(f, ctx) {
   const input = el('input', { type: 'password', value: f.value, autocomplete: 'off', class: 'mono', 'aria-label': t('Field_Password') });
   input.addEventListener('input', () => { f.value = input.value; ctx.changed(); });
-  const show = el('button', { type: 'button', class: 'icon', text: '👁', title: t('Cmd_Show'), 'aria-label': t('Cmd_Show'),
+  const show = el('button', { type: 'button', class: 'icon', icon: 'eye', title: t('Cmd_Show'), 'aria-label': t('Cmd_Show'),
     onclick: () => { input.type = input.type === 'password' ? 'text' : 'password'; } });
-  const copy = el('button', { type: 'button', class: 'icon', text: '⧉', title: t('Cmd_CopyPassword'), 'aria-label': t('Cmd_CopyPassword'), onclick: () => copySecret(input.value) });
+  const copy = el('button', { type: 'button', class: 'icon', icon: 'copy', title: t('Cmd_CopyPassword'), 'aria-label': t('Cmd_CopyPassword'), onclick: () => copySecret(input.value) });
   return el('div', { class: 'pwcell' }, input, show, copy);
 }
 
@@ -75,7 +75,7 @@ function fieldsTable(item, ctx) {
       for (const [v, k] of ROLES) role.append(el('option', { value: v, text: t(k) }));
       role.value = f.role || '';
       role.addEventListener('change', () => { f.role = role.value || null; ctx.changed(); });
-      const del = el('button', { type: 'button', class: 'icon danger', text: '✕', title: t('Fields_Remove'), 'aria-label': t('Fields_Remove'),
+      const del = el('button', { type: 'button', class: 'icon danger', icon: 'x', title: t('Fields_Remove'), 'aria-label': t('Fields_Remove'),
         onclick: () => { item.fields.splice(i, 1); ctx.changed(); render(); } });
       tbody.append(el('tr', null, el('td', null, name), el('td', null, id), el('td', null, valueCell), el('td', null, kind), el('td', null, role), el('td', null, del)));
     });
@@ -145,7 +145,7 @@ function chainSection(item, ctx) {
     const sel = el('select', { 'aria-label': t(labelKey) });
     const draw = () => {
       chips.replaceChildren(...item.chain[which].map((id, i) => el('span', { class: 'chip' }, nameOf(id),
-        el('button', { type: 'button', text: '✕', 'aria-label': t('Fields_Remove'), onclick: () => { item.chain[which].splice(i, 1); ctx.changed(); draw(); } }))));
+        el('button', { type: 'button', icon: 'x', 'aria-label': t('Fields_Remove'), onclick: () => { item.chain[which].splice(i, 1); ctx.changed(); draw(); } }))));
       sel.replaceChildren(el('option', { value: '', text: t('Chain_Add') }), ...logins.filter((e) => !item.chain[which].includes(e.id)).map((e) => el('option', { value: e.id, text: e.name })));
     };
     sel.addEventListener('change', () => { if (sel.value) { item.chain[which].push(sel.value); ctx.changed(); draw(); } });
@@ -161,8 +161,8 @@ function historySection(item) {
   [...item.passwordHistory].reverse().forEach((h) => {
     const span = el('span', { class: 'mono grow selectable', text: '•'.repeat(10) });
     ul.append(el('li', null, span, el('span', { class: 'sub', text: fmtDate(h.changed) }),
-      el('button', { type: 'button', class: 'icon', text: '👁', 'aria-label': t('Cmd_Show'), onclick: () => { span.textContent = span.textContent.startsWith('•') ? h.value : '•'.repeat(10); } }),
-      el('button', { type: 'button', class: 'icon', text: '⧉', 'aria-label': t('Cmd_CopyPassword'), onclick: () => copySecret(h.value) })));
+      el('button', { type: 'button', class: 'icon', icon: 'eye', 'aria-label': t('Cmd_Show'), onclick: () => { span.textContent = span.textContent.startsWith('•') ? h.value : '•'.repeat(10); } }),
+      el('button', { type: 'button', class: 'icon', icon: 'copy', 'aria-label': t('Cmd_CopyPassword'), onclick: () => copySecret(h.value) })));
   });
   return el('details', null, el('summary', { text: t('Login_History', item.passwordHistory.length) }), ul);
 }
@@ -178,7 +178,7 @@ function passkeysSection(item, ctx) {
       el('span', { class: 'grow selectable', text: `${k.rpId}  ${who}` }),
       el('span', { class: 'sub', text: `${t('Pk_Created', fmtDate(k.created))} / ${k.lastUsed ? t('Pk_LastUsed', fmtDate(k.lastUsed)) : t('Pk_NeverUsed')}` }),
       ctx.isNew ? null : el('button', {
-        type: 'button', class: 'icon', text: '🗑', 'aria-label': t('Pk_Delete'), title: t('Pk_Delete'),
+        type: 'button', class: 'icon', icon: 'trash', 'aria-label': t('Pk_Delete'), title: t('Pk_Delete'),
         onclick: async () => {
           if (!(await dialog.confirm(t('Pk_DeleteConfirm'), { danger: true, okLabel: t('Pk_Delete') }))) return;
           try { await rpc('passkeyDelete', { itemId: item.id, credentialId: k.credentialId }); await ctx.passkeysChanged(); toast(t('Pk_Deleted')); } catch (e) { showError(e); }
@@ -203,15 +203,17 @@ function formLogin(item, ctx) {
   const basic = bind(el('input', { type: 'checkbox', checked: !!item.basicAuth }), item, 'basicAuth', ctx, true);
   return [
     el('div', { class: 'two' }, field(t('Login_Url'), el('div', { class: 'row' }, url, open)), field(t('Login_MatchLevel'), level)),
-    el('details', null, el('summary', { text: t('Login_Advanced') }), el('div', { class: 'col', style: 'margin-top:8px' }, field(t('Login_MatchUrl'), matchUrl, t('Login_MatchUrlHint')))),
     el('h2', { text: t('Login_Fields') }),
     fieldsTable(item, ctx),
-    el('label', { class: 'check' }, noSubmit, el('span', { text: t('Login_NoSubmit') })),
-    el('label', { class: 'check' }, basic, el('span', { text: t('Login_BasicAuth') })),
     totpSection(item, ctx),
     field(t('Login_Note'), note),
     field(t('Login_Hint'), tip),
-    chainSection(item, ctx),
+    // ふだん触らない設定は、折りたたむ
+    el('details', { class: 'fold', id: 'adv' }, el('summary', { text: t('Login_Advanced') }), el('div', { class: 'col', style: 'margin-top:8px' },
+      field(t('Login_MatchUrl'), matchUrl, t('Login_MatchUrlHint')),
+      el('label', { class: 'check' }, noSubmit, el('span', { text: t('Login_NoSubmit') })),
+      el('label', { class: 'check' }, basic, el('span', { text: t('Login_BasicAuth') })),
+      chainSection(item, ctx))),
     passkeysSection(item, ctx),
     historySection(item),
   ];
@@ -275,7 +277,7 @@ async function formIdentity(item, ctx, host) {
     names.forEach((n, i) => isel.append(el('option', { value: i, text: n })));
     isel.value = idx;
     isel.addEventListener('change', () => { activeInstance[item.id + current] = Number(isel.value); draw(); });
-    const add = el('button', { type: 'button', class: 'icon', text: '＋', title: t('Identity_AddInstance'), 'aria-label': t('Identity_AddInstance'),
+    const add = el('button', { type: 'button', class: 'icon', icon: 'plus', title: t('Identity_AddInstance'), 'aria-label': t('Identity_AddInstance'),
       onclick: async () => {
         const n = await dialog.prompt(t('Identity_InstanceName'), '');
         if (!n) return;
@@ -285,13 +287,13 @@ async function formIdentity(item, ctx, host) {
         activeInstance[item.id + current] = gg.instances.length - 1;
         ctx.changed(); draw();
       } });
-    const ren = el('button', { type: 'button', class: 'icon', text: '✎', title: t('Cmd_Rename'), 'aria-label': t('Cmd_Rename'),
+    const ren = el('button', { type: 'button', class: 'icon', icon: 'edit', title: t('Cmd_Rename'), 'aria-label': t('Cmd_Rename'),
       onclick: async () => {
         const inst = ensureInstance(item, current, idx);
         const n = await dialog.prompt(t('Identity_InstanceName'), inst.name);
         if (n) { inst.name = n; ctx.changed(); draw(); }
       } });
-    const del = el('button', { type: 'button', class: 'icon danger', text: '−', title: t('Identity_RemoveInstance'), 'aria-label': t('Identity_RemoveInstance'),
+    const del = el('button', { type: 'button', class: 'icon danger', icon: 'minus', title: t('Identity_RemoveInstance'), 'aria-label': t('Identity_RemoveInstance'),
       onclick: async () => {
         if (!g || !g.instances.length) return;
         if (!(await dialog.confirm(t('Identity_RemoveInstanceConfirm', g.instances[idx].name), { danger: true, okLabel: t('Cmd_Delete') }))) return;
@@ -313,7 +315,7 @@ async function formIdentity(item, ctx, host) {
         ctx.changed();
       });
       const ctl = sensitive
-        ? el('div', { class: 'pwcell' }, input, el('button', { type: 'button', class: 'icon', text: '👁', 'aria-label': t('Cmd_Show'), onclick: () => { input.type = input.type === 'password' ? 'text' : 'password'; } }))
+        ? el('div', { class: 'pwcell' }, input, el('button', { type: 'button', class: 'icon', icon: 'eye', 'aria-label': t('Cmd_Show'), onclick: () => { input.type = input.type === 'password' ? 'text' : 'password'; } }))
         : input;
       grid.append(field(t('Field_' + key), ctl));
     }
@@ -344,7 +346,7 @@ function customRows(item, idx, ctx, redraw) {
     });
     val.addEventListener('input', () => { inst.fields[cur] = val.value; ctx.changed(); });
     re.addEventListener('input', () => { if (re.value) inst.customMatches[cur] = re.value; else delete inst.customMatches[cur]; ctx.changed(); });
-    const del = el('button', { type: 'button', class: 'icon danger', text: '✕', 'aria-label': t('Fields_Remove'), onclick: () => { delete inst.fields[cur]; delete inst.customMatches[cur]; ctx.changed(); redraw(); } });
+    const del = el('button', { type: 'button', class: 'icon danger', icon: 'x', 'aria-label': t('Fields_Remove'), onclick: () => { delete inst.fields[cur]; delete inst.customMatches[cur]; ctx.changed(); redraw(); } });
     tbody.append(el('tr', null, el('td', null, key), el('td', null, val), el('td', null, re), el('td', null, del)));
   });
   const add = el('button', { type: 'button', text: t('Fields_Add'),
@@ -352,6 +354,72 @@ function customRows(item, idx, ctx, redraw) {
   return el('div', { class: 'col' }, el('div', { class: 'sub', text: t('Custom_Hint') }),
     el('table', { class: 'grid fields-table' }, el('thead', null, el('tr', null, ...['Custom_Key', 'Custom_Value', 'Custom_Match'].map((k) => el('th', { text: t(k) })), el('th'))), tbody),
     el('div', null, add));
+}
+
+// ------------------------------------------------------------------ ログインの表示画面（編集の前に見せる）
+
+/** ログインのフィールドから、ユーザー ID・パスワードの値を取り出す（役割が付いたものを優先）。 */
+function loginRoleValue(item, role) {
+  const fs = item.fields || [];
+  const f = role === 'user'
+    ? fs.find((x) => x.role === 'user') || fs.find((x) => x.kind === 'text' && x.value)
+    : fs.find((x) => x.role === 'password') || fs.find((x) => x.kind === 'password');
+  return f ? f.value || '' : '';
+}
+
+function vrow(label, value, ...buttons) {
+  return el('div', { class: 'vrow' }, el('div', { class: 'grow' }, el('div', { class: 'k', text: label }), value), ...buttons);
+}
+
+/** ログインを、見るだけの画面で出す。編集は「編集」ボタンから（ctx.onEdit）。 */
+function renderLoginView(host, item, ctx) {
+  if (totpTimer) { clearInterval(totpTimer); totpTimer = null; }
+  const user = loginRoleValue(item, 'user'), pw = loginRoleValue(item, 'password');
+  const folder = item.folder && item.folder !== '/' ? item.folder.replace(/^\//, '') : t('Folder_Root');
+  const head = el('div', { class: 'vhead' }, avatar(item.name, item.type, 'lg'),
+    el('div', { class: 'grow' },
+      el('h1', { class: 'vname' }, item.name, item.favorite ? el('span', { class: 'star', icon: 'star', 'aria-label': t('Item_Favorite') }) : null),
+      el('div', { class: 'sub' }, icon('folder'), ' ', folder)));
+  const acts = el('div', { class: 'vacts' },
+    el('button', { type: 'button', class: 'primary', id: 'v-login', icon: 'fill', onclick: ctx.onLogin }, t('Menu_Login')),
+    el('button', { type: 'button', id: 'v-gofill', onclick: ctx.onGoFill, text: t('Menu_GoFill') }),
+    el('div', { class: 'grow' }),
+    el('button', { type: 'button', id: 'v-edit', icon: 'edit', onclick: ctx.onEdit }, t('Cmd_Edit')));
+  const rows = [];
+  if (user) rows.push(vrow(t('Role_User'), el('div', { class: 'v selectable', text: user }),
+    el('button', { type: 'button', class: 'icon', icon: 'copy', title: t('Cmd_CopyUser'), 'aria-label': t('Cmd_CopyUser'), onclick: () => copyPlain(user) })));
+  if (pw) {
+    const val = el('div', { class: 'v mono selectable', text: '•'.repeat(10) });
+    rows.push(vrow(t('Field_Password'), val,
+      el('button', { type: 'button', class: 'icon', icon: 'eye', title: t('Cmd_Show'), 'aria-label': t('Cmd_Show'), onclick: () => { val.textContent = val.textContent.startsWith('•') ? pw : '•'.repeat(10); } }),
+      el('button', { type: 'button', class: 'icon', icon: 'copy', title: t('Cmd_CopyPassword'), 'aria-label': t('Cmd_CopyPassword'), onclick: () => copySecret(pw) })));
+  }
+  if (item.url) rows.push(vrow(t('Login_Url'), el('div', { class: 'v selectable', text: item.url }),
+    el('button', { type: 'button', class: 'icon', icon: 'open', title: t('Cmd_GoTo'), 'aria-label': t('Cmd_GoTo'), onclick: () => rpc('openUrl', { url: /^https?:/i.test(item.url) ? item.url : 'https://' + item.url }).catch(showError) })));
+  if (item.totpKey) {
+    const box = el('div', { class: 'v totp-line' }, el('span', { class: 'totp-code', text: '------' }));
+    rows.push(vrow(t('Login_Totp'), box));
+    let remain = 0, code = '', period = 30;
+    const draw = () => {
+      box.replaceChildren(
+        el('span', { class: 'totp-code', text: code ? code.replace(/(\d{3})(\d+)/, '$1 $2') : '------', tabIndex: 0, role: 'button', title: t('Totp_ClickCopy'),
+          onclick: () => code && copySecret(code, t('Login_Totp')), onkeydown: (e) => { if (e.key === 'Enter') code && copySecret(code, t('Login_Totp')); } }),
+        ringSvg(remain, period), el('span', { class: 'sub', text: t('Totp_Remain', remain) }));
+    };
+    const fetchCode = async () => {
+      try { const r = await rpc('totp', { id: item.id }); code = r.code; remain = r.remainSec; period = r.period; draw(); } catch (_) { box.replaceChildren(el('span', { class: 'sub', text: '–' })); }
+    };
+    fetchCode();
+    totpTimer = setInterval(() => { remain -= 1; if (remain <= 0) fetchCode(); else draw(); }, 1000);
+  }
+  if (item.note) rows.push(vrow(t('Login_Note'), el('div', { class: 'v selectable', style: 'white-space:pre-wrap', text: item.note })));
+  if (item.hint) rows.push(vrow(t('Login_Hint'), el('div', { class: 'v selectable', text: item.hint })));
+  const meta = ctx.meta;
+  const foot = el('div', { class: 'vmeta sub' },
+    meta && meta.modified ? el('span', { text: t('View_Modified', fmtDate(meta.modified)) }) : null,
+    meta && meta.useCount ? el('span', { text: t('View_UseCount', meta.useCount) }) : null,
+    item.passkeys && item.passkeys.length ? el('span', { class: 'pill info' }, icon('key'), ' ', t('Pk_Badge')) : null);
+  host.replaceChildren(el('div', { class: 'form view' }, head, acts, rows.length ? el('div', { class: 'vrows' }, ...rows) : null, foot));
 }
 
 // ------------------------------------------------------------------ 入口

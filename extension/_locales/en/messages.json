@@ -576,6 +576,144 @@
     "Cmd_Print":  {
                       "message":  "Print"
                   },
+    "Cmd_Edit":  {
+                     "message":  "Edit"
+                 },
+    "Cmd_CopyUser":  {
+                         "message":  "Copy user ID"
+                     },
+    "View_Modified":  {
+                          "message":  "Modified: $1$",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "View_UseCount":  {
+                          "message":  "Used $1$ times",
+                          "placeholders":  {
+                                               "1":  {
+                                                         "content":  "$1"
+                                                     }
+                                           }
+                      },
+    "Pref_AutoSaveNote":  {
+                              "message":  "Changes are saved right away."
+                          },
+    "Rail_Label":  {
+                       "message":  "Switch view"
+                   },
+    "Rail_Vault":  {
+                       "message":  "Vault"
+                   },
+    "Rail_Security":  {
+                          "message":  "Security"
+                      },
+    "Rail_Generator":  {
+                           "message":  "Generate"
+                       },
+    "Rail_Settings":  {
+                          "message":  "Settings"
+                      },
+    "Rail_Lock":  {
+                      "message":  "Lock"
+                  },
+    "Sec_OpenSite":  {
+                         "message":  "Open site"
+                     },
+    "Sec_ChangePw":  {
+                         "message":  "Change password"
+                     },
+    "Sec_FixHint":  {
+                        "message":  "Change $1$ more password(s) to reach 100.",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Sec_Reason_Weak":  {
+                            "message":  "Strength $1$ bits",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_Reason_Same":  {
+                            "message":  "Same as $1$",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       }
+                                             }
+                        },
+    "Sec_Reason_SameMany":  {
+                                "message":  "Same as $1$ and $2$ more",
+                                "placeholders":  {
+                                                     "1":  {
+                                                               "content":  "$1"
+                                                           },
+                                                     "2":  {
+                                                               "content":  "$2"
+                                                           }
+                                                 }
+                            },
+    "Sec_Reason_Old":  {
+                           "message":  "Unchanged for $1$ year(s)",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Sec_Reason_Dup":  {
+                           "message":  "$1$ more with the same site and ID",
+                           "placeholders":  {
+                                                "1":  {
+                                                          "content":  "$1"
+                                                      }
+                                            }
+                       },
+    "Pref_Group_Display":  {
+                               "message":  "Startup and display"
+                           },
+    "Pref_Group_Update":  {
+                              "message":  "Updates"
+                          },
+    "Pref_Group_Fill":  {
+                            "message":  "Suggestions"
+                        },
+    "Pref_Group_Pages":  {
+                             "message":  "On the page"
+                         },
+    "Pref_Group_Passkeys":  {
+                                "message":  "Passkeys"
+                            },
+    "Pref_Group_Save":  {
+                            "message":  "Saving"
+                        },
+    "Pref_Group_ExcludeSave":  {
+                                   "message":  "Sites not to save"
+                               },
+    "Pref_Group_Lock":  {
+                            "message":  "Auto-lock"
+                        },
+    "Pref_Group_Protect":  {
+                               "message":  "Protection"
+                           },
+    "Upd_Version":  {
+                        "message":  "Version $1$",
+                        "placeholders":  {
+                                             "1":  {
+                                                       "content":  "$1"
+                                                   }
+                                         }
+                    },
+    "Upd_CheckShort":  {
+                           "message":  "Check now"
+                       },
     "Cmd_Undo":  {
                      "message":  "Undo (Ctrl+Z)"
                  },
@@ -1890,6 +2028,9 @@
     "Ext_Err_FormEmpty":  {
                               "message":  "No password has been entered. Fill in the form, then save"
                           },
+    "Ext_Dock_Save":  {
+                          "message":  "Save page"
+                      },
     "Ext_Popup_SaveForm":  {
                                "message":  "Save form entries"
                            },

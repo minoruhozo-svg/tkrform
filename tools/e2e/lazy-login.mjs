@@ -104,10 +104,10 @@ try {
   await ed.eval(`rpc('openWindow', { name: 'settings' })`);
   const stt = await waitTarget(9352, (x) => x.url.includes('settings.html'));
   const sc = await Cdp.connect(stt.webSocketDebuggerUrl);
-  await waitFor(() => sc.eval(`!!document.querySelector('#save') && document.querySelectorAll('#tabs button').length > 0`), 10000, '設定画面');
+  await waitFor(() => sc.eval(`typeof saveNow === 'function' && document.querySelectorAll('#tabs button').length > 0`), 10000, '設定画面');
   await ed.eval(`rpc('helloEnable')`); // 設定画面が古い設定（windowsHello: false）を持ったまま、別の経路で有効にする
   ok((await pipe.ok('hello')).helloAvailable === true, 'Hello を有効にすると helloAvailable は true');
-  await sc.click('#save');
+  await sc.eval(`saveNow()`); // 設定は、変更のたびにその場で保存される（保存ボタンはない）。同じ処理を呼ぶ
   await waitFor(() => sc.eval(`document.querySelector('#saved').textContent.length > 0`), 5000, '設定の保存');
   const after = await ed.eval(`rpc('getPrefs')`);
   ok(after.security.windowsHello === true, '設定画面で「保存」しても、専用コマンドで変えた windowsHello は true のまま');

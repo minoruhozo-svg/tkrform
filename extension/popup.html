@@ -11,7 +11,7 @@
   <div class="brand"><img src="icons/icon32.png" alt=""><span>TKRForm</span></div>
   <div class="hdr-right">
     <div id="status" class="sub"></div>
-    <button type="button" class="flat icon" id="menu-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="menu">⚙</button>
+    <button type="button" class="flat icon" id="menu-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="menu" data-icon="set"></button>
   </div>
   <div id="menu" class="menu hidden" role="menu"></div>
 </header>
@@ -32,20 +32,33 @@
 
 <section id="v-main" class="hidden">
   <div class="pad tight"><input type="search" id="q" data-i18n-ph="Ext_SearchPlaceholder" autocomplete="off"></div>
-  <div class="tabs" role="tablist" id="tabs"></div>
-  <div id="login-seg" class="seg hidden" role="tablist" aria-label="ログインの表示">
-    <button type="button" role="tab" id="seg-frequent" data-i18n="Ext_Popup_Frequent"></button>
-    <button type="button" role="tab" id="seg-abc">ABC</button>
+  <!-- 開いているページに合うログイン（ログインのタブで、検索語がないとき）。いちばん上に出し、「記入」を 1 回押せば済むようにする -->
+  <div id="here" class="here hidden">
+    <div class="lbl" data-i18n="Ext_Tab_Site"></div>
+    <ul id="here-list" class="rows"></ul>
+  </div>
+  <div class="tabrow">
+    <div class="tabs" role="tablist" id="tabs"></div>
+    <div id="login-seg" class="seg hidden" role="tablist" aria-label="ログインの表示">
+      <button type="button" role="tab" id="seg-frequent" data-i18n="Ext_Popup_Frequent"></button>
+      <button type="button" role="tab" id="seg-abc">ABC</button>
+    </div>
   </div>
   <div id="mismatch" class="msg warn hidden" role="alert"></div>
   <div id="list-wrap">
-    <ul id="list"></ul>
+    <ul id="list" class="rows"></ul>
   </div>
   <div id="gen-view" class="hidden">
     <div class="pad tight"><button type="button" class="flat" id="gen-back" data-i18n="Ext_Back"></button></div>
     <div id="gen" class="pad col"></div>
   </div>
-  <div id="site-bar" class="pad tight hidden"><button type="button" id="b-saveform" data-i18n="Ext_Popup_SaveForm"></button></div>
+  <!-- 下の操作のバー: 生成・このページを保存（http(s) のページのときだけ）・ロック・設定。歯車のメニューにも同じ操作がある -->
+  <div id="dock" class="dock">
+    <button type="button" id="d-gen" class="dockbtn flat"><span data-icon="gen"></span><span data-i18n="Ext_Menu_PassGen"></span></button>
+    <div id="site-bar" class="hidden"><button type="button" id="b-saveform" class="dockbtn flat"><span data-icon="save"></span><span data-i18n="Ext_Dock_Save"></span></button></div>
+    <button type="button" id="d-lock" class="dockbtn flat"><span data-icon="lock"></span><span data-i18n="Ext_Lock"></span></button>
+    <button type="button" id="d-options" class="dockbtn flat"><span data-icon="set"></span><span data-i18n="Ext_Settings"></span></button>
+  </div>
 </section>
 
 <div id="about" class="about hidden" role="dialog" aria-modal="true" aria-labelledby="about-title">

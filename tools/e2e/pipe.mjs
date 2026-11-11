@@ -22,7 +22,7 @@ try {
   await waitFor(() => p.events.find((e) => e.event === 'lockState'), 5000, '接続時の lockState');
   ok(p.events[0].data.locked === false, '接続直後に現在のロック状態が届く');
 
-  const hello = await p.ok('hello', { extVersion: '0.2.0' });
+  const hello = await p.ok('hello', { extVersion: '0.3.0' });
   ok(hello.locked === false && !!hello.appVersion, 'hello が応答する');
 
   // 許可リスト: 拡張からは UI 専用コマンドを呼べない

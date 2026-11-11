@@ -12,6 +12,7 @@ function el(tag, attrs, ...children) {
       if (v === undefined || v === null || v === false) continue;
       if (k === 'class') n.className = v;
       else if (k === 'text') n.textContent = v;
+      else if (k === 'icon') n.append(icon(v));
       else if (k.startsWith('on') && typeof v === 'function') n.addEventListener(k.slice(2), v);
       else if (k in n && k !== 'list' && k !== 'form') n[k] = v;
       else n.setAttribute(k, v === true ? '' : v);
@@ -20,6 +21,74 @@ function el(tag, attrs, ...children) {
   for (const c of children.flat()) if (c !== null && c !== undefined && c !== false) n.append(c instanceof Node ? c : document.createTextNode(String(c)));
   return n;
 }
+
+// ---- UI の部品: 線のアイコンと、項目の頭文字（アバター）。
+// アプリ（ui/common.js）と拡張（ext.js）で、この区間は同じ内容にする（tools/check-uikit.mjs が一致を検査する）。
+const ICON_PATHS = {
+  key: '<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/>',
+  shield: '<path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/>',
+  gen: '<rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8.5 8.5h.01M15.5 8.5h.01M12 12h.01M8.5 15.5h.01M15.5 15.5h.01" stroke-width="2.6"/>',
+  set: '<path d="M4 7h9M19 7h1M4 17h3M13 17h7"/><circle cx="16" cy="7" r="2.5"/><circle cx="10" cy="17" r="2.5"/>',
+  lock: '<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  search: '<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  minus: '<path d="M5 12h14"/>',
+  x: '<path d="M6 6l12 12M18 6L6 18"/>',
+  copy: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a1 1 0 0 1 1-1h9"/>',
+  eye: '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/>',
+  open: '<path d="M14 5h5v5M19 5l-8 8M11 7H6a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1v-5"/>',
+  star: '<path d="M12 4l2.5 5 5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9 5.5-.8z"/>',
+  folder: '<path d="M3 7a1 1 0 0 1 1-1h5l2 2h8a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>',
+  more: '<path d="M6 12h.01M12 12h.01M18 12h.01" stroke-width="2.8"/>',
+  edit: '<path d="M4 20h4l10-10-4-4L4 16zM13 7l4 4"/>',
+  trash: '<path d="M5 7h14M10 7V5h4v2M7 7l1 12h8l1-12"/>',
+  fill: '<path d="M4 12h11M11 8l4 4-4 4M20 5v14"/>',
+  user: '<circle cx="12" cy="8" r="4"/><path d="M4 20c1.5-4 4.5-5 8-5s6.5 1 8 5"/>',
+  note: '<path d="M6 4h9l4 4v12H6zM14 4v5h5M9 13h7M9 16.5h5"/>',
+  save: '<path d="M12 4v10M8 10l4 4 4-4M5 19h14"/>',
+  all: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+  down: '<path d="M7 10l5 5 5-5"/>',
+  right: '<path d="M10 7l5 5-5 5"/>',
+  up: '<path d="M7 14l5-5 5 5"/>',
+  check: '<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  undo: '<path d="M9 14L4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3"/>',
+  redo: '<path d="M15 14l5-5-5-5M20 9H10a6 6 0 0 0 0 12h3"/>',
+  clock: '<circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/>',
+};
+
+/** 線のアイコン（1 種類の太さ）。色は文字色（currentColor）。 */
+function icon(name) {
+  const s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  s.setAttribute('viewBox', '0 0 24 24');
+  s.setAttribute('class', 'ic ic-' + name);
+  s.setAttribute('aria-hidden', 'true');
+  s.innerHTML = ICON_PATHS[name] || '';
+  return s;
+}
+
+/** 項目名から決まる色の番号（1〜6）。同じ名前なら、どの画面でも同じ色。 */
+function avatarColor(name) {
+  let n = 0;
+  for (const c of String(name || '').trim().toLowerCase()) n = (n * 31 + c.codePointAt(0)) >>> 0;
+  return (n % 6) + 1;
+}
+
+/** 項目の頭文字の四角（アバター）。ログインなどは名前の先頭の 1 文字、プロフィール・連絡先・メモは線のアイコン、フォルダは線のフォルダ。 */
+function avatar(name, type, size) {
+  const kind = { 5: 'user', 6: 'user', 7: 'note', 8: 'folder' }[type];
+  const n = document.createElement('span');
+  n.className = 'av c' + avatarColor(name) + (size ? ' ' + size : '') + (kind ? ' ic-av' : '');
+  if (kind) n.append(icon(kind));
+  else n.textContent = ([...String(name || '').trim()][0] || '?').toUpperCase();
+  return n;
+}
+// ---- UI の部品ここまで
+
+/** data-icon を持つ要素に、線のアイコンを入れる（HTML に直接書くボタン用）。 */
+function applyIcons(root) {
+  (root || document).querySelectorAll('[data-icon]').forEach((n) => { n.replaceChildren(icon(n.dataset.icon)); });
+}
+document.addEventListener('DOMContentLoaded', () => applyIcons());
 
 function applyI18n(root) {
   (root || document).querySelectorAll('[data-i18n]').forEach((n) => { n.textContent = t(n.dataset.i18n); });

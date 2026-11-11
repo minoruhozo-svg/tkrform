@@ -15,7 +15,6 @@
   --bg: #f5f7fa;
   --panel: #ffffff;
   --hover: #eaf1f8;
-  --radius: 6px;
   --font: "Segoe UI", "Yu Gothic UI", "Meiryo UI", sans-serif;
   --mono: "Cascadia Mono", Consolas, monospace;
 }
@@ -26,22 +25,92 @@
     --ink: #e8edf2; --ink-sub: #a3afbb; --line: #38424d; --bg: #14181d; --panel: #1c2128; --hover: #26303b;
   }
 }
-* { box-sizing: border-box; }
-html, body { margin: 0; }
-body { font: 13px/1.5 var(--font); color: var(--ink); background: var(--bg); }
-button, .btn { font: inherit; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); color: var(--ink); cursor: pointer; }
+/* ---- 部品の決まり（アプリの common.css と拡張の ext.css で、この区間は同じ内容にする。tools/check-uikit.mjs が一致を検査する）----
+   角: ボタン・入力欄・一覧の行・トースト 8px / カード・ダイアログ・メニュー 12px / 状態の印 丸。余白は 4 の倍数、文字は 12 / 13 / 14 / 18。 */
+:root {
+  --radius: 8px;
+  --radius-lg: 12px;
+  --av1: #3a7bd5;
+  --av2: #2f9e7a;
+  --av3: #c7653b;
+  --av4: #7a5fd0;
+  --av5: #b8892a;
+  --av6: #c2507e;
+}
+button, .btn {
+  font: inherit;
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+}
 button:hover:not(:disabled) { background: var(--hover); }
 button:disabled { opacity: 0.5; cursor: default; }
 button.primary { background: var(--sky); border-color: var(--sky); color: #fff; }
-button.primary:hover:not(:disabled) { background: var(--sky-dark); }
+button.primary:hover:not(:disabled) { background: var(--sky-dark); border-color: var(--sky-dark); }
 button.danger { color: var(--coral-dark); border-color: var(--coral); }
+button.danger:hover:not(:disabled) { background: var(--coral-light); }
 button.flat { border-color: transparent; background: transparent; }
 button.flat:hover:not(:disabled) { background: var(--hover); }
-button.icon { padding: 2px 6px; }
+button.icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; padding: 0; }
+button.icon.sm { width: 28px; min-height: 28px; height: 28px; }
 :focus-visible { outline: 2px solid var(--sky); outline-offset: 1px; }
-input[type=text], input[type=password], input[type=search], input[type=number], select, textarea {
-  font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); color: var(--ink); width: 100%; min-width: 0;
+.ic { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
+button.sm .ic, button.icon.sm .ic { width: 16px; height: 16px; }
+.ic-star-on { fill: currentColor; }
+
+input[type=text], input[type=password], input[type=search], input[type=number], input[type=url], input[type=email], select, textarea {
+  font: inherit;
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  color: var(--ink);
+  width: 100%;
+  min-width: 0;
 }
+input[type=text]:focus-visible, input[type=password]:focus-visible, input[type=search]:focus-visible, input[type=number]:focus-visible,
+input[type=url]:focus-visible, input[type=email]:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: none;
+  border-color: var(--sky);
+  box-shadow: 0 0 0 3px var(--sky-light);
+}
+
+/* 項目の頭文字の四角（名前から決まる 6 色）。線のアイコンのときも同じ四角 */
+.av { width: 32px; height: 32px; border-radius: var(--radius); display: inline-flex; align-items: center; justify-content: center; flex: none; font-weight: 700; font-size: 14px; line-height: 1; color: #fff; background: var(--av1); }
+.av.c1 { background: var(--av1); } .av.c2 { background: var(--av2); } .av.c3 { background: var(--av3); }
+.av.c4 { background: var(--av4); } .av.c5 { background: var(--av5); } .av.c6 { background: var(--av6); }
+.av.sm { width: 28px; height: 28px; font-size: 13px; }
+.av.lg { width: 48px; height: 48px; border-radius: var(--radius-lg); font-size: 20px; }
+.av.xl { width: 64px; height: 64px; border-radius: var(--radius-lg); font-size: 28px; }
+.av .ic { width: 18px; height: 18px; stroke: #fff; }
+.av.sm .ic { width: 16px; height: 16px; }
+.av.lg .ic { width: 24px; height: 24px; }
+.av.xl .ic { width: 28px; height: 28px; }
+.av.neutral { background: transparent; color: var(--ink-sub); }
+.av.neutral .ic { stroke: currentColor; }
+
+/* 状態の印（強い / 弱い / 使い回し など）。丸い chip */
+.pill { display: inline-flex; align-items: center; gap: 4px; padding: 0 8px; border-radius: 999px; font-size: 12px; font-weight: 600; line-height: 20px; white-space: nowrap; background: var(--hover); color: var(--ink-sub); }
+.pill.ok { background: var(--mint-light); color: var(--mint); }
+.pill.warn { background: var(--amber-light); color: var(--amber); }
+.pill.bad { background: var(--coral-light); color: var(--coral-dark); }
+.pill.info { background: var(--sky-light); color: var(--sky-dark); }
+/* スイッチ（オン・オフ） */
+input[type=checkbox].tg { -webkit-appearance: none; appearance: none; width: 36px; height: 20px; margin: 0; border-radius: 999px; background: var(--line); position: relative; flex: none; cursor: pointer; transition: background 0.12s; }
+input[type=checkbox].tg::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--panel); transition: left 0.12s; }
+input[type=checkbox].tg:checked { background: var(--sky); }
+input[type=checkbox].tg:checked::after { left: 18px; }
+input[type=checkbox].tg:disabled { opacity: 0.5; cursor: default; }
+/* ---- 部品の決まりここまで ---- */
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { font: 13px/1.5 var(--font); color: var(--ink); background: var(--bg); }
 label.field { display: flex; flex-direction: column; gap: 3px; color: var(--ink-sub); font-size: 12px; }
 label.field > * { color: var(--ink); }
 label.check { display: flex; gap: 6px; align-items: center; }
@@ -51,7 +120,7 @@ label.check { display: flex; gap: 6px; align-items: center; }
 .hidden { display: none !important; }
 .sub { color: var(--ink-sub); font-size: 12px; }
 .mono { font-family: var(--mono); }
-.msg { padding: 7px 10px; border-radius: var(--radius); }
+.msg { padding: 8px 12px; border-radius: var(--radius); }
 .msg.error { background: var(--coral-light); color: var(--coral-dark); }
 .msg.warn { background: var(--amber-light); color: var(--amber); }
 .msg.ok { background: var(--mint-light); color: var(--mint); }

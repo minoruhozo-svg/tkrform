@@ -60,6 +60,7 @@ export const rows = [
   ['Ext_Err_Mismatch', 'このページの URL と一致しないため記入しませんでした', 'Not filled: the page URL does not match this login'],
   ['Ext_Err_NoForm', 'このページに記入できるフォームが見つかりません', 'No fillable form was found on this page'],
   ['Ext_Err_FormEmpty', 'パスワードが入力されていません。フォームに入力してから保存してください', 'No password has been entered. Fill in the form, then save'],
+  ['Ext_Dock_Save', 'ページを保存', 'Save page'],
   ['Ext_Popup_SaveForm', 'フォームの入力内容を保存', 'Save form entries'],
   ['Ext_Popup_SaveForm_Tip', 'このページのフォームに入力した ID とパスワードを、ログインとして保存します', 'Save the ID and password entered in this page\x27s form as a login'],
   ['Ext_Folder_Up', '上のフォルダへ', 'Up one folder'],

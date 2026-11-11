@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="utf-8">
-<title>TKRForm 導入・使用マニュアル Ver 0.2</title>
+<title>TKRForm 導入・使用マニュアル Ver 0.3</title>
 <style>
   :root {
     --brand: #2b8de8;
@@ -112,7 +112,7 @@
   <div class="logo"><span></span></div>
   <h1>TKRForm</h1>
   <div class="sub">導入・使用マニュアル</div>
-  <div class="ver">Ver 0.2　／　2026 年 10 月</div>
+  <div class="ver">Ver 0.3　／　2026 年 11 月</div>
   <div class="org">タカラシスコム<br>https://tkrs.jp/</div>
 </section>
 
@@ -179,7 +179,7 @@
 
 <h3>2.1 インストール</h3>
 <ol>
-  <li>インストーラ <code>tkrform-setup-0.2.0.exe</code> をダブルクリックします。</li>
+  <li>インストーラ <code>tkrform-setup-0.3.0.exe</code> をダブルクリックします。</li>
   <li>「Windows によって PC が保護されました」と表示された場合は、<b>「詳細情報」</b>を押し（図 2-1 ①）、下に出る<b>「実行」</b>を押します。インターネットから入手したばかりのソフトに表示される確認です。</li>
 </ol>
 <figure class="w60"><img src="img/annot/win-smartscreen.png" style="max-width:85mm"><figcaption>図 2-1　SmartScreen の確認</figcaption><ol class="legend"><li>「詳細情報」を押すと、「実行」のボタンが表示されます。</li></ol></figure>
@@ -277,7 +277,7 @@
 <p>すでに保存しているサイトでパスワードを変えた場合は<b>「パスワードを更新しますか？」</b>と表示されます（図 3-4）。「更新」を押すと、保存しているパスワードが新しいものに置き換わります。別のアカウントとして保存したいときは、<b>「更新ではなく、新しいログインとして保存する」</b>にチェックを入れて名前を入力します。</p>
 <figure class="w80"><img src="img/annot/ext-update.png"><figcaption>図 3-4　更新ダイアログ</figcaption><ol class="legend"><li>更新する ID とサイト</li><li>名前と保存先のフォルダ</li><li>別のログインとして保存するときはチェック</li><li>パスワードを更新する</li><li>今回だけ更新しない</li><li>このサイトでは今後たずねない</li></ol></figure>
 <div class="note"><b>送信せずに保存したいとき</b>入力欄に入力したあと、ツールバーの TKRForm のアイコンからポップアップを開き、<b>「フォームの入力内容を保存」</b>を押すと、ログインボタンを押さずに保存できます。ラジオボタンや選択欄を含め、入力したすべての欄が保存されます（図 3-5）。</div>
-<figure class="w60"><img src="img/annot/ext-popup-saveform.png" style="max-width:62mm"><figcaption>図 3-5　「フォームの入力内容を保存」</figcaption><ol class="legend"><li>Web ページを開いているときに、一覧の下に表示されます。</li></ol></figure>
+<figure class="w60"><img src="img/annot/ext-popup-saveform.png" style="max-width:62mm"><figcaption>図 3-5　「フォームの入力内容を保存」</figcaption><ol class="legend"><li>Web ページを開いているときに、下の操作のバーに出ます</li></ol></figure>
 
 <h3>3.3 ログイン（自動記入）</h3>
 <p>保存したサイトのログイン画面で入力欄をクリックすると、入力欄の下に候補のメニューが表示されます。</p>
@@ -291,31 +291,31 @@
 
 <h3>3.4 ポップアップ</h3>
 <p>ツールバーの TKRForm のアイコンを押すと、ポップアップが開きます。</p>
+<p>開いているページに合うログインがあるときは、いちばん上の<b>「このサイト」</b>の枠に出ます（最大 2 件。合うログインがないときは、枠ごと出ません）。色つきの<b>「記入」</b>のボタンを 1 回押せば済みます。「よく使う」と「ABC」の切り替えは、タブの右端にあります。下の<b>操作のバー</b>には、パスワード生成・ページを保存（Web ページを開いているとき）・ロック・設定があります（歯車のメニューにも同じ操作があります）。</p>
 <div class="pair">
-  <figure><img src="img/annot/ext-popup-frequent.png"><figcaption>図 3-7　「よく使う」</figcaption><ol class="legend"><li>歯車メニュー</li><li>検索欄</li><li>タブ</li><li>「よく使う」と「ABC」の切り替え</li><li>ログインの行。マウスを乗せると操作ボタンが出ます。</li></ol></figure>
-  <figure><img src="img/annot/ext-popup-abc.png"><figcaption>図 3-8　「ABC」（フォルダ表示）</figcaption><ol class="legend"><li>「ABC」を選んだ状態</li><li>フォルダ。押すと中に入ります（右の数字は件数）。</li><li>フォルダに入っていないログイン</li></ol></figure>
+  <figure><img src="img/annot/ext-popup-frequent.png"><figcaption>図 3-7　「よく使う」</figcaption><ol class="legend"><li>歯車メニュー</li><li>検索欄</li><li>「このサイト」。開いているページに合うログインが、いちばん上に出ます（合うログインがないときは、枠ごと出ません）。色つきの「記入」を 1 回押せば済みます</li><li>タブ（ログイン・プロフィール・メモ）と、右端の「よく使う」「ABC」の切り替え</li><li>ログインの行。ふだんは何も出ず、マウスを乗せる（またはキーボードでフォーカスする）と操作ボタンが出ます</li><li>下の操作のバー（パスワード生成・ページを保存・ロック・設定）</li></ol></figure>
+  <figure><img src="img/annot/ext-popup-abc.png"><figcaption>図 3-8　「ABC」（フォルダ表示）</figcaption><ol class="legend"><li>「ABC」を選んだ状態</li><li>フォルダ。押すと中に入ります（右の数字は件数）</li><li>フォルダに入っていないログイン</li></ol></figure>
 </div>
 <table class="small">
   <tr><th style="width:24%">タブ</th><th>内容</th></tr>
   <tr><td>ログイン</td><td><b>よく使う</b>：お気に入りと使った回数の多いログイン（最大 50 件）を、よく使う順に表示します。<br><b>ABC</b>：フォルダを上にまとめ、名前の順に表示します。フォルダを押すと中に入ります。<br>選んだ表示は次回も引き継がれます。</td></tr>
-  <tr><td>このサイト</td><td>今開いているページに一致するログインとプロフィールを表示します。</td></tr>
   <tr><td>プロフィール</td><td>登録したプロフィール（5 章）を表示します。</td></tr>
   <tr><td>メモ</td><td>暗号化して保存したメモを表示します。</td></tr>
 </table>
 <div class="keep">
 <p>各行にマウスを乗せると、次のボタンが表示されます（図 3-9）。</p>
-<figure class="w60"><img src="img/annot/ext-popup-hover.png" style="max-width:62mm"><figcaption>図 3-9　行の操作ボタン</figcaption><ol class="legend"><li>▶ ログイン</li><li>✎ 記入</li><li>👤 ID をコピー</li><li>🔑 パスワードをコピー</li><li>⚙ エディタで開く</li></ol></figure>
+<figure class="w60"><img src="img/annot/ext-popup-hover.png" style="max-width:62mm"><figcaption>図 3-9　行の操作ボタン</figcaption><ol class="legend"><li>ログイン（保存した URL を開いて記入し、送信します）</li><li>記入（今開いているページに記入します）</li><li>ID をコピー</li><li>パスワードをコピー</li><li>エディタで開く</li></ol></figure>
 <table class="small">
   <tr><th style="width:12%">ボタン</th><th>動作</th></tr>
-  <tr><td>① ▶</td><td>ログインします（保存した URL を開いて記入し、送信します）。</td></tr>
-  <tr><td>② ✎</td><td>今開いているページに記入します（送信はしません）。ページが一致しないときは記入せず、「開いて記入」を選べます。</td></tr>
+  <tr><td>①</td><td>ログインします（保存した URL を開いて記入し、送信します）。</td></tr>
+  <tr><td>②</td><td>今開いているページに記入します（送信はしません）。ページが一致しないときは記入せず、「開いて記入」を選べます。</td></tr>
   <tr><td>③ 👤 ／ ④ 🔑</td><td>ID ／ パスワードをコピーします。コピーした内容は 30 秒後に消去されます。</td></tr>
-  <tr><td>⑤ ⚙</td><td>エディタでそのログインを開きます。</td></tr>
+  <tr><td>⑤</td><td>エディタでそのログインを開きます。</td></tr>
 </table>
 </div>
 <div class="keep">
 <p>右上の<b>歯車アイコン</b>を押すと、次のメニューが開きます。</p>
-<figure class="w60"><img src="img/annot/ext-popup-menu.png" style="max-width:62mm"><figcaption>図 3-10　歯車メニュー</figcaption><ol class="legend"><li>歯車アイコンを押すと</li><li>メニューが開きます。</li></ol></figure>
+<figure class="w60"><img src="img/annot/ext-popup-menu.png" style="max-width:62mm"><figcaption>図 3-10　歯車メニュー</figcaption><ol class="legend"><li>歯車アイコンを押すと</li><li>メニューが開きます</li></ol></figure>
 <table class="small">
   <tr><th style="width:24%">メニュー</th><th>動作</th></tr>
   <tr><td>ホーム</td><td>ログインをタイルで一覧するページを開きます（3.6）。</td></tr>
@@ -342,24 +342,27 @@
 <h3>3.6 ホーム</h3>
 <p>歯車メニューの「ホーム」を選ぶと、ログインをタイルで一覧するページが開きます。上部に「よく使う」ログイン、その下にすべてのログインが並びます。タイルを押すと、そのサイトを開いてログインします。右上の欄で検索もできます。</p>
 <div class="note"><b>サイトのアイコン（初期設定はオフ）</b>拡張の設定で「ホームにサイトのアイコンを表示する」をオンにすると、保存しているサイトへアイコンの画像を取りに行き（Cookie は送りません）、タイルに大きく表示します。オンにすると、保存しているサイトへ接続する通信が起きます。オフのときは通信せず、Chrome が持っているアイコンか、名前の頭文字を表示します。ホームの上の案内（「設定を開く」）からも設定できます。</div>
-<figure><img src="img/annot/ext-home.png"><figcaption>図 3-13　ホーム</figcaption><ol class="legend"><li>検索欄</li><li>よく使うログイン</li><li>すべてのログイン</li></ol></figure>
+<figure><img src="img/annot/ext-home.png"><figcaption>図 3-13　ホーム</figcaption><ol class="legend"><li>検索欄</li><li>見出し（「よく使う」と「すべてのログイン」）</li><li>ログインのタイル。押すと、そのサイトを開いて記入します（頭文字の四角の色は、エディタ・ポップアップと同じです）</li></ol></figure>
 
 <!-- ============================== 4 -->
 <h2>4. エディタ</h2>
 <p>保存したデータの確認・編集は、エディタで行います。トレイの TKRForm アイコンをダブルクリックするか、ポップアップの歯車メニューの「編集」で開きます。</p>
-<figure><img src="img/annot/app-editor.png"><figcaption>図 4-1　エディタ（ログインの詳細）</figcaption><ol class="legend"><li>操作ボタン（新規・フォルダ・複製・移動・削除など）</li><li>種類とフォルダで絞り込み</li><li>項目の一覧</li><li>名前・フォルダ・URL などの詳細</li><li>記入する入力欄の一覧（フィールド）</li><li>その他（インポート・エクスポート・設定など）</li><li>変更したら「保存」</li></ol></figure>
+<figure><img src="img/annot/app-editor.png"><figcaption>図 4-1　エディタ（ログインの詳細）</figcaption><ol class="legend"><li>操作ボタン。「新規」が主な操作で、ほかは複製・名前変更・移動・削除・印刷・元に戻す・やり直し・検索・その他</li><li>種類とフォルダで絞り込み</li><li>項目の一覧（頭文字の四角の色は、名前から決まります）</li><li>名前・お気に入り・フォルダ</li><li>ユーザー ID・パスワード・URL・TOTP。表示とコピーのボタンがあります</li><li>「編集」を押すと、編集のフォームに替わります</li><li>左端の切り替え（保管庫・安全性・生成・設定・ロック）</li></ol></figure>
 <table class="small">
   <tr><th style="width:24%">場所</th><th>内容</th></tr>
   <tr><td>左の一覧</td><td>種類（ログイン・プロフィール・メモ・お気に入り・ごみ箱）とフォルダで絞り込みます。</td></tr>
   <tr><td>中央の一覧</td><td>項目の一覧です。「並べ替え」で名前順・更新日順などに変えられます。</td></tr>
-  <tr><td>右の詳細</td><td>選んだ項目の内容です。変更したら「保存」を押します。</td></tr>
-  <tr><td>上部のボタン</td><td>新規、新規フォルダ、複製、名前変更、移動、削除、印刷、元に戻す／やり直し、検索（<kbd>Ctrl</kbd>+<kbd>F</kbd>）、その他（インポート・エクスポート・セキュリティセンター・設定など）。</td></tr>
+  <tr><td>右の詳細</td><td>選んだ項目の内容です。ログインは、まず見るだけの画面で出ます。「編集」を押すと編集のフォームに替わり、変更したら「保存」を押します（保存すると、見るだけの画面に戻ります）。</td></tr>
+  <tr><td>左端の切り替え</td><td>保管庫・安全性（セキュリティセンター）・生成・設定・ロックを切り替えます。保管庫・安全性・設定は、同じウィンドウの中で画面が替わります。編集中の変更があるときは、替える前に確認が出ます。</td></tr>
+  <tr><td>上部のボタン</td><td>新規（主な操作）、新規フォルダ、複製、名前変更、移動、削除、印刷、元に戻す／やり直し、検索（<kbd>Ctrl</kbd>+<kbd>F</kbd>）、その他（インポート・エクスポート・セキュリティセンター・設定など）。</td></tr>
 </table>
 <h4>ログインの詳細</h4>
+<p>ログインを選ぶと、まず<b>見るだけの画面</b>が出ます。ユーザー ID・パスワード（目のアイコンで表示、コピーのアイコンでコピー）・URL・TOTP のコードを確かめられます。<b>「ログイン」</b>で記入して送信、<b>「開いて記入」</b>で保存した URL を開いて記入します。<b>「編集」</b>を押すと、編集のフォームに替わります（図 4-1b）。</p>
+<figure><img src="img/annot/app-editor-form.png"><figcaption>図 4-1b　エディタ（編集のフォーム）</figcaption><ol class="legend"><li>名前・フォルダ・お気に入り</li><li>記入する入力欄の一覧（フィールド）</li><li>「詳細設定」（ふだんは閉じています）</li><li>変更したら「保存」</li></ol></figure>
 <ul>
-  <li><b>URL ／ 照合のレベル</b>：どのページで候補に出すかを決めます。通常は「ドメイン一致」のままで構いません。</li>
-  <li><b>フィールド</b>：保存した入力欄の一覧です。名前・ID はページ側の欄の名前、値は記入する内容です。パスワードは 👁 で表示、⧉ でコピーできます。</li>
-  <li><b>記入後に送信しない</b>：記入だけしてログインボタンは押さない場合にチェックします。</li>
+  <li><b>URL ／ 照合のレベル</b>：どのページで候補に出すかを決めます。通常は「ドメイン一致」のままで構いません。照合する URL の指定は、「詳細設定」にあります。</li>
+  <li><b>フィールド</b>：保存した入力欄の一覧です。名前・ID はページ側の欄の名前、値は記入する内容です。パスワードは、目のアイコンで表示、コピーのアイコンでコピーできます。</li>
+  <li><b>詳細設定</b>：照合する URL、<b>記入後に送信しない</b>（記入だけしてログインボタンは押さない場合にチェック）、ブラウザのベーシック認証、多段ログインは、折りたたまれています。必要なときだけ開きます。</li>
   <li><b>TOTP キー</b>：2 段階認証のキーを登録すると、確認コードの欄にコードを記入できます。QR コードの画像から読み込むこともできます。</li>
 </ul>
 <h4>フォルダの整理</h4>
@@ -370,7 +373,7 @@
 </ul>
 <h4>削除とごみ箱</h4>
 <p>削除した項目はごみ箱に移り、30 日間残ります。左の一覧の<b>「ゴミ箱」</b>を選ぶと、削除した項目を確認できます（図 4-2）。</p>
-<figure><img src="img/annot/app-trash.png"><figcaption>図 4-2　ごみ箱</figcaption><ol class="legend"><li>「ゴミ箱」を選びます。</li><li>ごみ箱を空にする（元に戻せません）</li><li>元の場所に戻す</li><li>この項目だけ完全に削除する（元に戻せません）</li></ol></figure>
+<figure><img src="img/annot/app-trash.png"><figcaption>図 4-2　ごみ箱</figcaption><ol class="legend"><li>「ゴミ箱」を選びます</li><li>ごみ箱を空にする（元に戻せません）</li><li>元の場所に戻す</li><li>この項目だけ完全に削除する（元に戻せません）</li></ol></figure>
 <ul>
   <li><b>元に戻す</b>：項目を元のフォルダに戻します。</li>
   <li><b>完全に削除...</b>／<b>ゴミ箱を空にする...</b>：完全に削除します。確認が表示され、削除すると元に戻せません。</li>
@@ -380,16 +383,16 @@
 <h2>5. プロフィールとメモ</h2>
 <h3>5.1 プロフィール</h3>
 <p>氏名・住所・電話番号・メールアドレス・会社・カードなどを登録しておくと、申し込みフォームや配送先の入力欄に一括で記入できます。</p>
-<figure><img src="img/annot/app-editor-profile.png"><figcaption>図 5-1　プロフィールの編集</figcaption><ol class="legend"><li>国を選びます。</li><li>グループ（個人・会社・住所・カードなど）のタブ</li><li>項目の組。＋で 2 件目（別の住所やカード）を追加</li><li>各欄に入力します。</li></ol></figure>
+<figure><img src="img/annot/app-editor-profile.png"><figcaption>図 5-1　プロフィールの編集</figcaption><ol class="legend"><li>名前・フォルダ</li><li>国を選びます</li><li>グループ（個人・会社・住所・カードなど）のタブ</li><li>各欄に入力します（＋で、別の住所やカードを追加できます）</li></ol></figure>
 <ol>
   <li>エディタの「新規 ▼」→「プロフィール」を選び、国（日本／米国）を選びます。</li>
   <li>「個人」「住所」「会社」「カード」などのタブで、必要な欄だけ入力して保存します。</li>
-  <li>入力フォームのあるページで、ポップアップの「プロフィール」タブから ✎ を押すと記入されます。記入できる欄が 3 つ以上あるフォームでは、入力欄の候補メニューにも表示されます。</li>
+  <li>入力フォームのあるページで、ポップアップの「プロフィール」タブで、行の「記入」のボタン（図 3-9 ②）を押すと記入されます。記入できる欄が 3 つ以上あるフォームでは、入力欄の候補メニューにも表示されます。</li>
 </ol>
 <figure class="w70"><img src="img/annot/ext-profile-fill.png"><figcaption>図 5-2　プロフィールを記入したフォーム</figcaption><ol class="legend"><li>氏名・メールアドレス・住所が、それぞれの欄に一度に記入されます。</li></ol></figure>
 <h3>5.2 メモ</h3>
 <p>Wi-Fi のパスワード、ソフトのライセンスキー、秘密の質問の答えなど、暗号化して保管したい文章を保存できます。エディタの「新規 ▼」→「メモ」で作成します。</p>
-<figure><img src="img/annot/app-memo.png"><figcaption>図 5-3　メモの編集</figcaption><ol class="legend"><li>メモの名前</li><li>等幅フォントで表示（表やキーをそろえて見たいとき）</li><li>本文。暗号化して保存されます。</li><li>変更したら「保存」</li></ol></figure>
+<figure><img src="img/annot/app-memo.png"><figcaption>図 5-3　メモの編集</figcaption><ol class="legend"><li>メモの名前</li><li>等幅フォントで表示（表やキーをそろえて見たいとき）</li><li>本文。暗号化して保存されます</li><li>変更したら「保存」</li></ol></figure>
 
 <!-- ============================== 6 -->
 <h2>6. パスキー</h2>
@@ -410,9 +413,9 @@
 <!-- ============================== 7 -->
 <h2>7. セキュリティセンター</h2>
 <p>保存しているパスワードに問題がないかを調べます。トレイのメニュー、またはエディタの「その他 ▼」から開きます。</p>
-<figure class="w80"><img src="img/annot/app-security.png"><figcaption>図 7-1　セキュリティセンター</figcaption><ol class="legend"><li>総合のスコア（0〜100）</li><li>もう一度調べる</li><li>問題の種類ごとのタブ（件数つき）</li><li>該当するログイン</li><li>「開く」でエディタを開いて修正</li></ol></figure>
+<figure class="w80"><img src="img/annot/app-security.png"><figcaption>図 7-1　セキュリティセンター</figcaption><ol class="legend"><li>総合のスコア（0〜100）と、あと何件変えると 100 点になるか</li><li>もう一度調べる</li><li>問題の種類ごとの件数の箱。押すと、その種類に絞り込みます</li><li>該当するログイン（頭文字・名前・ID とサイト）</li><li>理由（「Example Game ほか 1 件と同じ」「強度 38 ビット」「2 年前から変更なし」など）</li><li>「パスワードを変える」で、保管庫の画面でその項目を編集の状態で開きます。「サイトを開く」で、そのサイトを開けます</li></ol></figure>
 <table class="small">
-  <tr><th style="width:18%">タブ</th><th>内容</th></tr>
+  <tr><th style="width:18%">件数の箱</th><th>内容</th></tr>
   <tr><td>弱い</td><td>短い・単純で、推測されやすいパスワード（強度 50 ビット未満）。</td></tr>
   <tr><td>使い回し</td><td>同じパスワードを複数のサイトで使っているもの。同じパスワードごとにまとめて表示します。</td></tr>
   <tr><td>古い</td><td>365 日以上変更していないパスワード。</td></tr>
@@ -423,11 +426,11 @@
 
 <!-- ============================== 8 -->
 <h2>8. 設定</h2>
-<p>トレイのメニューの「設定...」（図 1-1 ④）で開きます。変更したら右下の「保存」を押します。</p>
-<figure class="w80"><img src="img/annot/app-settings.png"><figcaption>図 8-1　設定（一般）</figcaption><ol class="legend"><li>設定の種類のタブ</li><li>変更したら「保存」</li></ol></figure>
+<p>トレイのメニューの「設定...」（図 1-1 ④）で開きます。変更は、その場で保存されます（「保存」ボタンはありません）。左の一覧で、設定の種類を選びます。</p>
+<figure class="w80"><img src="img/annot/app-settings.png"><figcaption>図 8-1　設定（一般）</figcaption><ol class="legend"><li>設定の種類（左の一覧）</li><li>見出しつきの枠（起動と表示・更新など）。行ごとに説明があり、オン・オフはスイッチ、選ぶものは右の欄</li><li>バージョンの表示と「今すぐ確認」（更新の枠の中）</li><li>変更は、その場で保存されます（「保存」ボタンはありません）</li></ol></figure>
 <table class="small">
-  <tr><th style="width:18%">タブ</th><th>主な設定</th></tr>
-  <tr><td>一般</td><td>言語、Windows の起動時に起動する、ログインの並べ方、更新の確認（初期設定はオフ。オンにすると、新しい版がないかを配布元に問い合わせます。「今すぐ更新を確認」は、押したときだけ問い合わせます）</td></tr>
+  <tr><th style="width:18%">分類</th><th>主な設定</th></tr>
+  <tr><td>一般</td><td>「起動と表示」の枠（言語、Windows の起動時に起動する、ログインの並べ方）と、「更新」の枠。更新の確認（初期設定はオフ。オンにすると、新しい版がないかを配布元に問い合わせます。「今すぐ更新を確認」は、押したときだけ問い合わせます）</td></tr>
   <tr><td>自動記入</td><td>候補の出し方（しない／提案する／1 件なら自動）、入力欄の候補メニュー、ベーシック認証、パスキーの保存</td></tr>
   <tr><td>自動保存</td><td>保存の仕方（しない／提案する／自動）、保存しないサイト</td></tr>
   <tr><td>アプリ</td><td>Windows のアプリのログイン画面への記入</td></tr>
@@ -440,7 +443,7 @@
 <h3>8.1 Windows Hello を使う</h3>
 <figure class="w80"><img src="img/annot/app-settings-security.png"><figcaption>図 8-2　設定（セキュリティ）</figcaption><ol class="legend"><li>自動でロックする条件と時間</li><li>マスターパスワードの変更</li><li>Windows Hello の有効化</li></ol></figure>
 <ol>
-  <li>設定の「セキュリティ」タブを開きます。</li>
+  <li>設定の左の一覧で「セキュリティ」を選びます。</li>
   <li>「Windows Hello でロック解除」の<b>「Windows Hello を有効にする」</b>を押します。</li>
   <li>Windows Hello の確認（顔・指紋・PIN）を行います。「有効にしました」と表示されれば完了です。</li>
 </ol>
@@ -451,7 +454,7 @@
 <h2>9. バックアップと別の PC への移行</h2>
 <h3>9.1 自動バックアップ</h3>
 <p>TKRForm は毎日、保管庫を自動でバックアップします（既定で 10 世代）。バックアップは暗号化されたままのファイル（<code>.tkb</code>）で、開くにはマスターパスワードが必要です。</p>
-<figure class="w80"><img src="img/annot/app-settings-backup.png"><figcaption>図 9-1　設定（バックアップ）</figcaption><ol class="legend"><li>バックアップの保存先フォルダ</li><li>今すぐバックアップ</li><li>全初期化（元に戻せません）</li><li>フォルダを指定して復元</li><li>整合性を確認</li></ol></figure>
+<figure class="w80"><img src="img/annot/app-settings-backup.png"><figcaption>図 9-1　設定（バックアップ）</figcaption><ol class="legend"><li>バックアップの保存先フォルダ</li><li>今すぐバックアップ・全初期化・フォルダを指定して復元・整合性を確認</li></ol></figure>
 <ul>
   <li><b>保存先フォルダ</b>：「変更...」で、外付けドライブや NAS などに変えられます。PC の故障に備えて、別のドライブに保存することをおすすめします。</li>
   <li><b>今すぐバックアップ</b>：その場でバックアップを作ります。</li>
@@ -466,7 +469,7 @@
   <li>設定の「バックアップ」で「フォルダを指定して復元...」から <code>.tkb</code> のあるフォルダを選びます。「バックアップ一覧」に出たバックアップの<b>「復元...」</b>を押します（図 9-2 ③）。保管庫がバックアップの内容に置き換わり、ロックされた状態になります。</li>
   <li><b>今までと同じマスターパスワード</b>でロックを解除します。</li>
 </ol>
-<figure class="w80"><img src="img/annot/app-backup-list.png"><figcaption>図 9-2　バックアップ一覧</figcaption><ol class="legend"><li>今すぐバックアップ</li><li>バックアップのファイル（作成した日時と大きさ）</li><li>「復元...」でこのバックアップに戻します。</li></ol></figure>
+<figure class="w80"><img src="img/annot/app-backup-list.png"><figcaption>図 9-2　バックアップ一覧</figcaption><ol class="legend"><li>バックアップのファイル（作成した日時と大きさ）。「復元」でこのバックアップに戻します</li></ol></figure>
 <p>ログイン・プロフィール・メモ・パスキーがすべて移ります。Windows Hello は PC ごとの設定なので、新しい PC でもう一度有効にしてください。</p>
 <div class="note"><b>エクスポートとの違い</b>エディタの「その他 ▼」→「エクスポート...」で CSV にも書き出せますが、CSV は暗号化されず、パスキーも含まれません。PC の移行には <code>.tkb</code> のバックアップを使ってください。</div>
 

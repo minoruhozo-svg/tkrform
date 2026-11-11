@@ -10,7 +10,7 @@ import { Cdp, startApp, killTree, waitTarget, waitFor, tmpDir, sleep } from './l
 const WEB = 8793;
 const EXE = Buffer.from('MZ-fake-installer-' + 'x'.repeat(5000));
 const GOOD = crypto.createHash('sha256').update(EXE).digest('hex');
-let manifest = { version: '0.2.0', url: `http://127.0.0.1:${WEB}/tkrform-setup-9.9.9.exe`, sha256: GOOD, notes: '修正と改善' };
+let manifest = { version: '0.3.0', url: `http://127.0.0.1:${WEB}/tkrform-setup-9.9.9.exe`, sha256: GOOD, notes: '修正と改善' };
 let exeHits = 0;
 let manifestHits = 0;
 const server = http.createServer((req, res) => {
@@ -56,7 +56,7 @@ try {
   // ---- 同意しない場合
   const no = await launch('no', 9345, 'no', true);
   let r = await no.rpc('updateCheck');
-  ok(r.ok && r.r.available === false, '同じ版（0.2.0）なら「更新なし」');
+  ok(r.ok && r.r.available === false, '同じ版（0.3.0）なら「更新なし」');
   manifest = { ...manifest, version: '9.9.9' };
   await sleep(4500); // 起動 3 秒後の自動確認が走る（同意なしなので何も起きない）
   r = await no.rpc('updateCheck');

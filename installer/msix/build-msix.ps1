@@ -31,7 +31,7 @@ if (-not $Version) {
     if (-not $m) { throw 'Cargo.toml から版を読めません' }
     $Version = '{0}.{1}.{2}.0' -f $m.Matches[0].Groups[1].Value, $m.Matches[0].Groups[2].Value, $m.Matches[0].Groups[3].Value
 }
-if ($Version -notmatch '^\d+\.\d+\.\d+\.\d+$') { throw "版は 4 桁（例 0.2.0.0）で指定してください: $Version" }
+if ($Version -notmatch '^\d+\.\d+\.\d+\.\d+$') { throw "版は 4 桁（例 0.3.0.0）で指定してください: $Version" }
 
 # --- Windows SDK のツール
 if (-not $SdkBin) {

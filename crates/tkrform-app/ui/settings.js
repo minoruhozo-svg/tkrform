@@ -14,26 +14,34 @@ const OPT = {
 // type: bool | select | number | text | lines(配列を 1 行ずつ) | groups(同等ドメイン: 1 行 1 グループ、カンマ区切り)
 const TABS = [
   ['general', [
+    ['#', 'Pref_Group_Display'],
     ['general.language', 'select', OPT.language],
     ['general.startWithWindows', 'bool'],
     ['general.sortOrder', 'select', OPT.sortOrder],
+    ['#', 'Pref_Group_Update'],
     ['general.checkUpdates', 'bool'],
     ['general.updateUrl', 'text'],
+    ['@update'], // 版の表示と「今すぐ確認」（Store 版では出さない）
   ]],
   ['autofill', [
+    ['#', 'Pref_Group_Fill'],
     ['autofill.mode', 'select', OPT.fillMode],
     ['autofill.target', 'select', OPT.fillTarget],
     ['autofill.onlyOnPasswordPages', 'bool'],
     ['autofill.minIdentityFields', 'number', [1, 20]],
     ['autofill.includeContacts', 'bool'],
+    ['#', 'Pref_Group_Pages'],
     ['autofill.basicAuth', 'bool'],
     ['autofill.inlineMenu', 'bool'],
+    ['#', 'Pref_Group_Passkeys'],
     ['autofill.passkeys', 'bool'],
     ['autofill.passkeyExclude', 'lines'],
   ]],
   ['autosave', [
+    ['#', 'Pref_Group_Save'],
     ['autosave.mode', 'select', OPT.saveMode],
     ['autosave.forceDialog', 'bool'],
+    ['#', 'Pref_Group_ExcludeSave'],
     ['autosave.excludeUrls', 'lines'],
   ]],
   ['apps', [
@@ -42,11 +50,13 @@ const TABS = [
     ['apps.allowExec', 'bool'],
   ]],
   ['security', [
+    ['#', 'Pref_Group_Lock'],
     ['security.autoLockMinutes', 'select', OPT.autolock],
     ['security.lockOnSessionLock', 'bool'],
     ['security.lockOnScreensaver', 'bool'],
     ['security.lockOnSuspend', 'bool'],
     ['security.lockOnBrowsersClosed', 'bool'],
+    ['#', 'Pref_Group_Protect'],
     ['security.rememberMp', 'bool'],
     ['security.iterations', 'select', OPT.iterations],
     ['security.clipboardClearSecs', 'number', [0, 600]],
@@ -77,33 +87,58 @@ function setp(o, path, v) {
 function buildField([path, type, extra, disabled]) {
   const key = 'Pref_' + path.replace(/\./g, '_');
   const label = t(key);
+  const hint = t(key + '_Hint');
+  const desc = hint !== key + '_Hint' ? el('div', { class: 'd', text: hint }) : null;
   let input;
   if (type === 'bool') {
-    input = el('input', { type: 'checkbox', checked: !!getp(prefs, path), disabled: !!disabled });
+    input = el('input', { type: 'checkbox', class: 'tg', checked: !!getp(prefs, path), disabled: !!disabled });
     inputs.set(path, { input, type });
-    return el('label', { class: 'check' }, input, el('span', { text: label }));
+    return el('label', { class: 'opt' }, el('div', { class: 'grow' }, el('div', { text: label }), desc), input);
   }
   if (type === 'select') {
-    input = el('select', { disabled: !!disabled });
+    input = el('select', { disabled: !!disabled, 'aria-label': label });
     for (const [v, k] of extra) input.append(el('option', { value: String(v), text: /^[A-Z]/.test(String(k)) ? t(k) : k }));
     input.value = String(getp(prefs, path));
     inputs.set(path, { input, type, num: typeof extra[0][0] === 'number' });
-  } else if (type === 'number') {
-    input = el('input', { type: 'number', min: extra[0], max: extra[1], value: getp(prefs, path) });
+    return el('label', { class: 'opt' }, el('div', { class: 'grow' }, el('div', { text: label }), desc), input);
+  }
+  if (type === 'number') {
+    input = el('input', { type: 'number', min: extra[0], max: extra[1], value: getp(prefs, path), 'aria-label': label });
     inputs.set(path, { input, type });
-  } else if (type === 'text') {
-    input = el('input', { type: 'text', value: getp(prefs, path) || '', disabled: !!disabled, class: path.startsWith('hotkeys') ? 'hotkey' : '' });
+    return el('label', { class: 'opt' }, el('div', { class: 'grow' }, el('div', { text: label }), desc), input);
+  }
+  if (type === 'text') {
+    input = el('input', { type: 'text', value: getp(prefs, path) || '', disabled: !!disabled, class: path.startsWith('hotkeys') ? 'hotkey' : '', 'aria-label': label });
     inputs.set(path, { input, type });
   } else if (type === 'lines') {
-    input = el('textarea', { rows: 5, value: (getp(prefs, path) || []).join('\n') });
+    input = el('textarea', { rows: 5, value: (getp(prefs, path) || []).join('\n'), 'aria-label': label });
     inputs.set(path, { input, type });
   } else if (type === 'groups') {
-    input = el('textarea', { rows: 8, value: (getp(prefs, path) || []).map((g) => g.join(', ')).join('\n') });
+    input = el('textarea', { rows: 8, value: (getp(prefs, path) || []).map((g) => g.join(', ')).join('\n'), 'aria-label': label });
     inputs.set(path, { input, type });
   }
-  const hint = t(key + '_Hint');
-  return el('label', { class: 'field' }, el('span', { text: label }), input,
-    hint !== key + '_Hint' ? el('span', { class: 'sub', text: hint }) : null);
+  return el('label', { class: 'optcol' }, el('div', null, el('div', { text: label }), desc), input);
+}
+
+/** fields を、見出しつきの枠に分ける。['#', キー] で新しい枠が始まる。['@update'] は、版の表示と「今すぐ確認」の行。 */
+function buildGroups(fields, info) {
+  const out = [];
+  let cur = null;
+  const open = (titleKey) => {
+    cur = el('div', { class: 'grp' }, titleKey ? el('div', { class: 'gh', text: t(titleKey) }) : null);
+    out.push(cur);
+  };
+  for (const f of fields) {
+    if (f[0] === '#') { open(f[1]); continue; }
+    if (!cur) open(null);
+    if (f[0] === '@update') {
+      cur.append(el('div', { class: 'opt' }, el('div', { class: 'grow' }, el('div', { text: t('Upd_Version', info.version || '') }), el('div', { id: 'upd-msg', class: 'd' })),
+        el('button', { type: 'button', id: 'upd-check', text: t('Upd_CheckShort'), onclick: checkUpdates })));
+      continue;
+    }
+    cur.append(buildField(f));
+  }
+  return out;
 }
 
 function collect() {
@@ -214,6 +249,7 @@ async function refreshBackups() {
 
 (async () => {
   await initI18n();
+  mountRail('settings');
   await LockGuard.init(() => location.reload());
   prefs = await rpc('getPrefs');
   const info = await rpc('status').catch(() => ({}));
@@ -224,15 +260,20 @@ async function refreshBackups() {
   }
   TABS.forEach(([id, fields0], i) => {
     // Microsoft Store 版は、Store が更新するので、更新の設定は出さない
-    const fields = info.packaged && id === 'general' ? fields0.filter(([p]) => p !== 'general.checkUpdates' && p !== 'general.updateUrl') : fields0;
+    // （更新の見出し・設定・版の行ごと、出さない）
+    let fields = fields0;
+    if (info.packaged && id === 'general') {
+      const at = fields0.findIndex(([p, k]) => p === '#' && k === 'Pref_Group_Update');
+      fields = fields0.slice(0, at);
+    }
     const tab = el('button', { role: 'tab', 'aria-selected': i === 0 ? 'true' : 'false', text: t('Pref_Tab_' + id), onclick: () => select(id) });
     tab.dataset.id = id;
     tabs.append(tab);
     const pane = el('section', { class: 'pane' + (i === 0 ? ' active' : ''), role: 'tabpanel' });
     pane.dataset.id = id;
+    pane.append(el('h1', { text: t('Pref_Tab_' + id) }));
     if (id === 'sync') buildSyncPane(pane);
-    if (id === 'general' && !info.packaged) pane.append(el('div', { class: 'row' }, el('button', { type: 'button', id: 'upd-check', text: t('Upd_Check'), onclick: checkUpdates }), el('span', { id: 'upd-msg', class: 'sub' })));
-    fields.forEach((f) => pane.append(buildField(f)));
+    for (const g of buildGroups(fields, info)) pane.append(g);
     if (id === 'security') {
       pane.append(el('div', { class: 'sub', text: t('Pref_Reauth_Note') }));
       pane.append(el('div', { class: 'row' }, el('button', { type: 'button', text: t('MP_Change'), onclick: changeMp })));
@@ -272,16 +313,26 @@ async function refreshBackups() {
   refreshBackupDir();
   refreshBackups();
 
-  $('#save').addEventListener('click', async () => {
-    const next = collect();
-    try {
-      await rpc('setPrefs', { prefs: next });
-      const langChanged = next.general.language !== prefs.general.language;
-      prefs = next;
-      $('#saved').textContent = t('Pref_Saved') + (langChanged ? ' ' + t('Pref_RestartNote') : '');
-    } catch (e) { showError(e); }
-  });
+  // 変更は、その場で保存する（入力欄は、確定したとき。少しまとめて 1 回で書く）
+  for (const { input } of inputs.values()) input.addEventListener('change', scheduleSave);
 })();
+
+let saveTimer = null;
+function scheduleSave() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 400);
+}
+
+async function saveNow() {
+  clearTimeout(saveTimer);
+  const next = collect();
+  try {
+    await rpc('setPrefs', { prefs: next });
+    const langChanged = next.general.language !== prefs.general.language;
+    prefs = next;
+    $('#saved').textContent = t('Pref_Saved') + (langChanged ? ' ' + t('Pref_RestartNote') : '');
+  } catch (e) { showError(e); }
+}
 
 // ------------------------------------------------------------------ 同期（§15）
 

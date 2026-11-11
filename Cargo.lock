@@ -4442,7 +4442,7 @@ checksum = "fd3ca314f692efd6c868f8408f53fe444634a845f96c028b97d35f6a1f79f0ee"
 
 [[package]]
 name = "tkrform-app"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "arboard",
  "chrono",
@@ -4469,7 +4469,7 @@ dependencies = [
 
 [[package]]
 name = "tkrform-core"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "aes-gcm",
  "base32",
@@ -4497,7 +4497,7 @@ dependencies = [
 
 [[package]]
 name = "tkrform-ipc"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -4506,7 +4506,7 @@ dependencies = [
 
 [[package]]
 name = "tkrform-nmhost"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "serde_json",
  "tkrform-ipc",

@@ -89,7 +89,19 @@ def arrow(d, a, b, w):
     d.polygon([b, p1, p2], fill=RED)
 
 
+def load_boxes():
+    """tools/e2e/manual-shots.mjs が出した boxes.json（画面の要素から取った枠の位置）があれば、上の A を置き換える。"""
+    import json
+    p = os.path.join(SRC, "boxes.json")
+    if not os.path.exists(p):
+        return
+    with open(p, encoding="utf-8") as f:
+        for name, v in json.load(f).items():
+            A[name + ".png"] = [(tuple(box), num, where if isinstance(where, str) else tuple(where)) for box, num, where in v["boxes"]]
+
+
 def main():
+    load_boxes()
     os.makedirs(DST, exist_ok=True)
     for name, items in A.items():
         im = Image.open(os.path.join(SRC, name)).convert("RGB")

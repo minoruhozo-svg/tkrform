@@ -6,24 +6,42 @@
 <title>TKRForm</title>
 <link rel="stylesheet" href="common.css">
 <style>
-  body { display: flex; flex-direction: column; }
-  .tabs { padding: 0 12px; background: var(--panel); flex-wrap: wrap; }
-  main { flex: 1; overflow: auto; padding: 14px 20px; }
-  .pane { display: none; flex-direction: column; gap: 10px; max-width: 560px; }
+  body { display: flex; flex-direction: row; }
+  /* 左に分類（縦の一覧）、右に説明つきの行 */
+  nav.side { width: 200px; flex: none; display: flex; flex-direction: column; gap: 4px; padding: 16px 8px; background: var(--panel); border-right: 1px solid var(--line); overflow-y: auto; }
+  nav.side button { display: block; width: 100%; min-height: 32px; text-align: left; border: none; background: transparent; padding: 4px 12px; border-radius: var(--radius); }
+  nav.side button:hover:not(:disabled) { background: var(--hover); }
+  nav.side button[aria-selected=true] { background: var(--sky-light); color: var(--sky-dark); font-weight: 600; }
+  .content { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  main { flex: 1; overflow: auto; padding: 24px 32px; }
+  .pane { display: none; flex-direction: column; gap: 16px; max-width: 640px; }
   .pane.active { display: flex; }
-  footer { display: flex; gap: 8px; padding: 10px 20px; border-top: 1px solid var(--line); background: var(--panel); }
+  .pane > h1 { margin: 0; }
+  .grp { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--panel); }
+  .opt { display: flex; align-items: center; gap: 16px; padding: 12px 16px; border-bottom: 1px solid var(--line); min-height: 52px; }
+  .opt:last-child { border-bottom: 0; }
+  .grp .gh { padding: 12px 16px 0; font-size: 12px; font-weight: 600; color: var(--ink-sub); }
+  .opt > .grow { min-width: 0; }
+  .opt .d, .optcol .d { font-size: 12px; color: var(--ink-sub); }
+  .opt select { width: auto; max-width: 320px; }
+  .opt input[type=number] { width: 96px; }
+  .optcol { display: flex; flex-direction: column; gap: 8px; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  .optcol:last-child { border-bottom: 0; }
+  footer { display: flex; gap: 16px; align-items: center; padding: 8px 32px; border-top: 1px solid var(--line); background: var(--panel); }
   .hotkey { font-family: var(--mono); }
   #backups { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
   #backups li { display: flex; gap: 8px; align-items: center; }
 </style>
 </head>
 <body>
-<div class="tabs" role="tablist" id="tabs"></div>
-<main id="panes"></main>
-<footer>
-  <div id="saved" class="sub grow" role="status"></div>
-  <button type="button" id="save" class="primary" data-i18n="Common_Save"></button>
-</footer>
+<nav class="side" role="tablist" aria-orientation="vertical" id="tabs"></nav>
+<div class="content">
+  <main id="panes"></main>
+  <footer>
+    <div id="autosave-note" class="sub" data-i18n="Pref_AutoSaveNote"></div>
+    <div id="saved" class="sub grow" role="status"></div>
+  </footer>
+</div>
 <script src="common.js"></script>
 <script src="settings.js"></script>
 </body>

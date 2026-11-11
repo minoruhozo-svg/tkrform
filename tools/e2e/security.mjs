@@ -95,6 +95,8 @@ try {
   await sec.click('#tab-old');
   const oldRow = await text('#panel-old .rows li');
   ok(oldRow.includes('古い') && /変更: \d{4}-\d{2}-\d{2}/.test(oldRow), '古いタブには、パスワードを変更した日が出る');
+  ok(await sec.eval(`!!document.querySelector('#panel-old .rows li .av') && [...document.querySelectorAll('#panel-old .rows li button.primary')].every((b) => b.textContent === 'パスワードを変える') && !!document.querySelector('#panel-old .rows li .pill')`), '行に、頭文字・理由の chip・色つきの「パスワードを変える」がある');
+  ok(/あと \d+ 件/.test(await text('#score-hint')), '点数の横に、あと何件変えると 100 点になるかが出る');
   ok((await text('#panel-old .sub')).includes('365 日'), '古いタブの先頭に、条件（365 日以上）の説明文がある');
   await sec.click('#tab-weak');
   ok((await text('#panel-weak .sub')).includes('50 ビット未満'), '弱いタブの先頭に、条件（50 ビット未満）の説明文がある');

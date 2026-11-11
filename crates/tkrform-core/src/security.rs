@@ -25,6 +25,8 @@ pub struct Row {
     pub url: String,
     /// パスワードを最後に変えた日（yyyy-MM-dd。履歴の最新、なければ作成日）
     pub changed: String,
+    /// パスワードの強度（ビット。四捨五入）
+    pub bits: u32,
 }
 
 #[derive(Clone, Debug, Default, Serialize, Deserialize, PartialEq)]
@@ -44,7 +46,7 @@ pub struct Report {
 
 fn row(it: &Item) -> Row {
     let changed = it.password_history.last().map(|h| h.changed.as_str()).unwrap_or(&it.created);
-    Row { id: it.id.clone(), name: it.name.clone(), user: it.login_user().to_string(), url: it.url.clone(), changed: changed.chars().take(10).collect() }
+    Row { id: it.id.clone(), name: it.name.clone(), user: it.login_user().to_string(), url: it.url.clone(), changed: changed.chars().take(10).collect(), bits: estimate_bits(it.login_password()).round() as u32 }
 }
 
 /// 最後にパスワードを変えた日（履歴の最新、なければ作成日）。
