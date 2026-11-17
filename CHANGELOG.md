@@ -17,7 +17,7 @@
 ### Chrome ウェブストア・Microsoft Store
 - ブラウザ拡張を Chrome ウェブストアで公開した。拡張 ID（ストアが割り当てたもの）を許可リストに追加した。セットアップのウィザードと導入案内に「Chrome ウェブストアで入れる」ボタンを付けた。
 - 拡張が使っていなかった権限（scripting、idle）を外した。
-- Store 版（MSIX）: 仮想化の宣言を、必要な場所だけに絞った（対象は Windows 11 以降）。
+- Store 版（MSIX）: 制限付きの機能 unvirtualizedResources を外した（Store の認定の求め）。NM ホストの登録は、パッケージの外で動かした cmd.exe / reg.exe が行う（対象は Windows 11 以降）。
 - Store 版で、使用中の Native Messaging ホストのコピーも、新しい版に置き換わるようにした（旧版を動かしている接続はそのまま動く）。
 - 裏で起動されたとき（拡張からの起動、Windows ログオン時の自動起動）は、画面と Windows Hello を出さず、ロックしたままトレイで待つようにした。自動起動の起動の引数は、`uap10:Parameters` で渡す。
 - 拡張からの Windows Hello でのロック解除を直した（確認画面を、すぐ前面に出す。確認を待つ間、ポップアップが時間切れにならない）。

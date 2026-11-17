@@ -94,8 +94,13 @@ fn main() {
                 let handle = app.handle().clone();
                 let _ = core.app.set(handle.clone());
                 // NM ホストの登録と自動起動の反映（毎回。何度呼んでもよい）
-                if let Err(e) = sys::register_native_host(&core.root) {
-                    core.log("nm.register.failed", &e);
+                // Store 版では、パッケージの外の cmd.exe が、本物の %LOCALAPPDATA%\tkrform を作る。このあとアプリがそのフォルダに作る
+                // ファイル（ログ・保管庫など）も、仮想化されない（LocalCache 側に回されるのは、%LOCALAPPDATA% の直下に作ったものだけ）。
+                // このため、データのフォルダに何か書く前に、ここで済ませる
+                match sys::register_native_host(&core.root) {
+                    Ok(m) if msix::real_packaged() => core.log("nm.register.ok", &m),
+                    Ok(_) => {}
+                    Err(e) => core.log("nm.register.failed", &e),
                 }
                 let want_autostart = core.prefs().general.start_with_windows;
                 if sys::set_autostart(want_autostart) != want_autostart && want_autostart {

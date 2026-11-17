@@ -4,19 +4,18 @@
 
   Identity の Name / Publisher、表示名は、Partner Center で予約した値に差し替える（build-msix.ps1 の引数）。
 
-  仮想化の宣言（Properties と Capabilities の unvirtualizedResources）の理由は、仕様書.md の「Microsoft Store 版（MSIX）」の節。
+  仮想化を止める宣言（制限付きの unvirtualizedResources など）は使わない。仕様書.md の「Microsoft Store 版（MSIX）」の節を参照。
   要点: Chrome / Edge は、レジストリの HKCU\Software\{Google\Chrome,Microsoft\Edge}\NativeMessagingHosts\jp.tkrs.tkrform と、
-  %LOCALAPPDATA%\tkrform\nm の中のマニフェストと NM ホストを、パッケージの外から読む。仮想化されると、パッケージの中にしか見えず、拡張が接続できない。
+  %LOCALAPPDATA%\tkrform\nm の中のマニフェストと NM ホストを、パッケージの外から読む。アプリ自身が書くと仮想化されて見えないため、
+  アプリは、パッケージの外で動かした cmd.exe / reg.exe（System32）に、データのフォルダの作成と HKCU の登録をさせる（src/msix.rs）。
 -->
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
   xmlns:uap10="http://schemas.microsoft.com/appx/manifest/uap/windows10/10"
-  xmlns:desktop6="http://schemas.microsoft.com/appx/manifest/desktop/windows10/6"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  xmlns:virtualization="http://schemas.microsoft.com/appx/manifest/virtualization/windows10"
-  IgnorableNamespaces="uap desktop desktop6 rescap virtualization">
+  IgnorableNamespaces="uap desktop rescap">
 
   <Identity Name="{{IDENTITY_NAME}}" Publisher="{{PUBLISHER}}" Version="{{VERSION}}" ProcessorArchitecture="x64" />
 
@@ -24,21 +23,10 @@
     <DisplayName>{{DISPLAY_NAME}}</DisplayName>
     <PublisherDisplayName>{{PUBLISHER_DISPLAY_NAME}}</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
-
-    <!-- ファイルは、仮想化を止める場所を必要なものだけに限る（Windows 11 以降の指定。AppData 全体を止める広い指定は使わない）。 -->
-    <virtualization:FileSystemWriteVirtualization>
-      <virtualization:ExcludedDirectories>
-        <!-- 保管庫・設定・NM ホストのコピー・拡張のコピー（インストーラ版と同じ保管庫を使うため、仮想化しない） -->
-        <virtualization:ExcludedDirectory>$(KnownFolder:LocalAppData)\tkrform</virtualization:ExcludedDirectory>
-      </virtualization:ExcludedDirectories>
-    </virtualization:FileSystemWriteVirtualization>
-    <!-- レジストリは、virtualization:ExcludedKeys が Windows 11 の実機（Build 26300）で効かなかったため、HKCU 全体の仮想化を止める旧式の指定にする。
-         Chrome / Edge が読む NM ホストの登録（HKCU\Software\{Google\Chrome,Microsoft\Edge}\NativeMessagingHosts\jp.tkrs.tkrform）を、パッケージの外に見せるため。 -->
-    <desktop6:RegistryWriteVirtualization>disabled</desktop6:RegistryWriteVirtualization>
   </Properties>
 
   <Dependencies>
-    <!-- virtualization: の除外の指定が使えるのは Windows 11（10.0.22000）以降。このため、対象を Windows 11 以降にする -->
+    <!-- 対象は Windows 11 以降（動作を確かめているのは Windows 11 だけのため） -->
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.22000.0" MaxVersionTested="10.0.26100.0" />
   </Dependencies>
 
@@ -67,6 +55,5 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
-    <rescap:Capability Name="unvirtualizedResources" />
   </Capabilities>
 </Package>

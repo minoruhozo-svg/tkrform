@@ -176,16 +176,37 @@ pub fn set_autostart(enable: bool) -> bool {
     enable
 }
 
-/// NM ホストのマニフェストを書いて HKCU に登録する（Chrome と Edge）。何度呼んでもよい。
-pub fn register_native_host(data_root: &Path) -> Result<PathBuf, String> {
+/// NM ホストのマニフェストを書いて HKCU に登録する（Chrome と Edge）。何度呼んでもよい。登録できたら、その説明を返す。
+///
+/// Store 版（本物のパッケージ）では、アプリ自身が HKCU に書くと仮想化される（パッケージの中にしか見えない）。そこで、
+/// データのフォルダの作成と HKCU の登録を、パッケージの外で動く cmd.exe / reg.exe にさせる（`msix::make_dirs_outside` など）。
+pub fn register_native_host(data_root: &Path) -> Result<String, String> {
     if testing() && std::env::var_os("TKRFORM_REGISTER_NM").is_none() {
         return Err("テスト中のため登録しません".into());
     }
     let exe = std::env::current_exe().map_err(|e| e.to_string())?;
+    let outside = crate::msix::real_packaged();
+    // インストーラ版（と、自動テストで Store 版のふりをするとき）は、レジストリも、このプロセスで書く
+    let packaged = crate::msix::is_packaged();
+    let app_id = if packaged { crate::msix::app_user_model_id() } else { None };
+    write_nm_registration(data_root, &exe, packaged, app_id.as_deref(), outside).map(|p| {
+        if outside { format!("パッケージの外（cmd.exe / reg.exe）で登録し、外から確かめました: {}", p.display()) } else { p.display().to_string() }
+    })
+}
+
+/// NM ホストの登録の本体。`exe` は TKRForm.exe（横に tkrform-nmhost.exe と extension がある）。`packaged` なら、
+/// NM ホストと拡張を `data_root` の下へコピーし、`app_id`（アプリを起動するための ID）を書く。
+/// 書いたあとで、レジストリとファイルを読み直し、書いたとおりになっているかを確かめる。
+/// `outside`（Store 版）なら、フォルダの作成と、HKCU の登録と確かめは、パッケージの外の cmd.exe / reg.exe にさせる。
+fn write_nm_registration(data_root: &Path, exe: &Path, packaged: bool, app_id: Option<&str>, outside: bool) -> Result<PathBuf, String> {
     let mut host = exe.with_file_name("tkrform-nmhost.exe");
     let dir = data_root.join("nm");
+    if outside {
+        // 本物のフォルダを先に作る（アプリがこの中に書くファイルは、仮想化されない）
+        crate::msix::make_dirs_outside(&[&dir, &data_root.join("extension")])?;
+    }
     std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
-    if crate::msix::is_packaged() {
+    if packaged {
         // Store 版: インストール先は、Chrome が実行も読み取りもできない。NM ホストと拡張のフォルダを、パッケージの外へコピーして使う
         // （使用中で置き換えられなければ、前のコピーを使い続ける）
         let copy = dir.join("tkrform-nmhost.exe");
@@ -199,8 +220,11 @@ pub fn register_native_host(data_root: &Path) -> Result<PathBuf, String> {
         }
         host = copy;
         // ホストが、アプリを起動するための ID（パッケージのアプリは、実行ファイルのパスでは起動できない）
-        if let Some(id) = crate::msix::app_user_model_id() {
-            let _ = std::fs::write(dir.join("app-id.txt"), id);
+        if let Some(id) = app_id {
+            let p = dir.join("app-id.txt");
+            if std::fs::read_to_string(&p).ok().as_deref() != Some(id) {
+                std::fs::write(&p, id).map_err(|e| format!("app-id.txt を書けません: {e}"))?;
+            }
         }
         if let Some(ext) = exe.parent().map(|p| p.join("extension")).filter(|p| p.is_dir()) {
             let _ = crate::msix::copy_dir_if_changed(&ext, &data_root.join("extension"));
@@ -223,11 +247,27 @@ pub fn register_native_host(data_root: &Path) -> Result<PathBuf, String> {
     if std::fs::read(&manifest_path).ok().as_deref() != Some(text.as_slice()) {
         tkrform_core::fsutil::write_atomic(&manifest_path, &text).map_err(|e| e.to_string())?;
     }
+    if !host.is_file() {
+        return Err(format!("NM ホストがありません: {}", host.display()));
+    }
+    if outside {
+        crate::msix::register_keys_outside(tkrform_ipc::proto::HOST_NAME, &manifest_path, &host)?;
+        return Ok(manifest_path);
+    }
     let hkcu = RegKey::predef(HKEY_CURRENT_USER);
-    for base in [r"Software\Google\Chrome\NativeMessagingHosts", r"Software\Microsoft\Edge\NativeMessagingHosts"] {
+    let want = manifest_path.to_string_lossy().to_string();
+    for base in crate::msix::NM_KEYS {
         let path = format!(r"{base}\{}", tkrform_ipc::proto::HOST_NAME);
         let (key, _) = hkcu.create_subkey(&path).map_err(|e| e.to_string())?;
-        key.set_value("", &manifest_path.to_string_lossy().to_string()).map_err(|e| e.to_string())?;
+        key.set_value("", &want).map_err(|e| e.to_string())?;
+        // 読み直して確かめる
+        let got: String = hkcu.open_subkey(&path).and_then(|k| k.get_value("")).map_err(|e| format!("{path} を読み直せません: {e}"))?;
+        if got != want {
+            return Err(format!("{path} が書いたとおりになっていません（{got}）"));
+        }
+    }
+    if std::fs::read(&manifest_path).ok().as_deref() != Some(text.as_slice()) {
+        return Err(format!("{} が書いたとおりになっていません", manifest_path.display()));
     }
     Ok(manifest_path)
 }

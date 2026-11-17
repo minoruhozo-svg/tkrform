@@ -1,11 +1,17 @@
 ﻿<#
-  インストールした TKRForm の MSIX が、仮想化を止めるべき場所を、パッケージの外に見せているか確かめる。
-  パッケージの中（Invoke-CommandInDesktopPackage）で書き込み、外（このプロセス）から見えるかを比べる。
-  - フォルダ: %LOCALAPPDATA%\tkrform（見えるはず） / %LOCALAPPDATA%（除外外。見えないはず＝仮想化）
-  - レジストリ: HKCU\Software\{Google\Chrome,Microsoft\Edge}\NativeMessagingHosts\jp.tkrs.tkrform の値（見えるはず）
-  試しに書いたファイルと値は、最後に消す（パッケージの中の仮想の分も、中から消す）。利用者の本物の NM 登録（既定値）には触らない。
+  インストールした TKRForm の MSIX で、Chrome / Edge から見える場所（パッケージの外）に、NM ホストの登録ができているかを確かめる。
+  Store 版は、仮想化を止める宣言（unvirtualizedResources）を使わない。アプリは、パッケージの外で動かした cmd.exe / reg.exe に、
+  データのフォルダの作成と HKCU の登録をさせ、その本物のフォルダに、NM ホストと拡張をコピーする。先に、アプリを 1 回起動しておくこと。
+
+  確かめること（このプロセスは、パッケージの外で動くので、本物のレジストリとファイルが見える）:
+  - レジストリ: HKCU\Software\{Google\Chrome,Microsoft\Edge}\NativeMessagingHosts\jp.tkrs.tkrform の既定値が、
+    %LOCALAPPDATA%\tkrform\nm\jp.tkrs.tkrform.json を指す
+  - そのファイルが実在し、"path" の NM ホスト（%LOCALAPPDATA%\tkrform\nm\tkrform-nmhost.exe）と app-id.txt も実在する
+  - パッケージの仮想の場所（%LOCALAPPDATA%\Packages\<ファミリー名>\LocalCache\Local\tkrform）に、NM の登録のファイルがない
+  - パッケージの中（Invoke-CommandInDesktopPackage）から %LOCALAPPDATA%\tkrform に新しく作ったファイルが、外から見える
+    （保管庫などのデータが、仮想化されずに、本物のフォルダに残ること）。対照: %LOCALAPPDATA% の直下に作ったものは、外から見えない
+  試しに作ったファイルは、最後に消す（パッケージの中の仮想の分も、中から消す）。利用者の本物の NM 登録には触らない。
   使い方: powershell -File installer\msix\verify-virtualization.ps1 [-PackageName TakaraSyscom.TKRForm] [-AppId TKRForm]
-  Windows 11 以降、MSIX を（自己署名なら証明書を信頼して）インストール済みであること。
 #>
 param(
     [string]$PackageName = 'TakaraSyscom.TKRForm',
@@ -18,56 +24,56 @@ if (-not $pkg) { throw "パッケージ $PackageName が見つかりません。
 $pfn = $pkg.PackageFamilyName
 Write-Host "パッケージ: $($pkg.PackageFullName)（Windows $([Environment]::OSVersion.Version)）"
 
-$id = [guid]::NewGuid().ToString('N').Substring(0, 8)
-$exFile = Join-Path $env:LOCALAPPDATA "tkrform\probe-excluded-$id.txt"
-$ctlFile = Join-Path $env:LOCALAPPDATA "TKRFormProbe-control-$id.txt"
-$val = "probe-$id"
+$data = Join-Path $env:LOCALAPPDATA 'tkrform'
+$nm = Join-Path $data 'nm'
+$json = Join-Path $nm 'jp.tkrs.tkrform.json'
+$virt = Join-Path $env:LOCALAPPDATA "Packages\$pfn\LocalCache\Local\tkrform"
 $regKeys = @(
     'HKCU:\Software\Google\Chrome\NativeMessagingHosts\jp.tkrs.tkrform',
     'HKCU:\Software\Microsoft\Edge\NativeMessagingHosts\jp.tkrs.tkrform'
 )
-$ctlKey = "HKCU:\Software\TKRFormProbe-$id" # 除外していない場所（見えないはず）
 
+$results = @()
+function Add-Result([string]$item, [string]$expect, $actual, [bool]$pass) {
+    $script:results += [pscustomobject]@{ 項目 = $item; 期待 = $expect; 結果 = $actual; 合格 = $pass }
+}
+
+# --- 本物のレジストリ
+foreach ($k in $regKeys) {
+    $v = (Get-ItemProperty -Path $k -ErrorAction SilentlyContinue).'(default)'
+    Add-Result "レジストリ $($k -replace '^HKCU:\\','HKCU\')" $json $v ($v -eq $json)
+}
+# --- 本物のファイル
+$hostPath = $null
+if (Test-Path $json) { $hostPath = (Get-Content $json -Raw | ConvertFrom-Json).path }
+Add-Result 'NM のマニフェスト（本物の場所）' '実在する' (Test-Path $json) (Test-Path $json)
+$wantHost = Join-Path $nm 'tkrform-nmhost.exe'
+Add-Result 'マニフェストの path' $wantHost $hostPath ($hostPath -eq $wantHost)
+Add-Result 'NM ホストのコピー（本物の場所）' '実在する' (Test-Path $wantHost) (Test-Path $wantHost)
+Add-Result 'app-id.txt（本物の場所）' '実在する' (Test-Path (Join-Path $nm 'app-id.txt')) (Test-Path (Join-Path $nm 'app-id.txt'))
+Add-Result '拡張のコピー（本物の場所）' '実在する' (Test-Path (Join-Path $data 'extension\manifest.json')) (Test-Path (Join-Path $data 'extension\manifest.json'))
+$virtNm = Join-Path $virt 'nm'
+Add-Result 'LocalCache 側の nm フォルダ' 'ない' (Test-Path $virtNm) (-not (Test-Path $virtNm))
+
+# --- パッケージの中から、データのフォルダに新しく作ったファイルが、外から見えるか
+$id = [guid]::NewGuid().ToString('N').Substring(0, 8)
+$exFile = Join-Path $data "probe-data-$id.txt"
+$ctlFile = Join-Path $env:LOCALAPPDATA "TKRFormProbe-control-$id.txt"
 function Invoke-InPackage([string]$script) {
     $enc = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($script))
     Invoke-CommandInDesktopPackage -PackageFamilyName $pfn -AppId $AppId -Command 'powershell.exe' -Args "-NoProfile -EncodedCommand $enc" -PreventBreakaway
     Start-Sleep -Seconds 4
 }
-
-$write = @"
-`$ErrorActionPreference = 'Continue'
-Set-Content -Path '$exFile' -Value 'x'
-Set-Content -Path '$ctlFile' -Value 'x'
-foreach (`$k in @('$($regKeys -join "','")')) { if (-not (Test-Path `$k)) { New-Item -Path `$k -Force | Out-Null }; New-ItemProperty -Path `$k -Name '$val' -Value '1' -Force | Out-Null }
-New-Item -Path '$ctlKey' -Force | Out-Null; New-ItemProperty -Path '$ctlKey' -Name '$val' -Value '1' -Force | Out-Null
-"@
-$clean = @"
-Remove-Item -Path '$exFile','$ctlFile' -Force -ErrorAction SilentlyContinue
-foreach (`$k in @('$($regKeys -join "','")')) { foreach (`$n in @('$val','probe','probe2')) { Remove-ItemProperty -Path `$k -Name `$n -ErrorAction SilentlyContinue } }
-Remove-Item -Path '$(Join-Path $env:LOCALAPPDATA 'tkrformprobe-excluded.txt')' -Force -ErrorAction SilentlyContinue
-Remove-Item -Path '$ctlKey' -Recurse -Force -ErrorAction SilentlyContinue
-"@
-
-$results = @()
 try {
-    Invoke-InPackage $write
-    $results += [pscustomobject]@{ 項目 = 'フォルダ（除外）%LOCALAPPDATA%\tkrform'; 期待 = '外から見える'; 結果 = (Test-Path $exFile) ; 合格 = (Test-Path $exFile) }
-    $results += [pscustomobject]@{ 項目 = 'フォルダ（対照）%LOCALAPPDATA%'; 期待 = '外から見えない'; 結果 = (Test-Path $ctlFile) ; 合格 = (-not (Test-Path $ctlFile)) }
-    foreach ($k in $regKeys) {
-        $seen = $null -ne (Get-ItemProperty -Path $k -Name $val -ErrorAction SilentlyContinue)
-        $results += [pscustomobject]@{ 項目 = "レジストリ $($k -replace '^HKCU:\\','HKCU\')"; 期待 = '外から見える'; 結果 = $seen; 合格 = $seen }
-    }
-    $seenCtl = $null -ne (Get-ItemProperty -Path $ctlKey -Name $val -ErrorAction SilentlyContinue)
-    $results += [pscustomobject]@{ 項目 = 'レジストリ（対照。HKCU の別の場所）'; 期待 = 'どちらでもよい（参考）'; 結果 = $seenCtl; 合格 = $true }
+    Invoke-InPackage "Set-Content -Path '$exFile' -Value 'x'; Set-Content -Path '$ctlFile' -Value 'x'"
+    Add-Result 'パッケージの中から %LOCALAPPDATA%\tkrform に作ったファイル' '外から見える' (Test-Path $exFile) (Test-Path $exFile)
+    Add-Result '（対照）%LOCALAPPDATA% の直下に作ったファイル' '外から見えない' (Test-Path $ctlFile) (-not (Test-Path $ctlFile))
 }
 finally {
-    # 片付け: 外の分は外から、パッケージの中の仮想の分は中から消す
     Remove-Item -Path $exFile, $ctlFile -Force -ErrorAction SilentlyContinue
-    foreach ($k in $regKeys) { Remove-ItemProperty -Path $k -Name $val -ErrorAction SilentlyContinue }
-    Remove-Item -Path $ctlKey -Recurse -Force -ErrorAction SilentlyContinue
-    try { Invoke-InPackage $clean } catch { Write-Warning "パッケージの中の片付けに失敗: $_" }
+    try { Invoke-InPackage "Remove-Item -Path '$exFile','$ctlFile' -Force -ErrorAction SilentlyContinue" } catch { Write-Warning "パッケージの中の片付けに失敗: $_" }
 }
 
-$results | Format-Table -AutoSize | Out-String | Write-Host
+$results | Format-Table -AutoSize | Out-String -Width 300 | Write-Host
 if ($results | Where-Object { -not $_.合格 }) { Write-Host '不合格の項目があります' -ForegroundColor Red; exit 1 }
 Write-Host 'すべて合格' -ForegroundColor Green
