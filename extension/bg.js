@@ -473,7 +473,11 @@ async function handle(m, sender) {
       return call(m.t, a, 120_000);
     }
     case 'generate':
+      // 候補は何度も作り直すので、ここでは履歴に積まない。使ったとき（コピー・記入）に recordGenerated で積む
       return call('generate', { options: m.options || null, record: false });
+    case 'recordGenerated':
+      // 生成のパネル（ポップアップ・ページ上の generator.html）で、生成したパスワードをコピー・記入したとき
+      return call('recordGenerated', { password: String(m.password || '') });
     case 'captured':
       await onCaptured(m.data, sender);
       return {};

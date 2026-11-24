@@ -169,9 +169,12 @@ function mountGenerator(host, onUse, onClose, compact) {
     } catch (e) { out.value = ''; bits.textContent = errText(e); }
   }
   [len, phrase, symChars, ...boxes.map((b) => b.querySelector('input'))].forEach((i) => i.addEventListener('input', gen));
+  // 使ったパスワード（コピー・記入）だけを、アプリの生成履歴に積む（候補を作り直しただけでは積まない）。ロック中などで積めなくても、操作は続ける
+  const record = (pw) => bg({ t: 'recordGenerated', password: pw }).catch(() => {});
+  const use = (pw) => { record(pw); onUse(pw); };
   const copy = el('button', { type: 'button', text: t('PassGen_Copy'), onclick: async () => {
     if (!current) return;
-    try { await rpc('copyText', { text: current }); bits.textContent = t('Common_Copied', ''); } catch (e) { bits.textContent = errText(e); }
+    try { await rpc('copyText', { text: current }); bits.textContent = t('Common_Copied', ''); record(current); } catch (e) { bits.textContent = errText(e); }
   } });
   const settings = [
     el('div', { class: 'row' }, el('label', { class: 'field' }, el('span', { text: t('PassGen_Length') }), len), el('label', { class: 'check', style: 'margin-top:14px' }, phrase, el('span', { text: t('PassGen_Mode_Passphrase') }))),
@@ -188,7 +191,7 @@ function mountGenerator(host, onUse, onClose, compact) {
       more.textContent = t(open ? 'PassGen_DetailsClose' : 'PassGen_Details');
     } });
     const acts = el('div', { class: 'row' });
-    if (onUse) acts.append(el('button', { type: 'button', class: 'primary', id: 'gen-use', text: t('Common_Use'), onclick: () => current && onUse(current) }));
+    if (onUse) acts.append(el('button', { type: 'button', class: 'primary', id: 'gen-use', text: t('Common_Use'), onclick: () => current && use(current) }));
     acts.append(copy, el('button', { type: 'button', id: 'gen-regen', text: '\u21bb ' + t('PassGen_Generate'), onclick: gen }));
     bits.style.margin = '0';
     host.append(out, meter, acts, el('div', { class: 'row', style: 'justify-content:space-between' }, more, bits), details);
@@ -196,7 +199,7 @@ function mountGenerator(host, onUse, onClose, compact) {
     return;
   }
   const actions = el('div', { class: 'row' }, el('button', { type: 'button', class: 'primary', text: t('PassGen_Generate'), onclick: gen }), copy);
-  if (onUse) actions.append(el('button', { type: 'button', text: t('Common_Use'), onclick: () => current && onUse(current) }));
+  if (onUse) actions.append(el('button', { type: 'button', text: t('Common_Use'), onclick: () => current && use(current) }));
   if (onClose) actions.append(el('button', { type: 'button', class: 'flat', text: t('Common_Close'), onclick: onClose }));
   host.append(out, meter, bits, ...settings, actions);
   sync(); gen();

@@ -425,6 +425,19 @@ fn generated_history_is_encrypted_and_capped() {
 }
 
 #[test]
+fn generated_history_skips_same_as_latest() {
+    let tmp = tempfile::tempdir().unwrap();
+    let mut v = new_vault(tmp.path());
+    v.push_generated("PW-A").unwrap();
+    v.push_generated("PW-A").unwrap();
+    assert_eq!(v.generated_history().len(), 1, "続けて同じものは積まない");
+    v.push_generated("PW-B").unwrap();
+    v.push_generated("PW-A").unwrap();
+    let h: Vec<String> = v.generated_history().into_iter().map(|(p, _)| p).collect();
+    assert_eq!(h, ["PW-A", "PW-B", "PW-A"], "間に別のものがあれば、積む");
+}
+
+#[test]
 fn import_skips_duplicates() {
     let tmp = tempfile::tempdir().unwrap();
     let mut v = new_vault(tmp.path());

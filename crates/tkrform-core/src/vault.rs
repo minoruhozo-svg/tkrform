@@ -742,9 +742,13 @@ impl Vault {
         Ok(())
     }
 
-    /// 生成したパスワードを履歴に積む（直近 20 件、暗号化して保存）。
+    /// 生成したパスワードを履歴に積む（直近 20 件、暗号化して保存）。いちばん新しいものと同じなら、積まない
+    /// （拡張で、同じパスワードをコピーしてから記入した、など）。
     pub fn push_generated(&mut self, pw: &str) -> Result<()> {
         let mut h = self.read_gen_history();
+        if h.first().map(|g| g.value == pw).unwrap_or(false) {
+            return Ok(());
+        }
         h.insert(0, GenHistory { value: pw.to_string(), at: now_iso() });
         h.truncate(GENERATED_HISTORY_MAX);
         self.write_gen_history(&h)

@@ -7,6 +7,10 @@
 //   --keep-key を付けると残す（ストアで割り当てられた公開鍵を、あとから入れる場合など）。
 // - 出力は dist/tkrform-extension-<版>.zip（dist/ は .gitignore）。同じ入力から、毎回同じ zip ができる（日時を固定し、順序を決めている）。
 // - 版（manifest.json の version）が Cargo.toml の版と違えば、止める。
+// - _locales は、manifest.json の default_locale（ja）だけを入れる。ストアの掲載の「言語」は、zip の中の _locales から決まるため
+//   （掲載を日本語だけにする。英語版の Chrome でも、拡張は日本語で表示される）。extension/_locales/en は、開発中の読み込み・E2E のために残す。
+//   書き出したあとで zip を読み直し、_locales が default_locale だけであることと、manifest.json の __MSG_…__ がすべて、その言語の
+//   messages.json で解決できることを確かめる（できなければ止める）。
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
@@ -37,7 +41,13 @@ function walk(dir, rel = '') {
   }
   return out;
 }
-const files = walk(SRC);
+const LOCALE = manifest.default_locale;
+if (!LOCALE || !fs.existsSync(path.join(SRC, '_locales', LOCALE, 'messages.json'))) {
+  console.error(`default_locale（${LOCALE}）の _locales/${LOCALE}/messages.json がありません。`);
+  process.exit(1);
+}
+// ストア用は、既定の言語の _locales だけ
+const files = walk(SRC).filter((f) => !f.startsWith('_locales/') || f.startsWith(`_locales/${LOCALE}/`));
 
 // ---- manifest.json の整合（参照しているファイルがあること）
 const refs = new Set();
@@ -93,5 +103,37 @@ const zip = Buffer.concat([...locals, cd, end]);
 const out = outArg ? path.resolve(outArg) : path.join(ROOT, 'dist', `tkrform-extension-${manifest.version}.zip`);
 fs.mkdirSync(path.dirname(out), { recursive: true });
 fs.writeFileSync(out, zip);
+// ---- 書き出した zip を読み直して確かめる: _locales は既定の言語だけ。manifest.json の __MSG_…__ が、すべて解決できる
+{
+  const z = fs.readFileSync(out);
+  const eocd = z.lastIndexOf(Buffer.from([0x50, 0x4b, 0x05, 0x06]));
+  const count = z.readUInt16LE(eocd + 10);
+  let p = z.readUInt32LE(eocd + 16);
+  const entries = new Map();
+  for (let i = 0; i < count; i++) {
+    const method = z.readUInt16LE(p + 10), csize = z.readUInt32LE(p + 20), nlen = z.readUInt16LE(p + 28), xlen = z.readUInt16LE(p + 30), clen = z.readUInt16LE(p + 32);
+    const lho = z.readUInt32LE(p + 42);
+    const name = z.toString('utf8', p + 46, p + 46 + nlen);
+    const dataAt = lho + 30 + z.readUInt16LE(lho + 26) + z.readUInt16LE(lho + 28);
+    const raw = z.subarray(dataAt, dataAt + csize);
+    entries.set(name, method === 8 ? zlib.inflateRawSync(raw) : raw);
+    p += 46 + nlen + xlen + clen;
+  }
+  const locales = [...new Set([...entries.keys()].filter((n) => n.startsWith('_locales/')).map((n) => n.split('/')[1]))];
+  if (locales.length !== 1 || locales[0] !== LOCALE) {
+    console.error(`zip の _locales が、${LOCALE} だけになっていません: ${locales.join(', ')}`);
+    process.exit(1);
+  }
+  const zm = JSON.parse(entries.get('manifest.json').toString('utf8'));
+  const msgs = JSON.parse(entries.get(`_locales/${LOCALE}/messages.json`).toString('utf8'));
+  const keys = [...JSON.stringify(zm).matchAll(/__MSG_(\w+)__/g)].map((m) => m[1]);
+  const lower = new Set(Object.keys(msgs).map((k) => k.toLowerCase())); // Chrome は、キーの大文字・小文字を区別しない
+  const unresolved = keys.filter((k) => !lower.has(k.toLowerCase()) || !String((msgs[Object.keys(msgs).find((x) => x.toLowerCase() === k.toLowerCase())] || {}).message || ''));
+  if (zm.default_locale !== LOCALE || unresolved.length) {
+    console.error(`manifest.json の文言を、_locales/${LOCALE} で解決できません: ${unresolved.join(', ') || 'default_locale'}`);
+    process.exit(1);
+  }
+  console.log(`確認: _locales は ${LOCALE} だけ。manifest.json の __MSG_…__ ${keys.length} 件は、すべて ${LOCALE} で解決できる`);
+}
 console.log(`${out}`);
 console.log(`ファイル ${files.length} 件、${(zip.length / 1024).toFixed(0)} KB、key: ${keepKey ? '残した' : '外した'}、version: ${manifest.version}`);

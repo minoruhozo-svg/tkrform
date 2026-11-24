@@ -26,11 +26,14 @@ pub enum Source {
 /// 拡張に許可するコマンド（§9 の表 + `checkSave` / `getBasicAuth`）。
 const PIPE_ALLOWED: &[&str] = &[
     "hello", "unlock", "helloUnlock", "lock", "match", "getFill", "getIdentityFill", "totp", "search", "getItem", "saveItem", "deleteItem",
-    "listFolders", "generate", "getPrefs", "setPrefs", "touch", "openEditor", "openGenerator", "checkSave", "getBasicAuth", "copyItem",
+    "listFolders", "generate", "recordGenerated", "getPrefs", "setPrefs", "touch", "openEditor", "openGenerator", "checkSave", "getBasicAuth", "copyItem",
     "copyText", "passkeyAvail", "passkeyList", "passkeyCreate", "passkeyGet",
 ];
 
 type R = Result<Value, SvcError>;
+
+/// `recordGenerated` で受け付けるパスワードの長さの上限（文字数）。生成器のランダムは 128 文字まで、パスフレーズも、これに収まる。
+const RECORD_GENERATED_MAX: usize = 512;
 
 fn arg_str<'a>(a: &'a Value, k: &str) -> Result<&'a str, SvcError> {
     a.get(k).and_then(Value::as_str).ok_or_else(|| SvcError::internal(format!("引数 {k} がありません")))
@@ -584,6 +587,20 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
                 });
             }
             Ok(json!({"password": g.password, "bits": g.bits, "class": generator::strength_class(g.bits)}))
+        }
+        "recordGenerated" => {
+            // 拡張で生成したパスワードを、使ったとき（コピー・記入）だけ履歴に積む。拡張は、候補を何度も作り直すため、
+            // 生成のたびには積まない。任意の文字列を書ける入口なので、生成器が作れる長さまで・制御文字なしに限る。
+            // ロック中は、保管庫がないので積めない（LOCKED）。
+            let pw = arg_str(a, "password")?;
+            let n = pw.chars().count();
+            if n == 0 || n > RECORD_GENERATED_MAX || pw.chars().any(char::is_control) {
+                return Err(SvcError::internal("記録できないパスワードです"));
+            }
+            core.with_vault(|v, _| {
+                v.push_generated(pw)?;
+                Ok(json!({}))
+            })
         }
         "genHistory" => core.with_vault(|v, _| {
             Ok(json!(v.generated_history().into_iter().map(|(p, at)| json!({"password": p, "at": at})).collect::<Vec<_>>()))

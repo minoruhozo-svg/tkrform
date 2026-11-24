@@ -1144,10 +1144,34 @@ try {
     const gp = await Cdp.connect(gt.webSocketDebuggerUrl);
     await waitFor(() => gp.eval(`!!document.querySelector('output, input[readonly], .out') || document.querySelectorAll('button').length >= 3`), 8000, '生成パネルの表示');
     await sleep(800);
+    // 生成の履歴: 作り直し・設定の変更だけでは積まない。コピー・「使う」で積む（同じものは続けて積まない）
+    const hist = async () => (await ui.eval(`rpc('genHistory')`)).map((h) => h.password); // 履歴は、拡張からは読めない（アプリの画面から読む）
+    const outVal = () => gp.eval(`document.querySelector('input[readonly]').value`);
+    const h0 = await hist();
+    await gp.eval(`document.querySelector('#gen-regen').click()`);
+    await gp.eval(`(() => { const c = document.querySelector('#gen-details input[type=checkbox]'); c.checked = !c.checked; c.dispatchEvent(new Event('input', { bubbles: true })); c.checked = !c.checked; c.dispatchEvent(new Event('input', { bubbles: true })); })()`);
+    await sleep(800);
+    ok(JSON.stringify(await hist()) === JSON.stringify(h0), '拡張の生成パネル: 作り直しや設定の変更だけでは、生成の履歴に入らない');
+    const copied = await outVal();
+    await gp.eval(`[...document.querySelectorAll('button')].find((b) => !b.id && b.textContent.includes('コピー')).click()`);
+    await waitFor(async () => (await hist())[0] === copied, 8000, 'コピーで履歴に入る');
+    ok(true, '拡張の生成パネル: コピーしたパスワードは、生成の履歴に入る');
+    await gp.eval(`document.querySelector('#gen-regen').click()`);
+    await waitFor(async () => (await outVal()) !== copied, 5000, '作り直し');
     await gp.eval(`document.querySelector('#gen-use').click()`);
     await waitFor(() => sg.eval(`document.querySelector('#pw1').value !== ''`), 8000, '「使う」で記入');
     const vals = await sg.eval(`JSON.stringify([document.querySelector('#pw1').value, document.querySelector('#pw2').value])`).then(JSON.parse);
     ok(vals[0].length >= 8 && vals[0] === vals[1], '「使う」で、新しいパスワードと確認用の両方に同じ値が入る');
+    await waitFor(async () => (await hist())[0] === vals[0], 8000, '「使う」で履歴に入る');
+    const h2 = await hist();
+    ok(h2[1] === copied && h2.length === Math.min(20, h0.length + 2), `拡張の生成パネル: 「使う」で記入したパスワードも、生成の履歴に入る（${h0.length} → ${h2.length} 件）`);
+    ok((await pipe.ok('recordGenerated', { password: vals[0] }).then(() => hist())).length === h2.length, '同じパスワードは、続けて履歴に積まない');
+    let readDenied = false;
+    try { await pipe.ok('genHistory'); } catch (_) { readDenied = true; }
+    ok(readDenied, '拡張からは、生成の履歴を読めない（記録だけできる）');
+    let rejected = false;
+    try { await pipe.ok('recordGenerated', { password: 'x'.repeat(513) }); } catch (_) { rejected = true; }
+    ok(rejected, '長すぎる文字列は、履歴に記録しない');
     await waitFor(async () => !(await shadowBox(sg, 'p')), 5000, '使ったあとに閉じる');
     ok(true, '記入したあとは、パネルが閉じて、欄の中身が見える');
     gp.close();
