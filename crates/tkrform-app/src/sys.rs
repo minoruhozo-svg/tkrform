@@ -118,13 +118,48 @@ fn find_browser_exe(browser: &str) -> Option<PathBuf> {
 /// Chrome ウェブストアの TKRForm 拡張のページ（ストアが割り当てた ID。proto.rs の ALLOWED_EXTENSION_IDS と同じ）。
 pub const EXTENSION_STORE_URL: &str = "https://chromewebstore.google.com/detail/fkhigfffleejckieoikjboabidigggee";
 
-/// 拡張機能ページ（chrome://extensions、edge://extensions）と、ストアの拡張のページを開く。シェルを経由せず、引数も限定する。
-pub fn open_browser_page(browser: &str, page: &str) {
-    if page != "chrome://extensions" && page != "edge://extensions" && page != EXTENSION_STORE_URL {
-        return;
+/// Chrome / Edge が入っているか（`(chrome, edge)`）。
+pub fn browsers_installed() -> (bool, bool) {
+    (find_browser_exe("chrome").is_some(), find_browser_exe("edge").is_some())
+}
+
+/// ストアの拡張のページを開く。Chrome がなければ Edge（Edge も Chrome ウェブストアから入れられる）、どちらもなければ既定のブラウザ。
+/// 開いたブラウザ（`chrome` / `edge` / `default`）を返す。自動テスト中は、開かずに、開くはずのブラウザを返す。
+pub fn open_extension_store() -> Result<&'static str, String> {
+    for b in ["chrome", "edge"] {
+        if let Some(exe) = find_browser_exe(b) {
+            if testing() || std::process::Command::new(exe).arg(EXTENSION_STORE_URL).spawn().is_ok() {
+                return Ok(b);
+            }
+        }
     }
-    if let Some(exe) = find_browser_exe(browser) {
-        let _ = std::process::Command::new(exe).arg(page).spawn();
+    if testing() {
+        return Ok("default");
+    }
+    open_url(EXTENSION_STORE_URL).map(|_| "default")
+}
+
+/// ブラウザ（`chrome` / `edge`）を、URL を付けずに起動する。
+/// 拡張機能ページ（chrome://extensions など）は、コマンドラインの引数で渡しても開かない（新しいタブが開くだけ。実機で確認）ため、
+/// 呼び出し側は、URL をクリップボードに入れ、アドレス欄に貼り付けるよう案内する。自動テスト中は、起動しない。
+pub fn launch_browser(browser: &str) -> Result<(), String> {
+    let name = if browser == "edge" { "Edge" } else { "Chrome" };
+    let exe = find_browser_exe(browser).ok_or_else(|| format!("{name} が見つかりません（入っていないようです）"))?;
+    if testing() {
+        return Ok(());
+    }
+    std::process::Command::new(exe).spawn().map(|_| ()).map_err(|e| format!("{name} を起動できません: {e}"))
+}
+
+/// 利用者に見せるパス。`canonicalize` が付ける `\\?\` を外す（`\\?\UNC\server\share` は `\\server\share`）。
+pub fn plain_path(p: &Path) -> PathBuf {
+    let s = p.to_string_lossy();
+    if let Some(rest) = s.strip_prefix(r"\\?\UNC\") {
+        PathBuf::from(format!(r"\\{rest}"))
+    } else if let Some(rest) = s.strip_prefix(r"\\?\") {
+        PathBuf::from(rest)
+    } else {
+        p.to_path_buf()
     }
 }
 
@@ -555,6 +590,26 @@ pub fn show_inactive(hwnd: HWND) {
 /// 試験用: 対話的なデスクトップ（ログイン中のユーザーの画面）が要る試験を、飛ばすか。
 /// GitHub Actions などの CI（環境変数 `CI` が空でない）には、ウィンドウを見られるデスクトップがないので、理由を出して飛ばす。
 /// 手元の PC（`CI` なし）では、飛ばさずに実行する。
+#[cfg(test)]
+mod plain_path_tests {
+    use super::plain_path;
+    use std::path::Path;
+
+    #[test]
+    fn strips_verbatim_prefix() {
+        assert_eq!(plain_path(Path::new(r"\\?\C:\Users\a\AppData\Local\tkrform\extension")), Path::new(r"C:\Users\a\AppData\Local\tkrform\extension"));
+        assert_eq!(plain_path(Path::new(r"\\?\UNC\server\share\ext")), Path::new(r"\\server\share\ext"));
+        assert_eq!(plain_path(Path::new(r"C:\x\extension")), Path::new(r"C:\x\extension"));
+    }
+
+    #[test]
+    fn canonicalized_path_has_no_prefix() {
+        let tmp = std::env::temp_dir().canonicalize().unwrap();
+        assert!(!plain_path(&tmp).to_string_lossy().starts_with(r"\\?\"));
+        assert!(plain_path(&tmp).is_dir(), "外したあとも、同じフォルダを指す");
+    }
+}
+
 #[cfg(test)]
 pub fn skip_without_desktop(test: &str) -> bool {
     let ci = std::env::var("CI").map(|v| !v.is_empty()).unwrap_or(false);

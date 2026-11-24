@@ -353,3 +353,35 @@ document.addEventListener('contextmenu', (e) => {
   // 入力欄以外では WebView 既定のメニューを出さない
   if (!(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) e.preventDefault();
 });
+
+// ---------------------------------------------------------------- ブラウザ拡張の導入（setup.html の手順 5 と ext-help.html）
+
+/** 拡張のフォルダの表示と、入っていないブラウザのボタンを使えなくする。info は rpc('extensionInfo')。 */
+function applyExtInfo(info) {
+  $('#ext-path').textContent = info.path ? t('Setup_Ext_Path', info.path) : t('Setup_Ext_PathMissing');
+  for (const [id, has, name] of [['#open-chrome', info.chrome, 'Chrome'], ['#open-edge', info.edge, 'Edge']]) {
+    const b = $(id);
+    b.disabled = !has;
+    b.title = has ? '' : t('Setup_Ext_NoBrowser', name);
+  }
+}
+
+/** ボタンの動き。拡張機能ページ（chrome://extensions など）は、コマンドラインからは開けないので、URL をコピーしてブラウザを開き、貼り付けてもらう。 */
+function wireExtHelp() {
+  const say = (sel, text) => { const m = $(sel); m.textContent = text; m.className = 'msg ok'; };
+  $('#open-ext-folder').addEventListener('click', () => rpc('openExtensionFolder').catch(showError));
+  $('#open-store').addEventListener('click', async () => {
+    try {
+      const r = await rpc('openExtensionStore');
+      say('#store-msg', t(r.browser === 'chrome' ? 'Setup_Ext_StoreChrome' : r.browser === 'edge' ? 'Setup_Ext_StoreEdge' : 'Setup_Ext_StoreDefault'));
+    } catch (e) { showError(e); }
+  });
+  for (const b of ['chrome', 'edge']) {
+    $('#open-' + b).addEventListener('click', async () => {
+      try {
+        const r = await rpc('openExtensionsPage', { browser: b });
+        say('#page-msg', t('Setup_Ext_Paste', r.url, b === 'edge' ? 'Edge' : 'Chrome'));
+      } catch (e) { showError(e); }
+    });
+  }
+}

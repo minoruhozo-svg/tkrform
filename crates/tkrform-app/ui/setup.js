@@ -52,8 +52,7 @@
       if (res.syncError) toast(t('Setup_Sync_Failed', res.syncError), 'error');
       created = true;
       $('#mp1').value = ''; $('#mp2').value = '';
-      const info = await rpc('extensionInfo');
-      $('#ext-path').textContent = info.path ? t('Setup_Ext_Path', info.path) : t('Setup_Ext_PathMissing');
+      applyExtInfo(await rpc('extensionInfo'));
       return true;
     } catch (e) {
       $('#create-err').textContent = e.message; $('#create-err').classList.remove('hidden');
@@ -76,10 +75,7 @@
   $('#skip').addEventListener('click', finish);
   $('#back').addEventListener('click', () => show(step - 1));
 
-  $('#open-ext-folder').addEventListener('click', () => rpc('openExtensionFolder').catch(showError));
-  $('#open-store').addEventListener('click', () => rpc('openBrowserPage', { browser: 'chrome', page: 'https://chromewebstore.google.com/detail/fkhigfffleejckieoikjboabidigggee' }).catch(showError));
-  $('#open-chrome').addEventListener('click', () => rpc('openBrowserPage', { browser: 'chrome', page: 'chrome://extensions' }).catch(showError));
-  $('#open-edge').addEventListener('click', () => rpc('openBrowserPage', { browser: 'edge', page: 'edge://extensions' }).catch(showError));
+  wireExtHelp();
 
   $('#pick-import').addEventListener('click', async () => {
     const p = await pickOpen(t('Import_PickTitle'), t('Import_FileFilter'), ['csv', 'json']);

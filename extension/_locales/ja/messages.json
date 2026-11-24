@@ -313,6 +313,34 @@
     "Setup_Ext_OpenEdge":  {
                                "message":  "Edge の拡張機能ページ"
                            },
+    "Setup_Ext_NoBrowser":  {
+                                "message":  "$1$ が入っていないため、使えません。",
+                                "placeholders":  {
+                                                     "1":  {
+                                                               "content":  "$1"
+                                                           }
+                                                 }
+                            },
+    "Setup_Ext_Paste":  {
+                            "message":  "$1$ をコピーして、$2$ を開きました。$2$ のアドレス欄に貼り付けて（Ctrl+V）、Enter キーを押してください。",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       },
+                                                 "2":  {
+                                                           "content":  "$2"
+                                                       }
+                                             }
+                        },
+    "Setup_Ext_StoreChrome":  {
+                                  "message":  "Chrome で、ストアの TKRForm のページを開きました。「Chrome に追加」を押してください。"
+                              },
+    "Setup_Ext_StoreEdge":  {
+                                "message":  "Chrome が見つからないため、Edge で、ストアの TKRForm のページを開きました。「他のストアからの拡張機能を許可する」と出たら許可してから、追加のボタンを押してください。"
+                            },
+    "Setup_Ext_StoreDefault":  {
+                                   "message":  "Chrome も Edge も見つからないため、既定のブラウザで、ストアの TKRForm のページを開きました。拡張は、Chrome か Edge で使えます。"
+                               },
     "Setup_Ext_Note":  {
                            "message":  "TKRForm との接続は自動で登録済みです。拡張を読み込んだあとブラウザを再起動する必要はありません。"
                        },

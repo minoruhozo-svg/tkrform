@@ -47,6 +47,28 @@ try {
   await setup.click('#next'); // 作成
   await waitFor(() => setup.eval(`document.querySelector('.step.active')?.dataset.step === '5'`), 20000, '拡張の導入案内');
   ok(fs.existsSync(path.join(dataDir, 'main', 'vault.hdr')), 'vault.hdr が作られた');
+  // 拡張の導入: フォルダの表示に \\?\ が付かない。入っていないブラウザのボタンは使えない。ボタンを押すと、結果の案内が出る
+  // （テスト中は、ブラウザを起動せず、クリップボードにも書かない）
+  {
+    await waitFor(() => setup.eval(`document.querySelector('#ext-path').textContent.length > 0`), 5000, '拡張のフォルダの表示');
+    const pathText = await setup.eval(`document.querySelector('#ext-path').textContent`);
+    ok(!pathText.includes('\\\\?\\'), `拡張のフォルダの表示に \\\\?\\ が付かない（${pathText}）`);
+    const info = await setup.eval(`rpc('extensionInfo')`);
+    const dis = await setup.eval(`[document.querySelector('#open-chrome').disabled, document.querySelector('#open-edge').disabled]`);
+    ok(dis[0] === !info.chrome && dis[1] === !info.edge, `入っていないブラウザのボタンだけ使えない（chrome=${info.chrome} edge=${info.edge} / 無効=${dis}）`);
+    await setup.click('#open-store');
+    await waitFor(() => setup.eval(`!document.querySelector('#store-msg').classList.contains('hidden')`), 5000, 'ストアの案内');
+    const want = info.chrome ? 'Chrome で' : info.edge ? 'Edge で' : '既定のブラウザ';
+    ok((await setup.eval(`document.querySelector('#store-msg').textContent`)).includes(want), `「Chrome ウェブストアで入れる」: ${want}開く案内が出る`);
+    const b = info.chrome ? 'chrome' : info.edge ? 'edge' : null;
+    if (b) {
+      await setup.click(`#open-${b}`);
+      await waitFor(() => setup.eval(`!document.querySelector('#page-msg').classList.contains('hidden')`), 5000, '拡張機能ページの案内');
+      const m = await setup.eval(`document.querySelector('#page-msg').textContent`);
+      ok(m.includes(`${b}://extensions`) && m.includes('貼り付け'), `拡張機能ページのボタン: アドレスを貼り付ける案内が出る（${m}）`);
+    }
+    await setup.eval(`document.querySelector('#store-msg').classList.add('hidden'); document.querySelector('#page-msg').classList.add('hidden')`);
+  }
   // マニュアル用の画像: 開発中のパスを、インストール先の例に差し替える（見た目だけ）
   await setup.eval(`document.querySelector('#ext-path').textContent = '拡張のフォルダ: C:¥Users¥（ユーザー名）¥AppData¥Local¥Programs¥tkrform¥extension'`);
   await setup.screenshot(path.join(shots, '03-setup-ext.png'));

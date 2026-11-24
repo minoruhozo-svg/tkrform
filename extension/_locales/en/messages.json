@@ -313,6 +313,34 @@
     "Setup_Ext_OpenEdge":  {
                                "message":  "Edge extensions page"
                            },
+    "Setup_Ext_NoBrowser":  {
+                                "message":  "$1$ is not installed.",
+                                "placeholders":  {
+                                                     "1":  {
+                                                               "content":  "$1"
+                                                           }
+                                                 }
+                            },
+    "Setup_Ext_Paste":  {
+                            "message":  "Copied $1$ and opened $2$. Paste it into the address bar of $2$ (Ctrl+V) and press Enter.",
+                            "placeholders":  {
+                                                 "1":  {
+                                                           "content":  "$1"
+                                                       },
+                                                 "2":  {
+                                                           "content":  "$2"
+                                                       }
+                                             }
+                        },
+    "Setup_Ext_StoreChrome":  {
+                                  "message":  "Opened the TKRForm page of the store in Chrome. Click \"Add to Chrome\"."
+                              },
+    "Setup_Ext_StoreEdge":  {
+                                "message":  "Chrome was not found, so the store page was opened in Edge. If asked, allow extensions from other stores, then click the add button."
+                            },
+    "Setup_Ext_StoreDefault":  {
+                                   "message":  "Neither Chrome nor Edge was found, so the store page was opened in the default browser. The extension works in Chrome or Edge."
+                               },
     "Setup_Ext_Note":  {
                            "message":  "The connection to TKRForm is registered automatically. No browser restart is needed after loading the extension."
                        },

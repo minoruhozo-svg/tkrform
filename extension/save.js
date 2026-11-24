@@ -44,6 +44,9 @@ const closeSelf = () => {
 function fitHeight() {
   try { parent.postMessage({ t: 'resize', height: document.documentElement.scrollHeight + 4 }, '*'); } catch (_) { /* 無視 */ }
 }
+// 中身の高さは、fitHeight() を呼んだあとでも変わる（文字の描画などで、あとから伸びる。Chrome 158 で、ボタンが枠の外に出た）。
+// 伸び縮みのたびに、高さを伝え直す
+try { new ResizeObserver(() => fitHeight()).observe(document.body); } catch (_) { /* 無視 */ }
 
 function showErr(text) {
   const e = $('#err');

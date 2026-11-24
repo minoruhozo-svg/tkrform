@@ -616,9 +616,19 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
             sys::open_url(arg_str(a, "url")?).map_err(SvcError::internal)?;
             Ok(json!({}))
         }
-        "openBrowserPage" => {
-            sys::open_browser_page(arg_str(a, "browser").unwrap_or("chrome"), arg_str(a, "page")?);
-            Ok(json!({}))
+        "openExtensionStore" => {
+            let browser = sys::open_extension_store().map_err(SvcError::internal)?;
+            Ok(json!({"browser": browser}))
+        }
+        "openExtensionsPage" => {
+            // 拡張機能ページは、コマンドラインからは開けない。URL をクリップボードに入れてブラウザを起動し、貼り付けてもらう
+            let browser = if arg_str(a, "browser").unwrap_or("chrome") == "edge" { "edge" } else { "chrome" };
+            let url = if browser == "edge" { "edge://extensions" } else { "chrome://extensions" };
+            sys::launch_browser(browser).map_err(SvcError::internal)?;
+            if !sys::testing() {
+                crate::clip::copy(core, url, false).map_err(SvcError::internal)?;
+            }
+            Ok(json!({"browser": browser, "url": url}))
         }
         "openExtensionFolder" => {
             if let Some(dir) = extension_dir(core) {
@@ -630,6 +640,8 @@ fn run(core: &Arc<Core>, cmd: &str, a: &Value, src: Source) -> R {
         }
         "extensionInfo" => Ok(json!({
             "path": extension_dir(core).map(|p| p.to_string_lossy().to_string()),
+            "chrome": sys::browsers_installed().0,
+            "edge": sys::browsers_installed().1,
             "id": tkrform_ipc::proto::ALLOWED_EXTENSION_IDS.first(),
         })),
         "fillLogin" => {
@@ -799,13 +811,14 @@ fn extension_dir(core: &Core) -> Option<std::path::PathBuf> {
     if crate::msix::is_packaged() {
         let p = core.root.join("extension");
         if p.join("manifest.json").is_file() {
-            return p.canonicalize().ok();
+            return p.canonicalize().ok().map(|p| sys::plain_path(&p));
         }
     }
     let exe = std::env::current_exe().ok()?;
     let base = exe.parent()?;
     let candidates = [base.join("extension"), base.join("..").join("..").join("extension"), base.join("..").join("..").join("..").join("extension")];
-    candidates.into_iter().find(|p| p.join("manifest.json").is_file()).and_then(|p| p.canonicalize().ok())
+    // 利用者に見せ、エクスプローラーで開くパスなので、canonicalize が付ける \\?\ は外す
+    candidates.into_iter().find(|p| p.join("manifest.json").is_file()).and_then(|p| p.canonicalize().ok()).map(|p| sys::plain_path(&p))
 }
 
 /// ログインの URL を開き、拡張へ記入を指示する（`fillRequest` イベント）。
